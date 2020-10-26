@@ -57,11 +57,59 @@ export const shallowCompare = (obj1: {}, obj2: {}): boolean => {
     return true;
 }
 
-export interface EasybaseContext {
-    get: Function;
-    post: Function;
-    update: Function;
-    Delete: Function;
+export interface ContextValue {
+    /**
+     * Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive
+     * your entire collection. This is useful for paging.
+     * @abstract
+     * @param {ConfigureFrameOptions} options ConfigureFrameOptions
+     * @return {StatusResponse} StatusResponse
+     */
+    configureFrame(options: ConfigureFrameOptions): StatusResponse;
+    /**
+     * Manually add a record to your collection regardless of your current frame. You must call sync() after this to see updated response.
+     * @abstract
+     * @async
+     * @param {AddRecordOptions} options AddRecordOptions
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    addRecord(options: AddRecordOptions): Promise<StatusResponse>;
+    /**
+     * Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
+     * @abstract
+     * @async
+     * @param {Record<string, unknown>} record Individual Record from frame
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    deleteRecord(record: Record<string, unknown>): Promise<StatusResponse>;
+    /**
+     * Manually update a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
+     * @abstract
+     * @async
+     * @param {Record<string, unknown>} record Individual Record from frame
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    updateRecord(record: Record<string, unknown>): Promise<StatusResponse>;
+    /**
+     * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
+     * backend after calling this method. Call frame after this to get a normalized array of the freshest data.
+     * @abstract
+     * @async
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    sync(): Promise<StatusResponse>;
+    /**
+     * Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'. 
+     * Call sync() for fresh data with propery attachment links to cloud hosting.
+     * @abstract
+     * @async
+     * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    updateRecordImage(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
+    updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
+    updateRecordFile(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
+    frame: Record<string, unknown>[];
 }
 
 export interface UpdateRecordAttachmentOptions {
@@ -80,4 +128,11 @@ export interface StatusResponse {
     message: string;
     /** Will represent a corresponding error if an error was thrown during the operation. */
     error?: Error;
+}
+
+export enum RECORD_REF_STATUS {
+    NO_ID,
+    NO_REF_WITH_ID,
+    DIFFERENT_FROM_REF,
+    SAME_AS_REF
 }
