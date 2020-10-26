@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EasybaseContext from "./EasybaseContext";
 import {
@@ -28,6 +28,19 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
         limit: undefined,
         customQuery: undefined
     };
+
+    let _effect: React.EffectCallback = () => {
+        console.log("Frame effect");
+        return () => {};
+    };
+
+    const useFrameEffect = (effect: React.EffectCallback) => {
+        _effect = effect;
+    };
+
+    useEffect(_effect, [frame]);
+
+    const Frame = (): Record<string, unknown>[] => frame;
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         _frameConfiguration = { ..._frameConfiguration, ...options };
@@ -169,7 +182,21 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
     // Only allow the deletion of one element at a time
     const sync = async (): Promise<StatusResponse> => {
         const _realignFrames = (newData: Record<string, unknown>[]) => {
-            setFrame(_frame => {
+
+            let isNewDataTheSame = true;
+
+            if (newData.length !== frame.length) {
+                isNewDataTheSame = false;
+            } else {
+                for (let i = 0; i < newData.length; i++) {
+                    if (!shallowCompare(newData[i], frame[i])) {
+                        isNewDataTheSame = false;
+                        break;
+                    }
+                }
+            }
+
+            !isNewDataTheSame && setFrame(_frame => {
                 _frame.length = newData.length;
                 _frameReference.length = newData.length;
     
@@ -353,7 +380,8 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
         updateRecordImage,
         updateRecordVideo,
         updateRecordFile,
-        frame
+        Frame,
+        useFrameEffect
     }
 
     return (

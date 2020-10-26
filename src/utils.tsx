@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ConfigureFrameOptions {
     /** Edit starting index from which records will be retrieved from. Useful for paging. */
     offset?: number;
@@ -92,14 +94,15 @@ export interface ContextValue {
     updateRecord(record: Record<string, unknown>): Promise<StatusResponse>;
     /**
      * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
-     * backend after calling this method. Call frame after this to get a normalized array of the freshest data.
+     * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
      * @abstract
      * @async
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     sync(): Promise<StatusResponse>;
     /**
-     * Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'. 
+     * Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'.
+     * The file must have an extension of an image. 
      * Call sync() for fresh data with propery attachment links to cloud hosting.
      * @abstract
      * @async
@@ -107,9 +110,38 @@ export interface ContextValue {
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     updateRecordImage(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
+    /**
+     * Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'. 
+     * The file must have an extension of a video.
+     * Call sync() for fresh data with propery attachment links to cloud hosting.
+     * @abstract
+     * @async
+     * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
     updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
+    /**
+     * Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'. 
+     * Call sync() for fresh data with propery attachment links to cloud hosting.
+     * @abstract
+     * @async
+     * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
     updateRecordFile(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
-    frame: Record<string, unknown>[];
+    /**
+     * This function is how you access your current frame. This function does not get new data or push changes to EasyBase. If you 
+     * want to syncronize your frame and EasyBase, call sync() then Frame().
+     * @abstract
+     * @return {Record<string, unknown>[]} Array of records corresponding to the current frame. Call sync() to push changes and
+     * 
+     */
+    Frame(): Record<string, unknown>[];
+    /**
+     * This hook runs when the Frame changes. This can be triggered by calling sync().
+     * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
+     */
+    useFrameEffect(effect: React.EffectCallback): void; 
 }
 
 export interface UpdateRecordAttachmentOptions {
@@ -117,7 +149,7 @@ export interface UpdateRecordAttachmentOptions {
     record: Record<string, unknown>;
     /** The name of the column that is of type file/image/video */
     columnName: string;
-    /** HTML File element containing the correct type of attachment */
+    /** HTML File element containing the correct type of attachment. The file name must have a proper file extension corresponding to the attachment. */
     attachment: File;
 }
 

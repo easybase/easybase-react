@@ -8,15 +8,16 @@ import {
 } from "./utils";
 
 const c: ContextValue = {
-    configureFrame: (options: ConfigureFrameOptions) => ({}) as StatusResponse,
-    addRecord: async (options: AddRecordOptions) => ({}) as StatusResponse,
-    deleteRecord: async (record: Record<string, unknown>) => ({}) as StatusResponse,
-    updateRecord: async (record: Record<string, unknown>) => ({}) as StatusResponse,
+    configureFrame: (_: ConfigureFrameOptions) => ({}) as StatusResponse,
+    addRecord: async (_: AddRecordOptions) => ({}) as StatusResponse,
+    deleteRecord: async (_: Record<string, unknown>) => ({}) as StatusResponse,
+    updateRecord: async (_: Record<string, unknown>) => ({}) as StatusResponse,
     sync: async () => ({}) as StatusResponse,
-    updateRecordImage: async (options: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
-    updateRecordVideo: async (options: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
-    updateRecordFile: async (options: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
-    frame: []
+    updateRecordImage: async (_: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
+    updateRecordVideo: async (_: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
+    updateRecordFile: async (_: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
+    Frame: () => [] as Record<string, unknown>[],
+    useFrameEffect: (_: React.EffectCallback) => {}
 }
 
 export default createContext(c);
