@@ -45,8 +45,6 @@
     "dist"
   ],
   "dependencies": {
-    "@types/from2": "^2.3.0",
-    "axios": "^0.21.0",
-    "from2": "^2.3.0"
+    "axios": "^0.21.0"
   }
 }

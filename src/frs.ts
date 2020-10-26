@@ -1,3 +1,4 @@
+/*
 import from2 from 'from2';
 
 var names = {
@@ -41,7 +42,7 @@ function toBuffer(arr: any) {
     }
 }
 
-export default function (file: File, options: any) {
+export default function (file: File, options: any): ReadableStream {
     options = options || {}
     var offset = options.offset || 0
     var chunkSize = options.chunkSize || 1024 * 1024 // default 1MB chunk has tolerable perf on large files
@@ -49,7 +50,7 @@ export default function (file: File, options: any) {
 
     fileReader.readAsText(file);
 
-    var from: any = from2(function (size, cb) {
+    var from: ReadableStream | any = from2(function (size, cb) {
         if (offset >= file.size) return cb(null, null)
         fileReader.onloadend = function loaded(event: any) {
             var data = event.target.result
@@ -73,3 +74,4 @@ export default function (file: File, options: any) {
 
     return from
 }
+*/

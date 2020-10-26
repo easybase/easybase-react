@@ -11,7 +11,6 @@ import {
     RECORD_REF_STATUS,
     ContextValue
 } from "./utils";
-import fileReaderStream from "./frs";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 
@@ -337,10 +336,9 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
                 break;
         }
 
-        const stream = fileReaderStream(options.attachment, {});
         const formData = new FormData();
-        formData.append('file', stream);
-        
+        formData.append("file", options.attachment);
+
         try {
             const res = await axios({
                 method: 'POST',
@@ -348,7 +346,7 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
                 headers: {
                     'content-type': 'multipart/form-data'
                 },
-                data: formData
+                data: stream
             });
             if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
                 console.error(res.data.message);
