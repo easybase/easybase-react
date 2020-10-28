@@ -18,7 +18,10 @@ import {
 } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
-import * as auth from "./auth";
+import {
+    initAuth,
+    tokenPost
+} from "./auth";
 import g from "./g";
 
 const _symb: any = Symbol("_id");
@@ -56,12 +59,15 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
 
     useEffect(() => {
         const mount = async () => {
+            const t1 = Date.now();
             console.log("EASYBASE — mounting");
-            const res = await auth.initAuth();
-            console.log(res)
-            const res2 = await auth.testToken();
-            console.log(res2);
-            setMounted(true);
+            await initAuth();
+            const res = await tokenPost(POST_TYPES.VALID_TOKEN, {});
+            const elapsed = Date.now() - t1;
+            if (res.success) {
+                console.log("EASYBASE — Valid auth initiation in " + elapsed + "ms");
+                setMounted(true);
+            }
         }
         mount();
     }, []);
@@ -297,23 +303,22 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
 
         try {
-            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-                _config: {
-                    type: "get",
-                    offset,
-                    limit
-                }
+            const res = await tokenPost(POST_TYPES.GET_FRAME, {
+                offset,
+                limit
             });
 
-            if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
-                console.error(res.data.message);
+            // check if the arrays are the same
+
+            if (res.success === false) {
+                console.error(res.data);
                 return {
                     success: false,
-                    message: res.data.message
+                    message: "" + res.data
                 }
             } else {
                 _isFrameInitialized = true;
-                _realignFrames(res.data);
+                _realignFrames((res.data as Record<string, unknown>[]));
                 return {
                     message: 'Success. Call frame for data',
                     success: true

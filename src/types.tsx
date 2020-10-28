@@ -146,7 +146,8 @@ export enum RECORD_REF_STATUS {
 export enum POST_TYPES {
     UPLOAD_ATTACHMENT = "upload_attachment",
     HANDSHAKE = "handshake",
-    VALID_TOKEN = "valid_token"
+    VALID_TOKEN = "valid_token",
+    GET_FRAME = "get_frame"
 }
 
 export interface QueryOptions {
@@ -166,5 +167,5 @@ export interface QueryOptions {
 
 export interface AuthPostResponse {
     success: boolean;
-    data: {} | string;
+    data: {} | Record<string, unknown>[] | string;
 }
