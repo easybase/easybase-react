@@ -180,3 +180,16 @@ export enum POST_TYPES {
 }
 
 export const generateBareUrl = (type: string, integrationID: string): string => `https://api.easybase.io/${type}/${integrationID}`;
+
+export interface QueryOptions {
+    /** Name of the query saved in Easybase's Visual Query Builder */
+    queryName?: string;
+    /** If you would like to sort the order of your query by a column. Pass the name of that column here */
+    columnToSortBy?: string;
+    /** By default, columnToSortBy will sort your query by ascending value (1, 2, 3...). To sort by descending set this to true */
+    descending?: boolean;
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset?: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit?: number;
+}

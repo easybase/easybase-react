@@ -11,7 +11,8 @@ import {
     RECORD_REF_STATUS,
     ContextValue,
     POST_TYPES,
-    generateBareUrl
+    generateBareUrl,
+    QueryOptions
 } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
@@ -59,7 +60,7 @@ const EasybaseProvider = ({ children, ebconfig }: EasybaseProviderProps) => {
 
     const Frame = (): Record<string, unknown>[] => frame;
 
-    const Snapshot = (): Record<string, unknown>[] => frame; // TODO: search and sort
+    const Query = (options: QueryOptions): Record<string, unknown>[] => []; // TODO: search and sort
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         _frameConfiguration = { ..._frameConfiguration, ...options };
