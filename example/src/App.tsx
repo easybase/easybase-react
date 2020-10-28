@@ -1,9 +1,14 @@
 import React from 'react'
+import esconfig from "./ebconfig.json";
 
-import { ExampleComponent } from 'easybase-react'
+import { useEasybase, EasybaseProvider } from 'easybase-react'
+
+// here
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <div>
+
+  </div>
 }
 
 export default App

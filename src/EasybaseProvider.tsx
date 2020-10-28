@@ -20,7 +20,7 @@ import * as auth from "./auth";
 
 const _symb: any = Symbol("_id");
 
-const EasybaseProvider = ({ children, ebconfig }: EasybaseProviderProps) => {
+const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
 
     const [frame, setFrame] = useState<Record<string, unknown>[]>([]);
