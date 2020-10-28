@@ -9,11 +9,17 @@ export interface ConfigureFrameOptions {
     customQuery?: Record<string, unknown>;
 }
 
+export interface Ebconfig {
+    tt: string,
+    integration: string,
+    version: string
+}
+
 export interface EasybaseProviderProps {
     /** React elements */
     children: JSX.Element[] | JSX.Element;
-    /** EasyBase integration ID. Can be found by expanding the integration menu. This id is automatically generated.  */
-    integrationID: string;
+    /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
+    ebconfig: Ebconfig;
     /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
     authentication?: string;
 }
@@ -168,3 +174,9 @@ export enum RECORD_REF_STATUS {
     DIFFERENT_FROM_REF,
     SAME_AS_REF
 }
+
+export enum POST_TYPES {
+    UPLOAD_ATTACHMENT = "upload_attachment"
+}
+
+export const generateBareUrl = (type: string, integrationID: string): string => `https://api.easybase.io/${type}/${integrationID}`;

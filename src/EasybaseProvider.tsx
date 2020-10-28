@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import EasybaseContext from "./EasybaseContext";
 import {
@@ -9,27 +9,45 @@ import {
     UpdateRecordAttachmentOptions,
     StatusResponse,
     RECORD_REF_STATUS,
-    ContextValue
+    ContextValue,
+    POST_TYPES,
+    generateBareUrl
 } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
+import * as auth from "./auth";
 
-const generateBareUrl = (type: string, integrationID: string): string => `https://api.easybase.io/${type}/${integrationID}`;
+const _symb: any = Symbol("_id");
 
-const _symb = Symbol("_id");
+const EasybaseProvider = ({ children, ebconfig }: EasybaseProviderProps) => {
+    const [mounted, setMounted] = useState<boolean>(false);
 
-const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) => {
-    const [frame, setFrame] = useState<Record<string, unknown>[] | any[]>([]);
-    const _frameReference: any[] = [];
-    let _isInitialized: boolean = false;
+    const [frame, setFrame] = useState<Record<string, unknown>[]>([]);
+    const _frameReference: Record<string, unknown>[] = [];
+
+    const tokRef = useRef<any>();
+    
+    let _isFrameInitialized: boolean = false;
     let _frameConfiguration: ConfigureFrameOptions = {
         offset: 0,
         limit: undefined,
         customQuery: undefined
     };
 
+    const integrationID = ebconfig.integration;
+
+    useEffect(() => {
+        const mount = async () => {
+            const res = await auth.initAuth(ebconfig);
+            console.log(res)
+            tokRef.current = res;
+            setMounted(true);
+        }
+        mount();
+    }, []);
+
     let _effect: React.EffectCallback = () => {
-        console.log("Frame effect");
+        console.log("Frame effect"); // TODO: remove this
         return () => {};
     };
 
@@ -41,16 +59,18 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
 
     const Frame = (): Record<string, unknown>[] => frame;
 
+    const Snapshot = (): Record<string, unknown>[] => frame; // TODO: search and sort
+
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         _frameConfiguration = { ..._frameConfiguration, ...options };
-        _isInitialized = false;
+        _isFrameInitialized = false;
         return {
             message: "Successfully configured frame. Run sync() for changes to be shown in frame",
             success: true
         }
     }
 
-    const _validateRecord = (record: {}): RECORD_REF_STATUS => {
+    const _validateRecord = (record: Record<string, unknown>): RECORD_REF_STATUS => {
         if (record[_symb]) {
             const _refRecord = _frameReference.find(ele => ele[_symb] === record[_symb]);
             if (_refRecord === undefined) {
@@ -109,7 +129,7 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
 
     const deleteRecord = async (record: Record<string, unknown> | {}): Promise<StatusResponse> => {
         switch (_validateRecord(record)) {
-            case RECORD_REF_STATUS.NO_ID: 
+            case RECORD_REF_STATUS.NO_ID:
                 console.log("Attempting to delete record that has not been synced. Just remove the element from the array.");
                 return {
                     success: false,
@@ -181,7 +201,6 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
     // Only allow the deletion of one element at a time
     const sync = async (): Promise<StatusResponse> => {
         const _realignFrames = (newData: Record<string, unknown>[]) => {
-
             let isNewDataTheSame = true;
 
             if (newData.length !== frame.length) {
@@ -198,25 +217,25 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
             !isNewDataTheSame && setFrame(_frame => {
                 _frame.length = newData.length;
                 _frameReference.length = newData.length;
-    
+
                 for (let i = 0; i < newData.length; i++) {
                     const copyEle = Object.assign({}, newData[i]);
-    
+
                     Object.defineProperty(newData[i], _symb, {
                         enumerable: false,
                         get: function () { return `${newData[i]._id}` },
                         set: function () { }
                     });
-    
+
                     Object.defineProperty(copyEle, _symb, {
                         enumerable: false,
                         get: function () { return `${newData[i]._id}` },
                         set: function () { }
                     });
-    
+
                     delete newData[i]._id;
                     delete copyEle._id;
-    
+
                     _frame[i] = newData[i];
                     _frameReference[i] = copyEle;
                 }
@@ -226,7 +245,7 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
 
         const { offset, limit, customQuery }: ConfigureFrameOptions = _frameConfiguration;
 
-        if (_isInitialized) {
+        if (_isFrameInitialized) {
             // Check to see if any element were delete (Only 1)
             for (const referenceEle of _frameReference) {
                 if (!frame.some(ele => ele[_symb] === referenceEle[_symb])) {
@@ -267,10 +286,10 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
                 console.error(res.data.message);
                 return {
                     success: false,
-                    message: res.data.message 
+                    message: res.data.message
                 }
             } else {
-                _isInitialized = true;
+                _isFrameInitialized = true;
                 _realignFrames(res.data);
                 return {
                     message: 'Success. Call frame for data',
@@ -303,7 +322,7 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
 
     const _updateRecordAttachment = async (options: UpdateRecordAttachmentOptions, type: string): Promise<StatusResponse> => {
         switch (_validateRecord(options.record)) {
-            case RECORD_REF_STATUS.NO_ID: 
+            case RECORD_REF_STATUS.NO_ID:
                 console.log("Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment.");
                 return {
                     success: false,
@@ -337,22 +356,24 @@ const EasybaseProvider = ({ children, integrationID }: EasybaseProviderProps) =>
         }
 
         const formData = new FormData();
-        formData.append("file", options.attachment);
+        formData.append("file", options.attachment, options.attachment.name);
 
         try {
-            const res = await axios({
-                method: 'POST',
-                url: 'https://api.easybase.io/something',
+            const res = await axios.post(`https://api.easybase.io/react/${integrationID}`, formData, {
                 headers: {
-                    'content-type': 'multipart/form-data'
-                },
-                data: stream
+                    'Content-Type': 'multipart/form-data',
+                    uploadType: type,
+                    columnName: options.columnName,
+                    recordID: options.record[_symb],
+                    postType: POST_TYPES.UPLOAD_ATTACHMENT
+                }
             });
+
             if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
                 console.error(res.data.message);
                 return {
                     success: false,
-                    message: res.data.message 
+                    message: res.data.message
                 }
             } else {
                 return {

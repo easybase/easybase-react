@@ -20,3 +20,5 @@ node_modules/*
 package-lock.json
 
 example/node_modules/*
+
+ebconfig.json
