@@ -5,7 +5,7 @@ import {
     StatusResponse,
     AddRecordOptions,
     UpdateRecordAttachmentOptions
-} from "./utils";
+} from "./types";
 
 const c: ContextValue = {
     configureFrame: (_: ConfigureFrameOptions) => ({}) as StatusResponse,

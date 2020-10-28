@@ -1,12 +1,14 @@
 import axios from "axios";
-import { generateBareUrl, POST_TYPES } from "./utils";
+import { POST_TYPES, AuthPostResponse } from "./types";
 import g from "./g";
+import { generateBareUrl, generateAuthBody } from "./utils";
 
 export const initAuth = async (): Promise<boolean> => {
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
             version: g.ebconfig.version,
-            tt: g.ebconfig.tt
+            tt: g.ebconfig.tt,
+            session: g.session
         }, { headers: { 'Eb-Post-Req': POST_TYPES.HANDSHAKE } });
 
         if (res.data.token) {
@@ -21,17 +23,28 @@ export const initAuth = async (): Promise<boolean> => {
     }
 }
 
-export const testToken = async (): Promise<boolean> => {
+export const tokenPost = async (body: {}, postType: POST_TYPES): Promise<AuthPostResponse> => {
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-            token: g.token
-        }, { headers: { 'Eb-Post-Req': POST_TYPES.VALID_TOKEN } });
-
-        if (res.data.success === true) {
-            return true;
-        } else {
-            return false;
+            ...generateAuthBody(),
+            ...body
+        }, { headers: { 'Eb-Post-Req': postType } });
+        return {
+            success: res.data.success,
+            data: res.data.body
         }
+    } catch (error) {
+        return {
+            success: false,
+            data: error
+        }
+    }
+}
+
+export const testToken = async (): Promise<boolean> => {
+    try {
+        const tokRes = await tokenPost({}, POST_TYPES.VALID_TOKEN);
+        return true;
     } catch (error) {
         console.log(error);
         return false;

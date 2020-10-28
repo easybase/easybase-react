@@ -5,14 +5,16 @@ import {
     ConfigureFrameOptions,
     EasybaseProviderProps,
     AddRecordOptions,
-    shallowCompare,
     UpdateRecordAttachmentOptions,
     StatusResponse,
     RECORD_REF_STATUS,
     ContextValue,
     POST_TYPES,
-    generateBareUrl,
     QueryOptions
+} from "./types";
+import {
+    generateBareUrl,
+    shallowCompare
 } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
@@ -27,11 +29,10 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     const [frame, setFrame] = useState<Record<string, unknown>[]>([]);
     const _frameReference: Record<string, unknown>[] = [];
 
-    let _isFrameInitialized: boolean = false;
+    let _isFrameInitialized: boolean = true;
     let _frameConfiguration: ConfigureFrameOptions = {
         offset: 0,
-        limit: undefined,
-        customQuery: undefined
+        limit: undefined
     };
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
@@ -78,6 +79,13 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     const Query = (options: QueryOptions): Record<string, unknown>[] => []; // TODO: search and sort
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
+        if (options.limit === _frameConfiguration.limit && options.offset === _frameConfiguration.offset) {
+            return {
+                message: "Frame parameters are the same as the previous configuration.",
+                success: true
+            };
+        }
+
         _frameConfiguration = { ..._frameConfiguration, ...options };
         _isFrameInitialized = false;
         return {
@@ -259,7 +267,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
             });
         }
 
-        const { offset, limit, customQuery }: ConfigureFrameOptions = _frameConfiguration;
+        const { offset, limit }: ConfigureFrameOptions = _frameConfiguration;
 
         if (_isFrameInitialized) {
             // Check to see if any element were delete (Only 1)
@@ -293,8 +301,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                 _config: {
                     type: "get",
                     offset,
-                    limit,
-                    customQuery
+                    limit
                 }
             });
 
