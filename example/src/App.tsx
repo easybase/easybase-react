@@ -1,14 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import esconfig from "./ebconfig.json";
+import ebconfig from "./ebconfig.json";
 
 import { useEasybase, EasybaseProvider } from 'easybase-react'
 
 // here
 
 const App = () => {
-  return <div>
 
-  </div>
+  const { Frame, useFrameEffect } = useEasybase();
+
+  useFrameEffect(() => {
+    console.log(Frame());
+  })
+
+  return (
+    <EasybaseProvider ebconfig={ebconfig}>
+      <h1>HELLO WORLD</h1>
+    </EasybaseProvider>
+  )
 }
 
 export default App

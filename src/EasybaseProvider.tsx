@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import axios from "axios";
 import EasybaseContext from "./EasybaseContext";
 import {
@@ -17,6 +17,7 @@ import {
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import * as auth from "./auth";
+import g from "./g";
 
 const _symb: any = Symbol("_id");
 
@@ -26,8 +27,6 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     const [frame, setFrame] = useState<Record<string, unknown>[]>([]);
     const _frameReference: Record<string, unknown>[] = [];
 
-    const tokRef = useRef<any>();
-    
     let _isFrameInitialized: boolean = false;
     let _frameConfiguration: ConfigureFrameOptions = {
         offset: 0,
@@ -35,22 +34,38 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         customQuery: undefined
     };
 
-    const integrationID = ebconfig.integration;
+    if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
+        console.error("No ebconfig object passed. do `import ebconfig from \"ebconfig.json\"` and pass it to the Easybase provider");
+        return (
+            <Fragment>
+                {children}
+            </Fragment>
+        );
+    } else if (!ebconfig.integration || !ebconfig.tt) {
+        console.error("Invalid ebconfig object passed. Download ebconfig.json from Easybase.io and try again.");
+        return (
+            <Fragment>
+                {children}
+            </Fragment>
+        );
+    }
+
+    g.integrationID = ebconfig.integration;
+    g.ebconfig = ebconfig;
 
     useEffect(() => {
         const mount = async () => {
-            const res = await auth.initAuth(ebconfig);
+            console.log("EASYBASE — mounting");
+            const res = await auth.initAuth();
             console.log(res)
-            tokRef.current = res;
+            const res2 = await auth.testToken();
+            console.log(res2);
             setMounted(true);
         }
         mount();
     }, []);
 
-    let _effect: React.EffectCallback = () => {
-        console.log("Frame effect"); // TODO: remove this
-        return () => {};
-    };
+    let _effect: React.EffectCallback = () => () => {};
 
     const useFrameEffect = (effect: React.EffectCallback) => {
         _effect = effect;
@@ -98,7 +113,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         const { insertAtEnd, copyIfExists, newRecord }: AddRecordOptions = { ...defaultValues, ...options };
 
         try {
-            const res = await axios.post(generateBareUrl("REACT", integrationID), {
+            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "addRecord",
                     insertAtEnd,
@@ -141,7 +156,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
 
         try {
-            const res = await axios.post(generateBareUrl("REACT", integrationID), {
+            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "deleteRecord",
                     id: record[_symb]
@@ -170,7 +185,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
 
     const updateRecord = async (record: Record<string, unknown> | {}): Promise<StatusResponse> => {
         try {
-            const res = await axios.post(generateBareUrl("REACT", integrationID), {
+            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "deleteRecord",
                     id: record[_symb],
@@ -274,7 +289,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
 
         try {
-            const res = await axios.post(generateBareUrl("REACT", integrationID), {
+            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "get",
                     offset,
@@ -360,13 +375,13 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         formData.append("file", options.attachment, options.attachment.name);
 
         try {
-            const res = await axios.post(`https://api.easybase.io/react/${integrationID}`, formData, {
+            const res = await axios.post(`https://api.easybase.io/react/${g.integrationID}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     uploadType: type,
                     columnName: options.columnName,
                     recordID: options.record[_symb],
-                    postType: POST_TYPES.UPLOAD_ATTACHMENT
+                    'Eb-Post-Req': POST_TYPES.UPLOAD_ATTACHMENT
                 }
             });
 

@@ -176,7 +176,9 @@ export enum RECORD_REF_STATUS {
 }
 
 export enum POST_TYPES {
-    UPLOAD_ATTACHMENT = "upload_attachment"
+    UPLOAD_ATTACHMENT = "upload_attachment",
+    HANDSHAKE = "handshake",
+    VALID_TOKEN = "valid_token"
 }
 
 export const generateBareUrl = (type: string, integrationID: string): string => `https://api.easybase.io/${type}/${integrationID}`;
