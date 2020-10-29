@@ -7,6 +7,13 @@ export interface ConfigureFrameOptions {
     limit?: number;
 }
 
+export interface FrameConfiguration {
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit: number;
+}
+
 export interface Ebconfig {
     tt: string,
     integration: string,
@@ -28,7 +35,7 @@ export interface AddRecordOptions {
     /** If a record with the same ID already exists, insert a copy with a new ID */
     copyIfExists?: boolean;
     /** Values to post to EasyBase collection. Format is { column name: value } */
-    newRecord: Record<string, unknown>;
+    newRecord: Record<string, any>;
     /** absolute index in collection to insert record at. Is overwritten by insertAtEnd. */
     absoluteIndex?: number;
 }
@@ -54,18 +61,18 @@ export interface ContextValue {
      * Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
      * @abstract
      * @async
-     * @param {Record<string, unknown>} record Individual Record from frame
+     * @param {Record<string, any>} record Individual Record from frame
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
-    deleteRecord(record: Record<string, unknown>): Promise<StatusResponse>;
+    deleteRecord(record: Record<string, any>): Promise<StatusResponse>;
     /**
      * Manually update a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
      * @abstract
      * @async
-     * @param {Record<string, unknown>} record Individual Record from frame
+     * @param {Record<string, any>} record Individual Record from frame
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
-    updateRecord(record: Record<string, unknown>): Promise<StatusResponse>;
+    updateRecord(record: Record<string, any>): Promise<StatusResponse>;
     /**
      * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
      * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
@@ -107,29 +114,47 @@ export interface ContextValue {
      * This function is how you access your current frame. This function does not get new data or push changes to EasyBase. If you 
      * want to syncronize your frame and EasyBase, call sync() then Frame().
      * @abstract
-     * @return {Record<string, unknown>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
+     * @return {Record<string, any>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
      * 
      */
-    Frame(): Record<string, unknown>[];
+    Frame(): Record<string, any>[];
     /**
      * This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you 
      * want to syncronize your frame and EasyBase, call sync() then Frame().
      * @abstract
      * @param {number} [index] Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
-     * @return {Record<string, unknown>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
+     * @return {Record<string, any>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
      * 
      */
-    Frame(index: number): Record<string, unknown>;
+    Frame(index: number): Record<string, any>;
     /**
      * This hook runs when the Frame changes. This can be triggered by calling sync().
+     * @abstract
      * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
      */
-    useFrameEffect(effect: React.EffectCallback): void; 
+    useFrameEffect(effect: React.EffectCallback): void;
+    /**
+     * Gets the number of records in your table.
+     * @async
+     * @returns {Promise<number>} The the number of records in your table.
+     */
+    fullTableSize(): Promise<number>;
+    /**
+     * @async
+     * Retrieve an object detailing the columns in your table mapped to their corresponding type.
+     * @returns {Promise<Record<string, any>>} Object detailing the columns in your table mapped to their corresponding type.
+     */
+    tableTypes(): Promise<Record<string, any>>;
+    /**
+     * View your frames current configuration
+     * @returns {Record<string, any>} Object contains the `offset` and `length` of your current frame.
+     */
+    currentConfiguration(): FrameConfiguration;
 }
 
 export interface UpdateRecordAttachmentOptions {
     /** EasyBase Record to attach this attachment to. */
-    record: Record<string, unknown>;
+    record: Record<string, any>;
     /** The name of the column that is of type file/image/video */
     columnName: string;
     /** HTML File element containing the correct type of attachment. The file name must have a proper file extension corresponding to the attachment. */
@@ -156,7 +181,9 @@ export enum POST_TYPES {
     UPLOAD_ATTACHMENT = "upload_attachment",
     HANDSHAKE = "handshake",
     VALID_TOKEN = "valid_token",
-    GET_FRAME = "get_frame"
+    GET_FRAME = "get_frame",
+    TABLE_SIZE = "table_size",
+    COLUMN_TYPES = "column_types"
 }
 
 export interface QueryOptions {
@@ -171,10 +198,10 @@ export interface QueryOptions {
     /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
     limit?: number;
     /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. */
-    customQuery?: Record<string, unknown>;
+    customQuery?: Record<string, any>;
 }
 
 export interface AuthPostResponse {
     success: boolean;
-    data: {} | Record<string, unknown>[] | string;
+    data: any;
 }

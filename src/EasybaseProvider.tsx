@@ -10,7 +10,8 @@ import {
     RECORD_REF_STATUS,
     ContextValue,
     POST_TYPES,
-    QueryOptions
+    QueryOptions,
+    FrameConfiguration
 } from "./types";
 import {
     generateBareUrl,
@@ -25,18 +26,21 @@ import {
 import g from "./g";
 
 const _symb: any = Symbol("_id");
+const _frameReference: Record<string, any>[] = [];
+
+let _isFrameInitialized: boolean = true;
+
+let _frameConfiguration: FrameConfiguration = {
+    offset: 0,
+    limit: 0
+};
+
+let _effect: React.EffectCallback = () => () => {};
 
 const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
 
-    const [frame, setFrame] = useState<Record<string, unknown>[]>([]);
-    const _frameReference: Record<string, unknown>[] = [];
-
-    let _isFrameInitialized: boolean = true;
-    let _frameConfiguration: ConfigureFrameOptions = {
-        offset: 0,
-        limit: undefined
-    };
+    const [frame, setFrame] = useState<Record<string, any>[]>([]);
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
         console.error("No ebconfig object passed. do `import ebconfig from \"ebconfig.json\"` and pass it to the Easybase provider");
@@ -54,11 +58,11 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         );
     }
 
-    g.integrationID = ebconfig.integration;
-    g.ebconfig = ebconfig;
-
     useEffect(() => {
         const mount = async () => {
+            g.integrationID = ebconfig.integration;
+            g.ebconfig = ebconfig;
+
             const t1 = Date.now();
             console.log("EASYBASE — mounting");
             await initAuth();
@@ -73,8 +77,6 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         mount();
     }, []);
 
-    let _effect: React.EffectCallback = () => () => { };
-
     const useFrameEffect = (effect: React.EffectCallback) => {
         _effect = effect;
     };
@@ -84,9 +86,9 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         _effect();
     }, [frame]);
 
-    function Frame(): Record<string, unknown>[];
-    function Frame(index: number): Record<string, unknown>;
-    function Frame(index?: number): Record<string, unknown>[] | Record<string, unknown> {
+    function Frame(): Record<string, any>[];
+    function Frame(index: number): Record<string, any>;
+    function Frame(index?: number): Record<string, any>[] | Record<string, any> {
         if (typeof index === "number") {
             return frame[index];
         } else {
@@ -94,7 +96,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
     }
 
-    const Query = (options: QueryOptions): Record<string, unknown>[] => []; // TODO: search and sort
+    const Query = (options: QueryOptions): Record<string, any>[] => []; // TODO: search and sort
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         if (options.limit === _frameConfiguration.limit && options.offset === _frameConfiguration.offset) {
@@ -104,7 +106,11 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
             };
         }
 
-        _frameConfiguration = { ..._frameConfiguration, ...options };
+        _frameConfiguration = { ..._frameConfiguration };
+
+        if (options.limit !== undefined && options.limit >= 0) _frameConfiguration.limit = options.limit;
+        if (options.offset !== undefined && options.offset >= 0) _frameConfiguration.offset = options.offset;
+
         _isFrameInitialized = false;
         return {
             message: "Successfully configured frame. Run sync() for changes to be shown in frame",
@@ -112,7 +118,9 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
     }
 
-    const _validateRecord = (record: Record<string, unknown>): RECORD_REF_STATUS => {
+    const currentConfiguration = (): FrameConfiguration => ({ ..._frameConfiguration });
+
+    const _validateRecord = (record: Record<string, any>): RECORD_REF_STATUS => {
         if (record[_symb]) {
             const _refRecord = _frameReference.find(ele => ele[_symb] === record[_symb]);
             if (_refRecord === undefined) {
@@ -169,7 +177,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
     }
 
-    const deleteRecord = async (record: Record<string, unknown> | {}): Promise<StatusResponse> => {
+    const deleteRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
         switch (_validateRecord(record)) {
             case RECORD_REF_STATUS.NO_ID:
                 console.log("Attempting to delete record that has not been synced. Just remove the element from the array.");
@@ -209,7 +217,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
     }
 
-    const updateRecord = async (record: Record<string, unknown> | {}): Promise<StatusResponse> => {
+    const updateRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
         try {
             const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
@@ -240,9 +248,27 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         }
     }
 
+    const fullTableSize = async (): Promise<number> => {
+        const res = await tokenPost(POST_TYPES.TABLE_SIZE, {});
+        if (res.success) {
+            return res.data;
+        } else {
+            return 0;
+        }
+    }
+
+    const tableTypes = async (): Promise<Record<string, any>> => {
+        const res = await tokenPost(POST_TYPES.COLUMN_TYPES, {});
+        if (res.success) {
+            return res.data;
+        } else {
+            return {};
+        }
+    }
+
     // Only allow the deletion of one element at a time
     const sync = async (): Promise<StatusResponse> => {
-        const _realignFrames = (newData: Record<string, unknown>[]) => {
+        const _realignFrames = (newData: Record<string, any>[]) => {
             let isNewDataTheSame = true;
 
             if (newData.length !== frame.length) {
@@ -330,7 +356,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                 }
             } else {
                 _isFrameInitialized = true;
-                _realignFrames((res.data as Record<string, unknown>[]));
+                _realignFrames((res.data as Record<string, any>[]));
                 return {
                     message: 'Success. Call frame for data',
                     success: true
@@ -440,7 +466,10 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
         updateRecordVideo,
         updateRecordFile,
         Frame,
-        useFrameEffect
+        useFrameEffect,
+        fullTableSize,
+        tableTypes,
+        currentConfiguration
     }
 
     return (

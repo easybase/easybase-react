@@ -3,6 +3,7 @@ import React from 'react'
 import ebconfig from "./ebconfig.json";
 import { EasybaseProvider } from 'easybase-react';
 import MyComponent from "./MyComponent";
+import "./styles.css";
 
 const App = () => {
   return (
