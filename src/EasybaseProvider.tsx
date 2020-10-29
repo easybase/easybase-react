@@ -69,18 +69,30 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                 setMounted(true);
             }
         }
+
         mount();
     }, []);
 
-    let _effect: React.EffectCallback = () => () => {};
+    let _effect: React.EffectCallback = () => () => { };
 
     const useFrameEffect = (effect: React.EffectCallback) => {
         _effect = effect;
     };
 
-    useEffect(_effect, [frame]);
+    useEffect(() => {
+        console.log("useFrameEffect running");
+        _effect();
+    }, [frame]);
 
-    const Frame = (): Record<string, unknown>[] => frame;
+    function Frame(): Record<string, unknown>[];
+    function Frame(index: number): Record<string, unknown>;
+    function Frame(index?: number): Record<string, unknown>[] | Record<string, unknown> {
+        if (typeof index === "number") {
+            return frame[index];
+        } else {
+            return frame;
+        }
+    }
 
     const Query = (options: QueryOptions): Record<string, unknown>[] => []; // TODO: search and sort
 
@@ -433,7 +445,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
 
     return (
         <EasybaseContext.Provider value={c}>
-            {children}
+            {mounted && children}
         </EasybaseContext.Provider>
     )
 }

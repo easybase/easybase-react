@@ -107,10 +107,19 @@ export interface ContextValue {
      * This function is how you access your current frame. This function does not get new data or push changes to EasyBase. If you 
      * want to syncronize your frame and EasyBase, call sync() then Frame().
      * @abstract
-     * @return {Record<string, unknown>[]} Array of records corresponding to the current frame. Call sync() to push changes and
+     * @return {Record<string, unknown>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
      * 
      */
     Frame(): Record<string, unknown>[];
+    /**
+     * This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you 
+     * want to syncronize your frame and EasyBase, call sync() then Frame().
+     * @abstract
+     * @param {number} [index] Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
+     * @return {Record<string, unknown>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
+     * 
+     */
+    Frame(index: number): Record<string, unknown>;
     /**
      * This hook runs when the Frame changes. This can be triggered by calling sync().
      * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
