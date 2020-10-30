@@ -45,6 +45,7 @@
     "dist"
   ],
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^0.21.0",
+    "fast-deep-equal": "^3.1.3"
   }
 }

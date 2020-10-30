@@ -20,13 +20,20 @@ export interface Ebconfig {
     version: string
 }
 
+export interface EasybaseProviderPropsOptions {
+    /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
+    authentication?: string;
+    /** Log Easybase react status and events to console. */
+    logging?: boolean;
+}
+
 export interface EasybaseProviderProps {
     /** React elements */
     children: JSX.Element[] | JSX.Element;
     /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
     ebconfig: Ebconfig;
-    /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
-    authentication?: string;
+    /** Optional configuration parameters. */
+    options?: EasybaseProviderPropsOptions
 }
 
 export interface AddRecordOptions {
@@ -183,7 +190,8 @@ export enum POST_TYPES {
     VALID_TOKEN = "valid_token",
     GET_FRAME = "get_frame",
     TABLE_SIZE = "table_size",
-    COLUMN_TYPES = "column_types"
+    COLUMN_TYPES = "column_types",
+    SYNC_STACK = "sync_stack"
 }
 
 export interface QueryOptions {

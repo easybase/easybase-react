@@ -68,6 +68,8 @@
 .btn span {
     display: block;
     padding: 12px 24px;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .btn:active:before {

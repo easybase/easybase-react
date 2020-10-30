@@ -35,7 +35,7 @@ const MyComponent = () => {
     } = useEasybase();
 
     useFrameEffect(() => {
-        console.log(Frame());
+        console.log("Frame effect");
     })
 
     useEffect(() => {
@@ -49,6 +49,8 @@ const MyComponent = () => {
 
     const onRatingChange = (change: number, index: number) => {
         Frame(index).rating += change;
+        Frame()[2] = { hello: "word" };
+        // Frame().reverse();
         sync();
     }
 
@@ -65,7 +67,7 @@ const MyComponent = () => {
     return (
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
-                {Frame().map((ele, index) => <Card {...ele} index={index} onRatingChange={onRatingChange} />)}
+                {Frame().map((ele, index) => <Card {...ele} onRatingChange={onRatingChange} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">

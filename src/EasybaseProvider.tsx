@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import EasybaseContext from "./EasybaseContext";
+import deepEqual from "fast-deep-equal";
 import {
     ConfigureFrameOptions,
     EasybaseProviderProps,
@@ -13,10 +14,7 @@ import {
     QueryOptions,
     FrameConfiguration
 } from "./types";
-import {
-    generateBareUrl,
-    shallowCompare
-} from "./utils";
+import { generateBareUrl, log } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import {
@@ -24,9 +22,7 @@ import {
     tokenPost
 } from "./auth";
 import g from "./g";
-
-const _symb: any = Symbol("_id");
-const _frameReference: Record<string, any>[] = [];
+import { Observable } from "./object-observer";
 
 let _isFrameInitialized: boolean = true;
 
@@ -37,10 +33,17 @@ let _frameConfiguration: FrameConfiguration = {
 
 let _effect: React.EffectCallback = () => () => {};
 
-const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProviderProps) => {
+const _observedChangeStack: Record<string, any>[] = [];
+let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
+
+const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
 
-    const [frame, setFrame] = useState<Record<string, any>[]>([]);
+    const [_frame, _setFrame] = useState<Record<string, any>[]>([]);
+    const [_observableFrame, _setObservableFrame] = useState<any>({
+        observe: () => {},
+        unobserve: () => {} 
+    });
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
         console.error("No ebconfig object passed. do `import ebconfig from \"ebconfig.json\"` and pass it to the Easybase provider");
@@ -60,16 +63,26 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
 
     useEffect(() => {
         const mount = async () => {
+            // eslint-disable-next-line dot-notation
+            const isIE = !!document['documentMode'];
+
+            if (isIE) {
+                console.error("EASYBASE — easybase-react does not support Internet Explorer. Please use a different browser.");
+            }
+
+            if (options) {
+                g.options = { ...g.options, ...options };
+            }
             g.integrationID = ebconfig.integration;
             g.ebconfig = ebconfig;
 
             const t1 = Date.now();
-            console.log("EASYBASE — mounting");
+            log("mounting");
             await initAuth();
             const res = await tokenPost(POST_TYPES.VALID_TOKEN, {});
             const elapsed = Date.now() - t1;
             if (res.success) {
-                console.log("EASYBASE — Valid auth initiation in " + elapsed + "ms");
+                log("Valid auth initiation in " + elapsed + "ms");
                 setMounted(true);
             }
         }
@@ -82,17 +95,33 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     };
 
     useEffect(() => {
-        console.log("useFrameEffect running");
-        _effect();
-    }, [frame]);
+        _observableFrame.observe((allChanges: any[]) => {
+            allChanges.forEach((change: any) => {
+                _observedChangeStack.push({
+                    type: change.type,
+                    path: change.path,
+                    value: change.value,
+                    _id: _recordIdMap.get(_frame[Number(change.path[0])])
+                    // Not bringing change.object or change.oldValue
+                });
+            });
+        });
+
+        _effect(); // call useFrameEffect
+    }, [_observableFrame]);
+
+    useEffect(() => {
+        _observableFrame.unobserve();
+        _setObservableFrame(Observable.from(_frame));
+    }, [_frame]);
 
     function Frame(): Record<string, any>[];
     function Frame(index: number): Record<string, any>;
     function Frame(index?: number): Record<string, any>[] | Record<string, any> {
         if (typeof index === "number") {
-            return frame[index];
+            return _observableFrame[index];
         } else {
-            return frame;
+            return _observableFrame;
         }
     }
 
@@ -121,20 +150,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     const currentConfiguration = (): FrameConfiguration => ({ ..._frameConfiguration });
 
     const _validateRecord = (record: Record<string, any>): RECORD_REF_STATUS => {
-        if (record[_symb]) {
-            const _refRecord = _frameReference.find(ele => ele[_symb] === record[_symb]);
-            if (_refRecord === undefined) {
-                return RECORD_REF_STATUS.NO_REF_WITH_ID;
-            } else {
-                if (shallowCompare(record, _refRecord)) {
-                    return RECORD_REF_STATUS.SAME_AS_REF;
-                } else {
-                    return RECORD_REF_STATUS.DIFFERENT_FROM_REF;
-                }
-            }
-        } else {
-            return RECORD_REF_STATUS.NO_ID;
-        }
+        return RECORD_REF_STATUS.DIFFERENT_FROM_REF; // TODO: Fix
     }
 
     const addRecord = async (options: AddRecordOptions): Promise<StatusResponse> => {
@@ -180,7 +196,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     const deleteRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
         switch (_validateRecord(record)) {
             case RECORD_REF_STATUS.NO_ID:
-                console.log("Attempting to delete record that has not been synced. Just remove the element from the array.");
+                log("Attempting to delete record that has not been synced. Just remove the element from the array.");
                 return {
                     success: false,
                     message: "Attempting to delete record that has not been synced. Just remove the element from the array."
@@ -193,7 +209,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
             const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "deleteRecord",
-                    id: record[_symb]
+                    id: _recordIdMap.get(record)
                 }
             });
             if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
@@ -222,7 +238,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
             const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
                 _config: {
                     type: "deleteRecord",
-                    id: record[_symb],
+                    id: _recordIdMap.get(record),
                     values: record
                 }
             });
@@ -267,75 +283,51 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
     }
 
     // Only allow the deletion of one element at a time
+    // First handle shifting of the array size. Then iterate
     const sync = async (): Promise<StatusResponse> => {
         const _realignFrames = (newData: Record<string, any>[]) => {
             let isNewDataTheSame = true;
 
-            if (newData.length !== frame.length) {
+            if (newData.length !== _frame.length) {
                 isNewDataTheSame = false;
             } else {
                 for (let i = 0; i < newData.length; i++) {
-                    if (!shallowCompare(newData[i], frame[i])) {
+                    if (!deepEqual(newData[i], _frame[i])) {
                         isNewDataTheSame = false;
                         break;
                     }
                 }
             }
 
-            !isNewDataTheSame && setFrame(_frame => {
-                _frame.length = newData.length;
-                _frameReference.length = newData.length;
-
+            !isNewDataTheSame && _setFrame(oldframe => {
+                oldframe.length = newData.length;
+                _recordIdMap = new WeakMap();
                 for (let i = 0; i < newData.length; i++) {
-                    const copyEle = Object.assign({}, newData[i]);
-
-                    Object.defineProperty(newData[i], _symb, {
-                        enumerable: false,
-                        get: function () { return `${newData[i]._id}` },
-                        set: function () { }
-                    });
-
-                    Object.defineProperty(copyEle, _symb, {
-                        enumerable: false,
-                        get: function () { return `${newData[i]._id}` },
-                        set: function () { }
-                    });
-
-                    delete newData[i]._id;
-                    delete copyEle._id;
-
-                    _frame[i] = newData[i];
-                    _frameReference[i] = copyEle;
+                    const currNewEle = newData[i];
+                    _recordIdMap.set(currNewEle, currNewEle._id);
+                    delete currNewEle._id;
+                    oldframe[i] = currNewEle;
                 }
-                return [..._frame];
+                return [...oldframe];
             });
         }
 
         const { offset, limit }: ConfigureFrameOptions = _frameConfiguration;
 
         if (_isFrameInitialized) {
-            // Check to see if any element were delete (Only 1)
-            for (const referenceEle of _frameReference) {
-                if (!frame.some(ele => ele[_symb] === referenceEle[_symb])) {
-                    await deleteRecord(referenceEle);
-                    break;
-                }
-            }
-
             // Check to see if any elements were added or updated
-            for (let i = 0; i < frame.length; i++) {
-                const currEle = frame[i];
-
-                if (currEle[_symb] === undefined) {
-                    await addRecord({
-                        newRecord: currEle,
-                        absoluteIndex: i + offset!
-                    });
-                } else {
-                    const referenceEle = _frameReference.find(ele => ele[_symb] === currEle[_symb]);
-                    if (referenceEle !== undefined && !shallowCompare(currEle, referenceEle)) {
-                        await updateRecord(currEle)
-                    }
+            // TODO: push the changes
+            log(_observedChangeStack);
+            if (_observedChangeStack.length > 0) {
+                log(_observedChangeStack);
+                const res = await tokenPost(POST_TYPES.SYNC_STACK, {
+                    stack: _observedChangeStack,
+                    limit,
+                    offset
+                });
+                console.log(res.data);
+                if (res.success) {
+                    _observedChangeStack.length = 0;
                 }
             }
         }
@@ -346,7 +338,8 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                 limit
             });
 
-            // check if the arrays are the same
+            // Check if the array recieved from db is the same as frame
+            // If not, update it and send useFrameEffect
 
             if (res.success === false) {
                 console.error(res.data);
@@ -356,7 +349,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                 }
             } else {
                 _isFrameInitialized = true;
-                _realignFrames((res.data as Record<string, any>[]));
+                _realignFrames(res.data);
                 return {
                     message: 'Success. Call frame for data',
                     success: true
@@ -430,7 +423,7 @@ const EasybaseProvider = ({ children, ebconfig, authentication }: EasybaseProvid
                     'Content-Type': 'multipart/form-data',
                     uploadType: type,
                     columnName: options.columnName,
-                    recordID: options.record[_symb],
+                    recordID: _recordIdMap.get(options.record),
                     'Eb-Post-Req': POST_TYPES.UPLOAD_ATTACHMENT
                 }
             });

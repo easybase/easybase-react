@@ -7,7 +7,7 @@ import "./styles.css";
 
 const App = () => {
   return (
-    <EasybaseProvider ebconfig={ebconfig}>
+    <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
       <MyComponent />
     </EasybaseProvider>
   )
