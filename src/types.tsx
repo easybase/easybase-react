@@ -39,12 +39,8 @@ export interface EasybaseProviderProps {
 export interface AddRecordOptions {
     /** If true, record will be inserted at the end of the collection rather than the front. Overwrites absoluteIndex. */
     insertAtEnd?: boolean;
-    /** If a record with the same ID already exists, insert a copy with a new ID */
-    copyIfExists?: boolean;
     /** Values to post to EasyBase collection. Format is { column name: value } */
     newRecord: Record<string, any>;
-    /** absolute index in collection to insert record at. Is overwritten by insertAtEnd. */
-    absoluteIndex?: number;
 }
 
 export interface ContextValue {
@@ -179,9 +175,7 @@ export interface StatusResponse {
 
 export enum RECORD_REF_STATUS {
     NO_ID,
-    NO_REF_WITH_ID,
-    DIFFERENT_FROM_REF,
-    SAME_AS_REF
+    ID_VALID
 }
 
 export enum POST_TYPES {
@@ -191,7 +185,9 @@ export enum POST_TYPES {
     GET_FRAME = "get_frame",
     TABLE_SIZE = "table_size",
     COLUMN_TYPES = "column_types",
-    SYNC_STACK = "sync_stack"
+    SYNC_STACK = "sync_stack",
+    SYNC_DELETE = "sync_delete",
+    SYNC_INSERT = "sync_insert"
 }
 
 export interface QueryOptions {

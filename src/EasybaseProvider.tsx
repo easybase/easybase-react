@@ -158,37 +158,35 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const currentConfiguration = (): FrameConfiguration => ({ ..._frameConfiguration });
 
     const _validateRecord = (record: Record<string, any>): RECORD_REF_STATUS => {
-        return RECORD_REF_STATUS.DIFFERENT_FROM_REF; // TODO: Fix
+        if (_recordIdMap.get(record)) {
+            return RECORD_REF_STATUS.ID_VALID;
+        } else {
+            return RECORD_REF_STATUS.NO_ID;
+        }
     }
 
     const addRecord = async (options: AddRecordOptions): Promise<StatusResponse> => {
         const defaultValues: AddRecordOptions = {
-            insertAtEnd: undefined,
-            copyIfExists: undefined,
+            insertAtEnd: false,
             newRecord: {}
         }
 
-        const { insertAtEnd, copyIfExists, newRecord }: AddRecordOptions = { ...defaultValues, ...options };
+        const { insertAtEnd, newRecord }: AddRecordOptions = { ...defaultValues, ...options };
 
         try {
-            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-                _config: {
-                    type: "addRecord",
-                    insertAtEnd,
-                    copyIfExists,
-                    newRecord
-                }
+            const res = await tokenPost(POST_TYPES.SYNC_INSERT, {
+                insertAtEnd,
+                newRecord
             });
-            if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
-                console.error(res.data.message);
+            if (res.success) {
                 return {
-                    message: res.data.message,
-                    success: false
+                    message: res.data,
+                    success: true
                 }
             } else {
                 return {
-                    message: res.data.message,
-                    success: true
+                    message: res.data,
+                    success: false
                 }
             }
         } catch (err) {
@@ -202,71 +200,27 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const deleteRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
-        switch (_validateRecord(record)) {
-            case RECORD_REF_STATUS.NO_ID:
-                log("Attempting to delete record that has not been synced. Just remove the element from the array.");
-                return {
-                    success: false,
-                    message: "Attempting to delete record that has not been synced. Just remove the element from the array."
-                }
-            default:
-                break;
-        }
-
         try {
-            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-                _config: {
-                    type: "deleteRecord",
-                    id: _recordIdMap.get(record)
-                }
+            const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
+                _id: _recordIdMap.get(record),
+                record
             });
-            if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
-                console.error(res.data.message);
+            if (res.success) {
                 return {
-                    message: res.data.message,
-                    success: false
-                }
-            }
-            return {
-                message: res.data.message,
-                success: true
-            }
-        } catch (err) {
-            console.error("Easybase Error: addRecord failed ", err);
-            return {
-                success: false,
-                message: "Easybase Error: addRecord failed " + err,
-                error: err
-            }
-        }
-    }
-
-    const updateRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
-        try {
-            const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-                _config: {
-                    type: "deleteRecord",
-                    id: _recordIdMap.get(record),
-                    values: record
-                }
-            });
-            if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
-                console.error(res.data.message);
-                return {
-                    message: res.data.message,
-                    success: false
+                    success: true,
+                    message: res.data
                 }
             } else {
                 return {
-                    message: res.data.message,
-                    success: true
+                    success: false,
+                    message: res.data
                 }
             }
         } catch (err) {
-            console.error("Easybase Error: addRecord failed ", err);
+            console.error("Easybase Error: deleteRecord failed ", err);
             return {
-                message: "Easybase Error: addRecord failed " + err,
                 success: false,
+                message: "Easybase Error: deleteRecord failed " + err,
                 error: err
             }
         }
