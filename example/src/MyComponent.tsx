@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useEasybase } from 'easybase-react';
 
-const Card = ({ rating, picture, app_name, hq, latest_release, index, onRatingChange }: any) => {
+const Card = ({ rating, picture, app_name, hq, latest_release, index }: any) => {
+
+    const {
+        Frame,
+        sync,
+    } = useEasybase();
+
+    const onRatingChange = (change: number) => {
+        Frame(index).rating += change;
+        sync();
+    }
+
+    const onDelete = () => {
+        Frame().splice(index, 1);
+        sync();
+    }
 
     return (
         <div className="card-root">
+            <div className="card-delete-button" onClick={onDelete}></div>
             <img src={picture} className="card-image" alt="" />
             <p>{latest_release}</p>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -12,9 +28,9 @@ const Card = ({ rating, picture, app_name, hq, latest_release, index, onRatingCh
                 <em>{hq}</em>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-                <button className="btn orange" onClick={_ => onRatingChange(-1, index)}><span>-</span></button>
+                <button className="btn orange" onClick={_ => onRatingChange(-1)}><span>-</span></button>
                 <p>{rating}</p>
-                <button className="btn orange" onClick={_ => onRatingChange(1, index)}><span>+</span></button>
+                <button className="btn orange" onClick={_ => onRatingChange(1)}><span>+</span></button>
             </div>
         </div>
     )
@@ -47,11 +63,9 @@ const MyComponent = () => {
         mounted();
     }, []);
 
-    const onRatingChange = (change: number, index: number) => {
-        Frame(index).rating += change;
-        Frame()[2] = { hello: "word" };
-        // Frame().reverse();
-        sync();
+    const onAddPage = async () => {
+        Frame().unshift({});
+        await sync();
     }
 
     const tableAndFrameStats = async () => {
@@ -67,7 +81,10 @@ const MyComponent = () => {
     return (
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
-                {Frame().map((ele, index) => <Card {...ele} onRatingChange={onRatingChange} index={index} key={index} />)}
+                <div className="m-4">
+                    <button className="btn green" onClick={onAddPage}><span>Add<br />Card</span></button>
+                </div>
+                {Frame().map((ele, index) => <Card {...ele} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">

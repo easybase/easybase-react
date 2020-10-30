@@ -4,6 +4,8 @@ import g from "./g";
 import { generateBareUrl, generateAuthBody } from "./utils";
 
 export const initAuth = async (): Promise<boolean> => {
+    g.session = Math.floor(100000000 + Math.random() * 900000000);
+
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
             version: g.ebconfig.version,
@@ -30,7 +32,12 @@ export const tokenPost = async (postType: POST_TYPES, body: {}): Promise<AuthPos
             ...body
         }, { headers: { 'Eb-Post-Req': postType } });
 
-        if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
+        if ({}.hasOwnProperty.call(res.data, 'ErrorCode') || {}.hasOwnProperty.call(res.data, 'code')) {
+            if (res.data.code === "JWT EXPIRED") {
+                await initAuth();
+                return tokenPost(postType, body);
+            }
+
             return {
                 success: false,
                 data: res.data.body

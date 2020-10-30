@@ -38,6 +38,7 @@ let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
 
 const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
+    const [isSyncing, setIsSyncing] = useState<boolean>(false);
 
     const [_frame, _setFrame] = useState<Record<string, any>[]>([]);
     const [_observableFrame, _setObservableFrame] = useState<any>({
@@ -104,6 +105,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     _id: _recordIdMap.get(_frame[Number(change.path[0])])
                     // Not bringing change.object or change.oldValue
                 });
+                console.log(JSON.stringify({
+                    type: change.type,
+                    path: change.path,
+                    value: change.value,
+                    _id: _recordIdMap.get(_frame[Number(change.path[0])])
+                    // Not bringing change.object or change.oldValue
+                }))
             });
         });
 
@@ -312,14 +320,21 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             });
         }
 
+        if (isSyncing) {
+            return {
+                success: false,
+                message: "Easybase Error: the provider is currently syncing, use 'await sync()' before calling sync() again"
+            };
+        }
+        setIsSyncing(true);
+
         const { offset, limit }: ConfigureFrameOptions = _frameConfiguration;
 
         if (_isFrameInitialized) {
             // Check to see if any elements were added or updated
             // TODO: push the changes
-            log(_observedChangeStack);
             if (_observedChangeStack.length > 0) {
-                log(_observedChangeStack);
+                log("Stack change: ", _observedChangeStack);
                 const res = await tokenPost(POST_TYPES.SYNC_STACK, {
                     stack: _observedChangeStack,
                     limit,
@@ -343,6 +358,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
             if (res.success === false) {
                 console.error(res.data);
+                setIsSyncing(false);
                 return {
                     success: false,
                     message: "" + res.data
@@ -350,6 +366,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             } else {
                 _isFrameInitialized = true;
                 _realignFrames(res.data);
+                setIsSyncing(false);
                 return {
                     message: 'Success. Call frame for data',
                     success: true
@@ -357,6 +374,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             }
         } catch (err) {
             console.error("Easybase Error: get failed ", err);
+            setIsSyncing(false);
             return {
                 success: false,
                 message: "Easybase Error: get failed " + err,

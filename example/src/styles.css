@@ -22,6 +22,7 @@
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     margin: 30px;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    position: relative;
 }
 
 .card-root:hover {
@@ -87,9 +88,32 @@
 }
 
 .btn.green {
-    background-color: #9df049;
+    background-color: #66bd0e;
 }
 
 .btn.green:hover, .btn.green:focus {
-    background-color: #00a000;
+    background-color: #08c908;
+}
+
+.card-delete-button::before {
+    position: absolute;
+    width: 10px;
+    top: 2px;
+    left: 28%;
+    content: "X";
+    font-size: 13px;
+    color: white;
+}
+
+.card-delete-button {
+    border-radius: 50%;
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    z-index: 10;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    cursor: pointer;
 }
