@@ -14,7 +14,7 @@ import {
     QueryOptions,
     FrameConfiguration
 } from "./types";
-import { generateBareUrl, log } from "./utils";
+import { log } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import {
@@ -105,7 +105,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     _id: _recordIdMap.get(_frame[Number(change.path[0])])
                     // Not bringing change.object or change.oldValue
                 });
-                console.log(JSON.stringify({
+                log(JSON.stringify({
                     type: change.type,
                     path: change.path,
                     value: change.value,
@@ -200,28 +200,32 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const deleteRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
-        try {
+        const _frameRecord = _frame.find(ele => deepEqual(ele, record));
+
+        if (_frameRecord && _recordIdMap.get(_frameRecord)) {
             const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
-                _id: _recordIdMap.get(record),
-                record
+                _id: _recordIdMap.get(_frameRecord)
             });
-            if (res.success) {
+            return {
+                success: res.success,
+                message: res.data
+            }
+        } else {
+            try {
+                const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
+                    record
+                });
                 return {
-                    success: true,
+                    success: res.success,
                     message: res.data
                 }
-            } else {
+            } catch (err) {
+                console.error("Easybase Error: deleteRecord failed ", err);
                 return {
                     success: false,
-                    message: res.data
+                    message: "Easybase Error: deleteRecord failed " + err,
+                    error: err
                 }
-            }
-        } catch (err) {
-            console.error("Easybase Error: deleteRecord failed ", err);
-            return {
-                success: false,
-                message: "Easybase Error: deleteRecord failed " + err,
-                error: err
             }
         }
     }
@@ -254,7 +258,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 isNewDataTheSame = false;
             } else {
                 for (let i = 0; i < newData.length; i++) {
-                    if (!deepEqual(newData[i], _frame[i])) {
+                    const newDataNoId = { ...newData[i] };
+                    delete newDataNoId._id;
+                    if (!deepEqual(newDataNoId, _frame[i])) {
                         isNewDataTheSame = false;
                         break;
                     }
@@ -285,8 +291,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         const { offset, limit }: ConfigureFrameOptions = _frameConfiguration;
 
         if (_isFrameInitialized) {
-            // Check to see if any elements were added or updated
-            // TODO: push the changes
             if (_observedChangeStack.length > 0) {
                 log("Stack change: ", _observedChangeStack);
                 const res = await tokenPost(POST_TYPES.SYNC_STACK, {
@@ -425,7 +429,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         configureFrame,
         addRecord,
         deleteRecord,
-        updateRecord,
         sync,
         updateRecordImage,
         updateRecordVideo,

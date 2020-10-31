@@ -17,7 +17,6 @@ const c: ContextValue = {
     configureFrame: (_: ConfigureFrameOptions) => ({}) as StatusResponse,
     addRecord: async (_: AddRecordOptions) => ({}) as StatusResponse,
     deleteRecord: async (_: Record<string, any>) => ({}) as StatusResponse,
-    updateRecord: async (_: Record<string, any>) => ({}) as StatusResponse,
     sync: async () => ({}) as StatusResponse,
     updateRecordImage: async (_: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,
     updateRecordVideo: async (_: UpdateRecordAttachmentOptions) => ({}) as StatusResponse,

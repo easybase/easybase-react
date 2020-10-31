@@ -47,7 +47,9 @@ const MyComponent = () => {
         sync,
         fullTableSize,
         tableTypes,
-        currentConfiguration
+        currentConfiguration,
+        addRecord,
+        deleteRecord
     } = useEasybase();
 
     useFrameEffect(() => {
@@ -78,6 +80,19 @@ const MyComponent = () => {
         await sync();
     }
 
+    const deleteFirstRecord = async () => {
+        await deleteRecord(Frame()[0]);
+        await sync() // optional
+    }
+
+    const addFirstRecord = async () => {
+        await addRecord({
+            newRecord: { rating: 101 },
+            insertAtEnd: false
+        });
+        await sync() // optional
+    }
+
     return (
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -92,8 +107,12 @@ const MyComponent = () => {
                     <p className="m-4">{currentConfiguration().offset} - {currentConfiguration().offset + currentConfiguration().limit} of {tableLength}</p>
                     <button className="btn green" onClick={() => changePage(10)}><span>Next</span></button>
                 </div>
-                <div>
-                    <button className="btn green" onClick={tableAndFrameStats}><span>Log Stats</span></button>
+                <div className="d-flex align-items-center">
+                    <button className="btn green m-4" onClick={deleteFirstRecord}><span>Delete 1st Card Sync</span></button>
+                    <button className="btn green m-4" onClick={addFirstRecord}><span>Add 1st Card Sync</span></button>
+                    <div className="spacer m-4"></div>
+                    <button className="btn green m-4" onClick={tableAndFrameStats}><span>Log Stats</span></button>
+                    <button className="btn green m-4" onClick={sync}><span>Sync</span></button>
                 </div>
             </div>
         </div>

@@ -69,14 +69,6 @@ export interface ContextValue {
      */
     deleteRecord(record: Record<string, any>): Promise<StatusResponse>;
     /**
-     * Manually update a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
-     * @abstract
-     * @async
-     * @param {Record<string, any>} record Individual Record from frame
-     * @return {Promise<StatusResponse>} Promise<StatusResponse>
-     */
-    updateRecord(record: Record<string, any>): Promise<StatusResponse>;
-    /**
      * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
      * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
      * @abstract
