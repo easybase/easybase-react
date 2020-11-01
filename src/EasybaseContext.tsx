@@ -5,7 +5,8 @@ import {
     StatusResponse,
     AddRecordOptions,
     UpdateRecordAttachmentOptions,
-    FrameConfiguration
+    FrameConfiguration,
+    QueryOptions
 } from "./types";
 
 function Frame(): Record<string, any>[];
@@ -25,7 +26,8 @@ const c: ContextValue = {
     useFrameEffect: (_: React.EffectCallback) => {},
     fullTableSize: async () => 0,
     tableTypes: async() => ({}) as Record<string, any>,
-    currentConfiguration: () => ({}) as FrameConfiguration
+    currentConfiguration: () => ({}) as FrameConfiguration,
+    Query: async (_: QueryOptions) => ([])
 }
 
 export default createContext(c);

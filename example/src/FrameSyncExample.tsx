@@ -1,42 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useEasybase } from 'easybase-react';
+import CardElement from "./CardElement";
 
-const Card = ({ rating, picture, app_name, hq, latest_release, index }: any) => {
-
-    const {
-        Frame,
-        sync,
-    } = useEasybase();
-
-    const onRatingChange = (change: number) => {
-        Frame(index).rating += change;
-        sync();
-    }
-
-    const onDelete = () => {
-        Frame().splice(index, 1);
-        sync();
-    }
-
-    return (
-        <div className="card-root">
-            <div className="card-delete-button" onClick={onDelete}></div>
-            <img src={picture} className="card-image" alt="" />
-            <p>{latest_release}</p>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h5>{app_name}</h5>
-                <em>{hq}</em>
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <button className="btn orange" onClick={_ => onRatingChange(-1)}><span>-</span></button>
-                <p>{rating}</p>
-                <button className="btn orange" onClick={_ => onRatingChange(1)}><span>+</span></button>
-            </div>
-        </div>
-    )
-}
-
-const MyComponent = () => {
+const FrameSyncExample = () => {
 
     const [tableLength, setTableLength] = useState(0);
 
@@ -66,7 +32,7 @@ const MyComponent = () => {
     }, []);
 
     const onAddPage = async () => {
-        Frame().unshift({});
+        Frame().unshift({ rating: 102 });
         await sync();
     }
 
@@ -99,7 +65,7 @@ const MyComponent = () => {
                 <div className="m-4">
                     <button className="btn green" onClick={onAddPage}><span>Add<br />Card</span></button>
                 </div>
-                {Frame().map((ele, index) => <Card {...ele} index={index} key={index} />)}
+                {Frame().map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">
@@ -119,4 +85,4 @@ const MyComponent = () => {
     )
 }
 
-export default MyComponent;
+export default FrameSyncExample;

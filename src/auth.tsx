@@ -28,7 +28,7 @@ export const initAuth = async (): Promise<boolean> => {
 export const tokenPost = async (postType: POST_TYPES, body: {}): Promise<AuthPostResponse> => {
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
-            ...generateAuthBody(),
+            _auth: generateAuthBody(),
             ...body
         }, { headers: { 'Eb-Post-Req': postType } });
 

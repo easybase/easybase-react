@@ -43,6 +43,21 @@ export interface AddRecordOptions {
     newRecord: Record<string, any>;
 }
 
+export interface QueryOptions {
+    /** Name of the query saved in Easybase's Visual Query Builder */
+    queryName: string;
+    /** If you would like to sort the order of your query by a column. Pass the name of that column here */
+    sortBy?: string;
+    /** By default, columnToSortBy will sort your query by ascending value (1, 2, 3...). To sort by descending set this to true */
+    descending?: boolean;
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset?: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit?: number;
+    /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. Read more: https://easybase.io/about/2020/09/15/Customizing-query-values/ */
+    customQuery?: Record<string, any>;
+}
+
 export interface ContextValue {
     /**
      * Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive
@@ -145,6 +160,15 @@ export interface ContextValue {
      * @returns {Record<string, any>} Object contains the `offset` and `length` of your current frame.
      */
     currentConfiguration(): FrameConfiguration;
+    /**
+     * @async
+     * View a query by name. This returns an isolated array that has no effect on your frame or frame configuration. sync() and Frame() have no 
+     * relationship with a Query(). An edited Query cannot be synced with your database, use Frame() for realtime 
+     * database array features.
+     * @param {QueryOptions} options QueryOptions
+     * @return {Promise<Record<string, any>[]>} Isolated array of records in the same form as Frame(). Editing this array has no effect and cannot be synced with your database. Use Frame() for realtime database features.
+     */
+    Query(options: QueryOptions): Promise<Record<string, any>[]>;
 }
 
 export interface UpdateRecordAttachmentOptions {
@@ -179,22 +203,8 @@ export enum POST_TYPES {
     COLUMN_TYPES = "column_types",
     SYNC_STACK = "sync_stack",
     SYNC_DELETE = "sync_delete",
-    SYNC_INSERT = "sync_insert"
-}
-
-export interface QueryOptions {
-    /** Name of the query saved in Easybase's Visual Query Builder */
-    queryName?: string;
-    /** If you would like to sort the order of your query by a column. Pass the name of that column here */
-    columnToSortBy?: string;
-    /** By default, columnToSortBy will sort your query by ascending value (1, 2, 3...). To sort by descending set this to true */
-    descending?: boolean;
-    /** Edit starting index from which records will be retrieved from. Useful for paging. */
-    offset?: number;
-    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
-    limit?: number;
-    /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. */
-    customQuery?: Record<string, any>;
+    SYNC_INSERT = "sync_insert",
+    GET_QUERY = "get_query"
 }
 
 export interface AuthPostResponse {

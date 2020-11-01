@@ -133,7 +133,20 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
-    const Query = (options: QueryOptions): Record<string, any>[] => []; // TODO: search and sort
+    const Query = async (options: QueryOptions): Promise<Record<string, any>[]> => {
+        const defaultOptions: QueryOptions = {
+            queryName: ""
+        }
+
+        const fullOptions: QueryOptions = { ...defaultOptions, ...options };
+
+        try {
+            const res = await tokenPost(POST_TYPES.GET_QUERY, fullOptions);
+            return res.data
+        } catch (error) {
+            return [];
+        }
+    }
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         if (options.limit === _frameConfiguration.limit && options.offset === _frameConfiguration.offset) {
@@ -171,23 +184,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             newRecord: {}
         }
 
-        const { insertAtEnd, newRecord }: AddRecordOptions = { ...defaultValues, ...options };
+        const fullOptions: AddRecordOptions = { ...defaultValues, ...options };
 
         try {
-            const res = await tokenPost(POST_TYPES.SYNC_INSERT, {
-                insertAtEnd,
-                newRecord
-            });
-            if (res.success) {
-                return {
-                    message: res.data,
-                    success: true
-                }
-            } else {
-                return {
-                    message: res.data,
-                    success: false
-                }
+            const res = await tokenPost(POST_TYPES.SYNC_INSERT, fullOptions);
+            return {
+                message: res.data,
+                success: res.success
             }
         } catch (err) {
             console.error("Easybase Error: addRecord failed ", err);
@@ -437,7 +440,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         useFrameEffect,
         fullTableSize,
         tableTypes,
-        currentConfiguration
+        currentConfiguration,
+        Query
     }
 
     return (

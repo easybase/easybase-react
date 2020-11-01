@@ -2,13 +2,16 @@
 import React from 'react'
 import ebconfig from "./ebconfig.json";
 import { EasybaseProvider } from 'easybase-react';
-import MyComponent from "./MyComponent";
+import FrameSyncExample from "./FrameSyncExample";
+import QueryExample from "./QueryExample";
 import "./styles.css";
 
 const App = () => {
   return (
     <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
-      <MyComponent />
+      <FrameSyncExample />
+      <hr className="m-4" />
+      <QueryExample />
     </EasybaseProvider>
   )
 }
