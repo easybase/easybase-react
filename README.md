@@ -127,7 +127,6 @@ function Container() {
 
   return (
     <div>
-      Frame(index)[column] = newValue;
       {Frame().map(ele => <Card {...ele} onChange={onChange} index={index}  />)}
     </div>
   )
