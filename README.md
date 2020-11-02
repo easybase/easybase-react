@@ -88,7 +88,7 @@ npm install easybase-react
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Wrap your root App in the Easybase Provider with your credentials.
+Wrap your root component in *EasybaseProvider* with your credentials.
 ```jsx
 import React, { useEffect } from "react";
 import { EasybaseProvider, useEasybase } from 'easybase-react';
@@ -139,7 +139,6 @@ function Container() {
 <br />
 
 ## **useEasybase properties**
-<br />
 
 ### configureFrame(options: ConfigureFrameOptions): StatusResponse
 Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive your entire collection. This is useful for paging.
@@ -158,7 +157,7 @@ View your frames current configuration
 
 <br />
 
-*Note the following functions are isolated and do not have an effect on the synchronicity as those above.*
+*Note the below functions are isolated and do not have an effect on the synchronicity of Frame() as those above.*
 
 <br />
 
