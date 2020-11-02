@@ -136,7 +136,6 @@ function Container() {
  
 **Frame()** acts just like a plain array! When you want to push changes and synchronize with your data, just call **sync()**.
 
-<hr />
 <br />
 
 ## **useEasybase properties**
@@ -160,6 +159,8 @@ View your frames current configuration
 <br />
 
 *Note the following functions are isolated and do not have an effect on the synchronicity as those above.*
+
+<br />
 
 ### Query(options: QueryOptions): Promise<Record<string, any>[]>
 Perform a query created in the Easybase Visual Query Builder by name. This returns an isolated array that has no effect on your frame or frame configuration. sync() and Frame() have no relationship with a Query(). An edited Query cannot be synced with your database, use Frame() for realtime database array features.
@@ -185,7 +186,6 @@ Manually add a record to your collection regardless of your current frame. You m
 ### deleteRecord(record: Record<string, any>): Promise\<StatusResponse>
 Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
 
-<hr />
 <br />
 
 ## **Types and Options**
