@@ -72,7 +72,7 @@ npm install easybase-react
 <br />
 
 #### **Create a React integration**
-<img src="./assets/create-integration-2.gif">
+<img src="./assets/react-integration-3.gif">
 
 
 <br />
