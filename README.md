@@ -80,7 +80,7 @@ npm install easybase-react
 <br />
 
 #### **Then, download your token and place it the root of your project**
-<img src="./assets/token.png" height=220>
+<img src="./assets/token.png" height=430>
 
 <br />
 <br />
