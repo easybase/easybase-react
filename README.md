@@ -16,7 +16,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -25,7 +24,16 @@
   </a>
 </p>
 
+<br />
 
+<p align="center">
+  <img alt="npm" src="https://img.shields.io/npm/dw/easybase-react">
+  <img alt="GitHub" src="https://img.shields.io/github/license/easybase/easybase-react">
+  <img alt="npm bundle size" src="https://img.shields.io/bundlephobia/min/easybase-react">
+  <img alt="npm" src="https://img.shields.io/npm/v/easybase-react">
+</p>
+
+<br />
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
