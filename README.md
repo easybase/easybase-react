@@ -36,6 +36,7 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
+* [Example](#example)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -263,6 +264,11 @@ interface UpdateRecordAttachmentOptions {
 }
 ```
 
+<!-- EXAMPLES -->
+## Example
+
+### Check out [this walkthrough](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) detailing how easy it can be to integrate data into your React and React Native projects.
+
 <!-- ROADMAP -->
 ## Roadmap
 
@@ -291,7 +297,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@easybase_io](https://twitter.com/easybase_io) - hello@easybase.io
+[@easybase_io](https://twitter.com/easybase_io) - hello@easybase.io
 
 Project Link: [https://github.com/easybase/easybase-react](https://github.com/easybase/easybase-react)
 
