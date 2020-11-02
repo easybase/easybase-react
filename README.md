@@ -58,21 +58,211 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-React compatible library for EasyBase. Although this library is not necessary to interface with EasyBase via React, it makes integration much simpler.
+**React and React Native** compatible library for use with EasyBase. [Learn more about Easybase.io](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 ### Prerequisites
 
 * React 16
+* npm
 
 ### Installation
 ```sh
 npm install easybase-react
 ```
+<br />
 
+#### **Create a React integration**
+<img src="./assets/create-integration.gif">
+
+
+<br />
+<br />
+<br />
+
+#### **Then, download your token and place it the root of your project**
+<img src="./assets/token.png" height=220>
+
+<br />
+<br />
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+Wrap your root App in the Easybase Provider with your credentials.
+```jsx
+import React, { useEffect } from "react";
+import { EasybaseProvider, useEasybase } from 'easybase-react';
+import ebconfig from "./ebconfig.json";
+
+function App() {
+  return (
+    <EasybaseProvider ebconfig={ebconfig}>
+      <Container />
+    </EasybaseProvider>
+  );
+}
+```
+
+<br />
+
+Then, interface with your data in a stateful and synchronous way.
+```jsx
+function Container() {
+  const { Frame, useFrameEffect, configureFrame, sync } = useEasybase();
+
+  useEffect(() => {
+    configureFrame({ limit: 10, offset: 0 });
+    sync();
+  }, []);
+
+  useFrameEffect(() => {
+    console.log("Frame data changed!");
+  });
+
+  const onChange = (index, column, newValue) => {
+      Frame(index)[column] = newValue;
+      sync();
+  }
+
+  return (
+    <div>
+      Frame(index)[column] = newValue;
+      {Frame().map(ele => <Card {...ele} onChange={onChange} index={index}  />)}
+    </div>
+  )
+
+}
+```
+ 
+**Frame()** acts just like a plain array! When you want to push changes and synchronize with your data, just call **sync()**.
+
+<hr />
+<br />
+
+## **useEasybase properties**
+<br />
+
+### configureFrame(options: ConfigureFrameOptions): StatusResponse
+Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive your entire collection. This is useful for paging.
+
+### sync(): Promise\<StatusResponse>
+Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
+
+### Frame(index?: number): Record<string, any> | Record<string, any>[]
+This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you want to syncronize your frame and EasyBase, call sync() then Frame(). Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
+
+### useFrameEffect(effect: React.EffectCallback): void
+This hook runs when the Frame changes. This can be triggered by calling sync().
+
+### currentConfiguration(): FrameConfiguration
+View your frames current configuration
+
+<br />
+
+*Note the following functions are isolated and do not have an effect on the synchronicity as those above.*
+
+### Query(options: QueryOptions): Promise<Record<string, any>[]>
+Perform a query created in the Easybase Visual Query Builder by name. This returns an isolated array that has no effect on your frame or frame configuration. sync() and Frame() have no relationship with a Query(). An edited Query cannot be synced with your database, use Frame() for realtime database array features.
+
+### fullTableSize(): Promise\<number>
+Gets the number of records in your table.
+
+### tableTypes(): Promise<Record<string, any>>
+Retrieve an object detailing the columns in your table mapped to their corresponding type.
+
+### updateRecordImage(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
+Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'. The file must have an extension of an image. Call sync() for fresh data with propery attachment links to cloud hosting.
+
+### updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
+Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'. The file must have an extension of a video. Call sync() for fresh data with propery attachment links to cloud hosting.
+
+### updateRecordFile(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
+Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'. Call sync() for fresh data with propery attachment links to cloud hosting.
+
+### addRecord(options: AddRecordOptions): Promise\<StatusRespnse>
+Manually add a record to your collection regardless of your current frame. You must call sync() after this to see updated response.
+
+### deleteRecord(record: Record<string, any>): Promise\<StatusResponse>
+Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
+
+<hr />
+<br />
+
+## **Types and Options**
+
+<br />
+
+```ts
+interface StatusResponse {
+    /** Returns true if the operation was successful */
+    success: boolean;
+    /** Readable description of the the operation's status */
+    message: string;
+    /** Will represent a corresponding error if an error was thrown during the operation. */
+    error?: Error;
+}
+
+interface EasybaseProviderPropsOptions {
+    /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
+    authentication?: string;
+    /** Log Easybase react status and events to console. */
+    logging?: boolean;
+}
+
+interface EasybaseProviderProps {
+    /** React elements */
+    children: JSX.Element[] | JSX.Element;
+    /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
+    ebconfig: Ebconfig;
+    /** Optional configuration parameters. */
+    options?: EasybaseProviderPropsOptions
+}
+
+interface AddRecordOptions {
+    /** If true, record will be inserted at the end of the collection rather than the front. Overwrites absoluteIndex. */
+    insertAtEnd?: boolean;
+    /** Values to post to EasyBase collection. Format is { column name: value } */
+    newRecord: Record<string, any>;
+}
+
+interface QueryOptions {
+    /** Name of the query saved in Easybase's Visual Query Builder */
+    queryName: string;
+    /** If you would like to sort the order of your query by a column. Pass the name of that column here */
+    sortBy?: string;
+    /** By default, columnToSortBy will sort your query by ascending value (1, 2, 3...). To sort by descending set this to true */
+    descending?: boolean;
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset?: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit?: number;
+    /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. Read more: https://easybase.io/about/2020/09/15/Customizing-query-values/ */
+    customQuery?: Record<string, any>;
+}
+
+interface ConfigureFrameOptions {
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset?: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit?: number;
+}
+
+interface FrameConfiguration {
+    /** Edit starting index from which records will be retrieved from. Useful for paging. */
+    offset: number;
+    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
+    limit: number;
+}
+
+interface UpdateRecordAttachmentOptions {
+    /** EasyBase Record to attach this attachment to. */
+    record: Record<string, any>;
+    /** The name of the column that is of type file/image/video */
+    columnName: string;
+    /** HTML File element containing the correct type of attachment. The file name must have a proper file extension corresponding to the attachment. */
+    attachment: File;
+}
+```
 
 <!-- ROADMAP -->
 ## Roadmap
