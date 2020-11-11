@@ -1,6 +1,6 @@
 {
   "name": "easybase-react",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Serverless database integration for React and React Native with EasyBase.",
   "author": "easybase",
   "license": "MIT",
