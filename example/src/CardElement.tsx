@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEasybase } from "easybase-react";
 
 const CardElement = ({ rating, picture, app_name, hq, latest_release, index }: any) => {
 
+    const inputEl = useRef<HTMLInputElement>(null);
+
     const {
         Frame,
         sync,
+        updateRecordImage
     } = useEasybase();
 
     const onRatingChange = (change: number) => {
@@ -18,10 +21,25 @@ const CardElement = ({ rating, picture, app_name, hq, latest_release, index }: a
         sync();
     }
 
+    const onImageClick = () => {
+        if (inputEl && inputEl.current) {
+            inputEl.current.onchange = () => {
+                if (inputEl && inputEl.current && inputEl.current.files && inputEl.current.files.length > 0) {
+                    const imageFile = inputEl.current.files[0];
+                    updateRecordImage({ columnName: "picture", record: Frame()[index], attachment: imageFile }).then(console.log);
+                }
+
+            };
+
+            inputEl.current.click();
+        }
+    }
+
     return (
         <div className="card-root">
             <div className="card-delete-button" onClick={onDelete}></div>
-            <img src={picture} className="card-image" alt="" />
+            <img src={picture} className="card-image" alt="" onClick={onImageClick} />
+            <input ref={inputEl} type='file' hidden accept="image/*" />
             <p className="mp-0" style={{ textAlign: 'center' }}>{latest_release ? latest_release.slice(0, 10) : ""}</p>
             <div className="p-4" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <h5>{app_name}</h5>

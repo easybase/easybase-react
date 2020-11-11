@@ -25,7 +25,7 @@ export const initAuth = async (): Promise<boolean> => {
     }
 }
 
-export const tokenPost = async (postType: POST_TYPES, body: {}): Promise<AuthPostResponse> => {
+export const tokenPost = async (postType: POST_TYPES, body?: {}): Promise<AuthPostResponse> => {
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
             _auth: generateAuthBody(),
@@ -36,6 +36,49 @@ export const tokenPost = async (postType: POST_TYPES, body: {}): Promise<AuthPos
             if (res.data.code === "JWT EXPIRED") {
                 await initAuth();
                 return tokenPost(postType, body);
+            }
+
+            return {
+                success: false,
+                data: res.data.body
+            }
+        } else {
+            return {
+                success: res.data.success,
+                data: res.data.body
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            data: error
+        }
+    }
+}
+
+export const tokenPostAttachment = async (formData: FormData, customHeaders: {}): Promise<AuthPostResponse> => {
+    const regularAuthbody = generateAuthBody();
+
+    const attachmentAuth = {
+        'Eb-token': regularAuthbody.token,
+        'Eb-token-time': regularAuthbody.token_time,
+        'Eb-now': regularAuthbody.now
+    };
+
+    try {
+        const res = await axios.post(generateBareUrl("REACT", g.integrationID), formData, {
+            headers: {
+                'Eb-Post-Req': POST_TYPES.UPLOAD_ATTACHMENT,
+                'Content-Type': 'multipart/form-data',
+                ...customHeaders,
+                ...attachmentAuth
+            }
+        });
+
+        if ({}.hasOwnProperty.call(res.data, 'ErrorCode') || {}.hasOwnProperty.call(res.data, 'code')) {
+            if (res.data.code === "JWT EXPIRED") {
+                await initAuth();
+                return tokenPostAttachment(formData, customHeaders);
             }
 
             return {

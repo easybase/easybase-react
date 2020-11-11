@@ -274,7 +274,7 @@ interface UpdateRecordAttachmentOptions {
 <!-- EXAMPLES -->
 ## Example
 
-### Check out [this walkthrough](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) detailing how easy it can be to integrate data into your React and React Native projects.
+### Check out [this walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) detailing how easy it can be to integrate data into your React and React Native projects.
 
 <!-- ROADMAP -->
 ## Roadmap

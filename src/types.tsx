@@ -189,11 +189,6 @@ export interface StatusResponse {
     error?: Error;
 }
 
-export enum RECORD_REF_STATUS {
-    NO_ID,
-    ID_VALID
-}
-
 export enum POST_TYPES {
     UPLOAD_ATTACHMENT = "upload_attachment",
     HANDSHAKE = "handshake",

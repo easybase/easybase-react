@@ -8,7 +8,6 @@ import {
     AddRecordOptions,
     UpdateRecordAttachmentOptions,
     StatusResponse,
-    RECORD_REF_STATUS,
     ContextValue,
     POST_TYPES,
     QueryOptions,
@@ -19,7 +18,8 @@ import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import {
     initAuth,
-    tokenPost
+    tokenPost,
+    tokenPostAttachment
 } from "./auth";
 import g from "./g";
 import { Observable } from "./object-observer";
@@ -78,7 +78,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             const t1 = Date.now();
             log("mounting");
             await initAuth();
-            const res = await tokenPost(POST_TYPES.VALID_TOKEN, {});
+            const res = await tokenPost(POST_TYPES.VALID_TOKEN);
             const elapsed = Date.now() - t1;
             if (res.success) {
                 log("Valid auth initiation in " + elapsed + "ms");
@@ -131,6 +131,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
+    const _recordIDExists = (record: Record<string, any>): Boolean => !!_recordIdMap.get(record);
+
     const Query = async (options: QueryOptions): Promise<Record<string, any>[]> => {
         const defaultOptions: QueryOptions = {
             queryName: ""
@@ -167,14 +169,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const currentConfiguration = (): FrameConfiguration => ({ ..._frameConfiguration });
-
-    const _validateRecord = (record: Record<string, any>): RECORD_REF_STATUS => {
-        if (_recordIdMap.get(record)) {
-            return RECORD_REF_STATUS.ID_VALID;
-        } else {
-            return RECORD_REF_STATUS.NO_ID;
-        }
-    }
 
     const addRecord = async (options: AddRecordOptions): Promise<StatusResponse> => {
         const defaultValues: AddRecordOptions = {
@@ -346,7 +340,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         const res = await _updateRecordAttachment(options, "image");
         return res;
     }
-
     const updateRecordVideo = async (options: UpdateRecordAttachmentOptions): Promise<StatusResponse> => {
         const res = await _updateRecordAttachment(options, "video");
         return res;
@@ -357,73 +350,51 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const _updateRecordAttachment = async (options: UpdateRecordAttachmentOptions, type: string): Promise<StatusResponse> => {
-        switch (_validateRecord(options.record)) {
-            case RECORD_REF_STATUS.NO_ID:
-                console.log("Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment.");
-                return {
-                    success: false,
-                    message: "Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment."
-                }
-            default:
-                break;
+        const _frameRecord: Record<string, any> | undefined = _frame.find(ele => deepEqual(ele, options.record));
+
+        if (_frameRecord === undefined || !_recordIDExists(_frameRecord)) {
+            log("Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment.");
+            return {
+                success: false,
+                message: "Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment."
+            }
         }
 
-        const ext = options.attachment.name.split(".").pop();
+        const ext: string = options.attachment.name.split(".").pop()!.toLowerCase();
 
-        switch (type) {
-            case "image":
-                if (!imageExtensions.includes(ext!.toLowerCase())) {
-                    return {
-                        success: false,
-                        message: "Image files must have a proper image extension in the file name"
-                    };
-                }
-                break;
-            case "video":
-                if (!videoExtensions.includes(ext!.toLowerCase())) {
-                    return {
-                        success: false,
-                        message: "Video files must have a proper video extension in the file name"
-                    };
-                }
-                break;
-            default:
-                break;
+        log(ext);
+
+        if (type === "image" && !imageExtensions.includes(ext)) {
+            return {
+                success: false,
+                message: "Image files must have a proper image extension in the file name"
+            };
+        }
+
+        if (type === "video" && !videoExtensions.includes(ext)) {
+            return {
+                success: false,
+                message: "Video files must have a proper video extension in the file name"
+            };
         }
 
         const formData = new FormData();
-        formData.append("file", options.attachment, options.attachment.name);
+        formData.append("file", options.attachment);
+        formData.append("name", options.attachment.name);
 
-        try {
-            const res = await axios.post(`https://api.easybase.io/react/${g.integrationID}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    uploadType: type,
-                    columnName: options.columnName,
-                    recordID: _recordIdMap.get(options.record),
-                    'Eb-Post-Req': POST_TYPES.UPLOAD_ATTACHMENT
-                }
-            });
-
-            if ({}.hasOwnProperty.call(res.data, 'ErrorCode')) {
-                console.error(res.data.message);
-                return {
-                    success: false,
-                    message: res.data.message
-                }
-            } else {
-                return {
-                    message: 'Successfully added attachment',
-                    success: true
-                }
-            }
-        } catch (error) {
-            return {
-                success: false,
-                message: "Axios post error",
-                error: error
-            }
+        const customHeaders = {
+            'Eb-upload-type': type,
+            'Eb-column-name': options.columnName,
+            'Eb-record-id': _recordIdMap.get(options.record)
         }
+
+        if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+            // I'm in react-native
+        }
+
+        const res = await tokenPostAttachment(formData, customHeaders);
+
+        return res.data;
     }
 
     const c: ContextValue = {

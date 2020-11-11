@@ -2,7 +2,7 @@ import g from "./g";
 
 export const generateBareUrl = (type: string, integrationID: string): string => `https://api.easybase.io/${type}/${integrationID}`;
 
-export const generateAuthBody = (): {} => {
+export const generateAuthBody = (): any => {
     const stamp = Date.now();
     return {
         token: g.token,
