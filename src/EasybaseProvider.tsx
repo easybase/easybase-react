@@ -389,7 +389,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
 
         if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-            // TODO: handle react-native
+            // TODO: react-native
         }
 
         const res = await tokenPostAttachment(formData, customHeaders);
