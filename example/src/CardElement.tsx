@@ -8,7 +8,8 @@ const CardElement = ({ rating, picture, app_name, hq, latest_release, index }: a
     const {
         Frame,
         sync,
-        updateRecordImage
+        updateRecordImage,
+        updateRecordVideo
     } = useEasybase();
 
     const onRatingChange = (change: number) => {
@@ -26,7 +27,11 @@ const CardElement = ({ rating, picture, app_name, hq, latest_release, index }: a
             inputEl.current.onchange = () => {
                 if (inputEl && inputEl.current && inputEl.current.files && inputEl.current.files.length > 0) {
                     const imageFile = inputEl.current.files[0];
-                    updateRecordImage({ columnName: "picture", record: Frame()[index], attachment: imageFile }).then(console.log);
+                    if (imageFile.type.includes("image")) {
+                        updateRecordImage({ columnName: "picture", record: Frame()[index], attachment: imageFile });
+                    } else if (imageFile.type.includes("video")) {
+                        updateRecordVideo({ columnName: "picture", record: Frame()[index], attachment: imageFile })
+                    }
                 }
 
             };
@@ -39,7 +44,7 @@ const CardElement = ({ rating, picture, app_name, hq, latest_release, index }: a
         <div className="card-root">
             <div className="card-delete-button" onClick={onDelete}></div>
             <img src={picture} className="card-image" alt="" onClick={onImageClick} />
-            <input ref={inputEl} type='file' hidden accept="image/*" />
+            <input ref={inputEl} type='file' hidden accept="image/*,video/*" />
             <p className="mp-0" style={{ textAlign: 'center' }}>{latest_release ? latest_release.slice(0, 10) : ""}</p>
             <div className="p-4" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <h5>{app_name}</h5>

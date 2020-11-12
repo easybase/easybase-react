@@ -385,16 +385,21 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         const customHeaders = {
             'Eb-upload-type': type,
             'Eb-column-name': options.columnName,
-            'Eb-record-id': _recordIdMap.get(options.record)
+            'Eb-record-id': _recordIdMap.get(_frameRecord)
         }
 
         if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-            // I'm in react-native
+            // TODO: handle react-native
         }
 
         const res = await tokenPostAttachment(formData, customHeaders);
 
-        return res.data;
+        await sync();
+
+        return {
+            message: res.data,
+            success: res.success
+        };
     }
 
     const c: ContextValue = {
