@@ -72,6 +72,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 console.error("EASYBASE — easybase-react does not support Internet Explorer. Please use a different browser.");
             }
 
+            g.isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
             g.options = { ...options };
             g.integrationID = ebconfig.integration;
             g.ebconfig = ebconfig;

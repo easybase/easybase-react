@@ -10,7 +10,8 @@ export const initAuth = async (): Promise<boolean> => {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
             version: g.ebconfig.version,
             tt: g.ebconfig.tt,
-            session: g.session
+            session: g.session,
+            isReactNative: g.isReactNative
         }, { headers: { 'Eb-Post-Req': POST_TYPES.HANDSHAKE } });
 
         if (res.data.token) {
