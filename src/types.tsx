@@ -171,13 +171,25 @@ export interface ContextValue {
     Query(options: QueryOptions): Promise<Record<string, any>[]>;
 }
 
+export interface FileFromURI {
+    /** Path on local device to the attachment. Usually received from react-native-image-picker or react-native-document-picker */
+    uri: string,
+    /** Name of the file with proper extension */
+    name: string,
+    /** File MIME type */
+    type: string
+}
+
 export interface UpdateRecordAttachmentOptions {
-    /** EasyBase Record to attach this attachment to. */
+    /** EasyBase Record to attach this attachment to */
     record: Record<string, any>;
     /** The name of the column that is of type file/image/video */
     columnName: string;
-    /** HTML File element containing the correct type of attachment. The file name must have a proper file extension corresponding to the attachment. */
-    attachment: File;
+    /** Either an HTML File element containing the correct type of attachment or a FileFromURI object for React Native instances.
+     * For React Native use libraries such as react-native-image-picker and react-native-document-picker.
+     * The file name must have a proper file extension corresponding to the attachment. 
+     */
+    attachment: File | FileFromURI;
 }
 
 export interface StatusResponse {

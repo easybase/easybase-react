@@ -11,7 +11,8 @@ import {
     ContextValue,
     POST_TYPES,
     QueryOptions,
-    FrameConfiguration
+    FrameConfiguration,
+    FileFromURI
 } from "./types";
 import { log } from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
@@ -31,7 +32,7 @@ let _frameConfiguration: FrameConfiguration = {
     limit: 0
 };
 
-let _effect: React.EffectCallback = () => () => {};
+let _effect: React.EffectCallback = () => () => { };
 
 const _observedChangeStack: Record<string, any>[] = [];
 let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
@@ -42,8 +43,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
     const [_frame, _setFrame] = useState<Record<string, any>[]>([]);
     const [_observableFrame, _setObservableFrame] = useState<any>({
-        observe: () => {},
-        unobserve: () => {} 
+        observe: () => { },
+        unobserve: () => { }
     });
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
@@ -65,7 +66,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     useEffect(() => {
         const mount = async () => {
             // eslint-disable-next-line dot-notation
-            const isIE = !!document['documentMode'];
+            const isIE = typeof document !== 'undefined' && !!document['documentMode'];
 
             if (isIE) {
                 console.error("EASYBASE — easybase-react does not support Internet Explorer. Please use a different browser.");
@@ -378,18 +379,24 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             };
         }
 
+        function isFileFromURI(f: File | FileFromURI): f is FileFromURI {
+            return (f as FileFromURI).uri !== undefined;
+        }
+
         const formData = new FormData();
-        formData.append("file", options.attachment);
-        formData.append("name", options.attachment.name);
+
+        if (isFileFromURI(options.attachment)) {
+            formData.append("file", options.attachment as any);
+            formData.append("name", options.attachment.name);
+        } else {
+            formData.append("file", options.attachment);
+            formData.append("name", options.attachment.name);
+        }
 
         const customHeaders = {
             'Eb-upload-type': type,
             'Eb-column-name': options.columnName,
             'Eb-record-id': _recordIdMap.get(_frameRecord)
-        }
-
-        if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-            // TODO: react-native
         }
 
         const res = await tokenPostAttachment(formData, customHeaders);
