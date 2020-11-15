@@ -78,7 +78,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             g.ebconfig = ebconfig;
 
             const t1 = Date.now();
-            log("mounting");
+            log("mounting...");
             await initAuth();
             const res = await tokenPost(POST_TYPES.VALID_TOKEN);
             const elapsed = Date.now() - t1;

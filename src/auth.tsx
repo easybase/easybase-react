@@ -1,10 +1,14 @@
 import axios from "axios";
 import { POST_TYPES, AuthPostResponse } from "./types";
 import g from "./g";
-import { generateBareUrl, generateAuthBody } from "./utils";
+import { generateBareUrl, generateAuthBody, log } from "./utils";
 
 export const initAuth = async (): Promise<boolean> => {
     g.session = Math.floor(100000000 + Math.random() * 900000000);
+
+    if (g.isReactNative) {
+        log("Detected React Native instance");
+    }
 
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
@@ -21,7 +25,7 @@ export const initAuth = async (): Promise<boolean> => {
             return false;
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return false;
     }
 }
