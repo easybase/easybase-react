@@ -160,7 +160,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
         _frameConfiguration = { ..._frameConfiguration };
 
-        if (options.limit !== undefined && options.limit >= 0) _frameConfiguration.limit = options.limit;
+        if (options.limit !== undefined) _frameConfiguration.limit = options.limit;
         if (options.offset !== undefined && options.offset >= 0) _frameConfiguration.offset = options.offset;
 
         _isFrameInitialized = false;

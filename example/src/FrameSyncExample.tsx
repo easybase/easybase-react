@@ -5,6 +5,7 @@ import CardElement from "./CardElement";
 const FrameSyncExample = () => {
 
     const [tableLength, setTableLength] = useState(0);
+    const [frameLength, setFrameLength] = useState(10);
 
     const {
         Frame,
@@ -24,12 +25,18 @@ const FrameSyncExample = () => {
 
     useEffect(() => {
         const mounted = async () => {
-            configureFrame({ limit: 10, offset: 0 });
+            configureFrame({ limit: frameLength, offset: 0 });
             setTableLength((await fullTableSize()));
             await sync();
         }
         mounted();
     }, []);
+    
+    const onChangeFrameLength = (newLen: number) => {
+        setFrameLength(newLen)
+        configureFrame({ limit: newLen });
+        sync();
+    }
 
     const onAddPage = async () => {
         Frame().unshift({ rating: 102 });
@@ -70,8 +77,12 @@ const FrameSyncExample = () => {
             <div className="button-row">
                 <div className="d-flex align-items-center">
                     <button className="btn green" onClick={() => changePage(-10)}><span>Prev</span></button>
-                    <p className="m-4">{currentConfiguration().offset} - {currentConfiguration().offset + currentConfiguration().limit} of {tableLength}</p>
+                    <p className="m-4">{currentConfiguration().offset} - {currentConfiguration().offset + Number(currentConfiguration().limit)} of {tableLength}</p>
                     <button className="btn green" onClick={() => changePage(10)}><span>Next</span></button>
+                </div>
+                <div className="d-flex align-items-center">
+                    <p className="m-4">Edit frame size: </p>
+                    <input type="number" onChange={e => onChangeFrameLength(+e.target.value)} value={frameLength} />
                 </div>
                 <div className="d-flex align-items-center">
                     <button className="btn green m-4" onClick={deleteFirstRecord}><span>Delete 1st Card Sync</span></button>

@@ -3,15 +3,15 @@ import React from "react";
 export interface ConfigureFrameOptions {
     /** Edit starting index from which records will be retrieved from. Useful for paging. */
     offset?: number;
-    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
-    limit?: number;
+    /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
+    limit?: number | null;
 }
 
 export interface FrameConfiguration {
     /** Edit starting index from which records will be retrieved from. Useful for paging. */
     offset: number;
-    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
-    limit: number;
+    /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
+    limit: number | null;
 }
 
 export interface Ebconfig {
