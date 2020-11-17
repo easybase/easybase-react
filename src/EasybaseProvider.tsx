@@ -23,7 +23,7 @@ import {
     tokenPostAttachment
 } from "./auth";
 import g from "./g";
-import { Observable } from "./object-observer";
+import { Observable } from "object-observer";
 
 let _isFrameInitialized: boolean = true;
 

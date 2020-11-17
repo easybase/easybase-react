@@ -6,7 +6,7 @@ import { generateBareUrl, generateAuthBody, log } from "./utils";
 export const initAuth = async (): Promise<boolean> => {
     g.session = Math.floor(100000000 + Math.random() * 900000000);
 
-    log(`Handshaking on React ${g.isReactNative ? 'Native' : ''} instance`);
+    log(`Handshaking on React${g.isReactNative ? ' Native' : ''} instance`);
 
     try {
         const res = await axios.post(generateBareUrl("REACT", g.integrationID), {
