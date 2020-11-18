@@ -44,6 +44,7 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
+* [Types and Options](#types-and-options)
 * [Example](#example)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
@@ -62,7 +63,7 @@
 * [create-react-library](https://github.com/transitive-bullshit/create-react-library)
 * [axios](https://github.com/axios/axios)
 * [Easybase.io](https://easybase.io)
-
+* [object-observer](https://github.com/gullerya/object-observer)
 
 
 <!-- GETTING STARTED -->
@@ -71,7 +72,7 @@
 
 ### Prerequisites
 
-* React 16
+* React 16 or greater
 * npm
 
 ### Installation
