@@ -1,9 +1,9 @@
 import axios from "axios";
-import { POST_TYPES, AuthPostResponse } from "./types";
+import { POST_TYPES, AuthPostResponse, Globals } from "./types";
 import _g from "./g";
 import utilsFactory from "./utils";
 
-export default function authFactory(globals?: any): any {
+export default function authFactory(globals?: Globals): any {
     const { generateBareUrl, generateAuthBody, log } = utilsFactory(globals);
 
     const g = globals || _g;

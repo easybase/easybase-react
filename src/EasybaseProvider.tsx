@@ -17,7 +17,7 @@ import utilsFactory from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import authFactory from "./auth";
-import g from "./g";
+import _g from "./g";
 import { Observable } from "object-observer";
 
 const {
@@ -75,10 +75,10 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 console.error("EASYBASE — easybase-react does not support Internet Explorer. Please use a different browser.");
             }
 
-            g.isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
-            g.options = { ...options };
-            g.integrationID = ebconfig.integration;
-            g.ebconfig = ebconfig;
+            _g.isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
+            _g.options = { ...options };
+            _g.integrationID = ebconfig.integration;
+            _g.ebconfig = ebconfig;
 
             const t1 = Date.now();
             log("mounting...");

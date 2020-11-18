@@ -218,3 +218,12 @@ export interface AuthPostResponse {
     success: boolean;
     data: any;
 }
+
+export interface Globals {
+    ebconfig: Ebconfig;
+    token: {};
+    integrationID: string;
+    session: number;
+    options: EasybaseProviderPropsOptions;
+    isReactNative: boolean;
+}

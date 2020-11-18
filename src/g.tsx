@@ -1,6 +1,6 @@
-import { Ebconfig, EasybaseProviderPropsOptions } from "./types";
+import { Ebconfig, EasybaseProviderPropsOptions, Globals } from "./types";
 
-namespace g {
+namespace GlobalNamespace {
     export let ebconfig: Ebconfig;
     export let token: {};
     export let integrationID: string;
@@ -9,8 +9,10 @@ namespace g {
     export let isReactNative: boolean;
 };
 
-export default g;
+const _g: Globals = { ...GlobalNamespace };
 
-export function gFactory(): any {
-    return { ...g };
+export default _g;
+ 
+export function gFactory(): Globals {
+    return { ...GlobalNamespace } as Globals;
 }
