@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import EasybaseContext from "./EasybaseContext";
 import deepEqual from "fast-deep-equal";
 import {
@@ -14,16 +13,20 @@ import {
     FrameConfiguration,
     FileFromURI
 } from "./types";
-import { log } from "./utils";
+import utilsFactory from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
-import {
+import authFactory from "./auth";
+import g from "./g";
+import { Observable } from "object-observer";
+
+const {
     initAuth,
     tokenPost,
     tokenPostAttachment
-} from "./auth";
-import g from "./g";
-import { Observable } from "object-observer";
+} = authFactory();
+
+const { log } = utilsFactory();
 
 let _isFrameInitialized: boolean = true;
 

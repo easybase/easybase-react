@@ -10,3 +10,7 @@ namespace g {
 };
 
 export default g;
+
+export function gFactory(): any {
+    return { ...g };
+}
