@@ -298,7 +298,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     limit,
                     offset
                 });
-                console.log(res.data);
                 if (res.success) {
                     _observedChangeStack.length = 0;
                 }

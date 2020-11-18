@@ -8,7 +8,7 @@ import "./styles.css";
 
 const App = () => {
   return (
-    <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
+    <EasybaseProvider ebconfig={ebconfig} options={{ logging: false }}>
       <FrameSyncExample />
       <hr className="m-4" />
       <QueryExample />
