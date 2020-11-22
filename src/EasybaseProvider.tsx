@@ -9,24 +9,30 @@ import {
     StatusResponse,
     ContextValue,
     POST_TYPES,
-    QueryOptions,
     FrameConfiguration,
     FileFromURI
 } from "./types";
-import utilsFactory from "./utils";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
-import authFactory from "./auth";
-import _g from "./g";
+import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
+import functionsFactory from "../node_modules/easybasejs/src/EasybaseProvider/functions";
+import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
+import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
+
+const g = gFactory();
 
 const {
     initAuth,
     tokenPost,
     tokenPostAttachment
-} = authFactory();
-
-const { log } = utilsFactory();
+} = authFactory(g);
+const { log } = utilsFactory(g);
+const { 
+    Query,
+    fullTableSize,
+    tableTypes
+ } = functionsFactory(g);
 
 let _isFrameInitialized: boolean = true;
 
@@ -75,10 +81,10 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 console.error("EASYBASE — easybase-react does not support Internet Explorer. Please use a different browser.");
             }
 
-            _g.isReactNative = typeof navigator !== 'undefined' && navigator.product === 'ReactNative';
-            _g.options = { ...options };
-            _g.integrationID = ebconfig.integration;
-            _g.ebconfig = ebconfig;
+            g.instance = (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') ? "React Native" : "React";
+            g.options = { ...options };
+            g.integrationID = ebconfig.integration;
+            g.ebconfig = ebconfig;
 
             const t1 = Date.now();
             log("mounting...");
@@ -137,21 +143,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const _recordIDExists = (record: Record<string, any>): Boolean => !!_recordIdMap.get(record);
-
-    const Query = async (options: QueryOptions): Promise<Record<string, any>[]> => {
-        const defaultOptions: QueryOptions = {
-            queryName: ""
-        }
-
-        const fullOptions: QueryOptions = { ...defaultOptions, ...options };
-
-        try {
-            const res = await tokenPost(POST_TYPES.GET_QUERY, fullOptions);
-            return res.data
-        } catch (error) {
-            return [];
-        }
-    }
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         if (options.limit === _frameConfiguration.limit && options.offset === _frameConfiguration.offset) {
@@ -227,24 +218,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     error: err
                 }
             }
-        }
-    }
-
-    const fullTableSize = async (): Promise<number> => {
-        const res = await tokenPost(POST_TYPES.TABLE_SIZE, {});
-        if (res.success) {
-            return res.data;
-        } else {
-            return 0;
-        }
-    }
-
-    const tableTypes = async (): Promise<Record<string, any>> => {
-        const res = await tokenPost(POST_TYPES.COLUMN_TYPES, {});
-        if (res.success) {
-            return res.data;
-        } else {
-            return {};
         }
     }
 

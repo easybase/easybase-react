@@ -225,5 +225,5 @@ export interface Globals {
     integrationID: string;
     session: number;
     options: EasybaseProviderPropsOptions;
-    isReactNative: boolean;
+    instance: string;
 }
