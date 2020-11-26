@@ -54,7 +54,9 @@ const FrameSyncExample = () => {
     }
 
     const deleteFirstRecord = async () => {
-        await deleteRecord(Frame(0));
+        await deleteRecord({
+            record: Frame(0)
+        });
         await sync() // optional
     }
 

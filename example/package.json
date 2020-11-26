@@ -7,9 +7,11 @@
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.1.6",
     "easybase-react": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "file:../node_modules/react-scripts",
     "typescript": "file:../node_modules/typescript"
   },

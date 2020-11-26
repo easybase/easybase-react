@@ -1,24 +1,15 @@
 import React from "react";
 
-export interface ConfigureFrameOptions {
-    /** Edit starting index from which records will be retrieved from. Useful for paging. */
-    offset?: number;
-    /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
-    limit?: number | null;
-}
-
-export interface FrameConfiguration {
-    /** Edit starting index from which records will be retrieved from. Useful for paging. */
-    offset: number;
-    /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
-    limit: number | null;
-}
-
-export interface Ebconfig {
-    tt: string,
-    integration: string,
-    version: string
-}
+import {
+    Ebconfig,
+    ConfigureFrameOptions,
+    StatusResponse,
+    UpdateRecordAttachmentOptions,
+    FrameConfiguration,
+    QueryOptions,
+    AddRecordOptions,
+    DeleteRecordOptions
+} from 'easybasejs/src/EasybaseProvider/types';
 
 export interface EasybaseProviderPropsOptions {
     /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
@@ -36,30 +27,56 @@ export interface EasybaseProviderProps {
     options?: EasybaseProviderPropsOptions
 }
 
-export interface AddRecordOptions {
-    /** If true, record will be inserted at the end of the collection rather than the front. Overwrites absoluteIndex. */
-    insertAtEnd?: boolean;
-    /** Values to post to EasyBase collection. Format is { column name: value } */
-    newRecord: Record<string, any>;
-}
-
-export interface QueryOptions {
-    /** Name of the query saved in Easybase's Visual Query Builder */
-    queryName: string;
-    /** If you would like to sort the order of your query by a column. Pass the name of that column here */
-    sortBy?: string;
-    /** By default, columnToSortBy will sort your query by ascending value (1, 2, 3...). To sort by descending set this to true */
-    descending?: boolean;
-    /** Edit starting index from which records will be retrieved from. Useful for paging. */
-    offset?: number;
-    /** Limit the amount of records to be retrieved. Can be used in combination with offset. */
-    limit?: number;
-    /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. Read more: https://easybase.io/about/2020/09/15/Customizing-query-values/ */
-    customQuery?: Record<string, any>;
-}
-
 export interface ContextValue {
+        /**
+     * Check if a user is currently signed in.
+     */
+    isUserSignedIn(): boolean;
     /**
+     * Sign out the current user.
+     */
+    signOut(): void;
+    /**
+     * Retrieve the currently signed in users attribute object.
+     * @async
+     * @return {Promise<Record<string, string>>} Promise<Record<string, string>>
+     */
+    getUserAttributes(): Promise<Record<string, string>>;
+    /**
+     * Set a single attribute of the currently signed in user. Can also be updated visually in the Easybase 'Users' tab.
+     * @async
+     * @abstract
+     * @param key Object key. Can be a new key or existing key.
+     * @param value attribute value.
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    setUserAttribute(key: string, value: string): Promise<StatusResponse>;
+    /**
+     * Sign in a user that already exists for a project.
+     * @abstract
+     * @async
+     * @param userID unique identifier for new user. Usually an email or phone number.
+     * @param password user password.
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    signIn(userID: string, password: string): Promise<StatusResponse>;
+    /**
+     * Create a new user for your project. You must still call signIn() after signing up.
+     * @abstract
+     * @async
+     * @param newUserID unique identifier for new user. Usually an email or phone number.
+     * @param password user password. Must be at least 8 characters long.
+     * @param userAttributes Optional object to store user attributes. Can also be edited visually in the Easybase 'Users' tab.
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    signUp(newUserID: string, password: string, userAttributes?: Record<string, string>): Promise<StatusResponse>;
+    /**
+     * This hook runs when the Frame changes. This can be triggered by calling sync().
+     * @abstract
+     * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
+     */
+    useFrameEffect(effect: React.EffectCallback): void;
+   /**
      * Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive
      * your entire collection. This is useful for paging.
      * @abstract
@@ -79,10 +96,10 @@ export interface ContextValue {
      * Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
      * @abstract
      * @async
-     * @param {Record<string, any>} record Individual Record from frame
+     * @param {Record<string, any>} record 
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
-    deleteRecord(record: Record<string, any>): Promise<StatusResponse>;
+    deleteRecord(options: DeleteRecordOptions): Promise<StatusResponse>;
     /**
      * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
      * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
@@ -138,23 +155,31 @@ export interface ContextValue {
      */
     Frame(index: number): Record<string, any>;
     /**
-     * This hook runs when the Frame changes. This can be triggered by calling sync().
-     * @abstract
-     * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
-     */
-    useFrameEffect(effect: React.EffectCallback): void;
-    /**
      * Gets the number of records in your table.
      * @async
      * @returns {Promise<number>} The the number of records in your table.
      */
     fullTableSize(): Promise<number>;
     /**
+     * Gets the number of records in your table.
      * @async
+     * @param {string} [tableName] Name of table to get the sizes of. (Projects only)
+     * @returns {Promise<number>} The the number of records in your table.
+     */
+    fullTableSize(tableName: string): Promise<number>;
+    /**
      * Retrieve an object detailing the columns in your table mapped to their corresponding type.
+     * @async
      * @returns {Promise<Record<string, any>>} Object detailing the columns in your table mapped to their corresponding type.
      */
     tableTypes(): Promise<Record<string, any>>;
+    /**
+     * Retrieve an object detailing the columns in your table mapped to their corresponding type.
+     * @async
+     * @param {string} [tableName] Name of table to get the types of. (Projects only)
+     * @returns {Promise<Record<string, any>>} Object detailing the columns in your table mapped to their corresponding type.
+     */
+    tableTypes(tableName: string): Promise<Record<string, any>>;
     /**
      * View your frames current configuration
      * @returns {Record<string, any>} Object contains the `offset` and `length` of your current frame.
@@ -169,61 +194,4 @@ export interface ContextValue {
      * @return {Promise<Record<string, any>[]>} Isolated array of records in the same form as Frame(). Editing this array has no effect and cannot be synced with your database. Use Frame() for realtime database features.
      */
     Query(options: QueryOptions): Promise<Record<string, any>[]>;
-}
-
-export interface FileFromURI {
-    /** Path on local device to the attachment. Usually received from react-native-image-picker or react-native-document-picker */
-    uri: string,
-    /** Name of the file with proper extension */
-    name: string,
-    /** File MIME type */
-    type: string
-}
-
-export interface UpdateRecordAttachmentOptions {
-    /** EasyBase Record to attach this attachment to */
-    record: Record<string, any>;
-    /** The name of the column that is of type file/image/video */
-    columnName: string;
-    /** Either an HTML File element containing the correct type of attachment or a FileFromURI object for React Native instances.
-     * For React Native use libraries such as react-native-image-picker and react-native-document-picker.
-     * The file name must have a proper file extension corresponding to the attachment. 
-     */
-    attachment: File | FileFromURI;
-}
-
-export interface StatusResponse {
-    /** Returns true if the operation was successful */
-    success: boolean;
-    /** Readable description of the the operation's status */
-    message: string;
-    /** Will represent a corresponding error if an error was thrown during the operation. */
-    error?: Error;
-}
-
-export enum POST_TYPES {
-    UPLOAD_ATTACHMENT = "upload_attachment",
-    HANDSHAKE = "handshake",
-    VALID_TOKEN = "valid_token",
-    GET_FRAME = "get_frame",
-    TABLE_SIZE = "table_size",
-    COLUMN_TYPES = "column_types",
-    SYNC_STACK = "sync_stack",
-    SYNC_DELETE = "sync_delete",
-    SYNC_INSERT = "sync_insert",
-    GET_QUERY = "get_query"
-}
-
-export interface AuthPostResponse {
-    success: boolean;
-    data: any;
-}
-
-export interface Globals {
-    ebconfig: Ebconfig;
-    token: {};
-    integrationID: string;
-    session: number;
-    options: EasybaseProviderPropsOptions;
-    instance: string;
 }

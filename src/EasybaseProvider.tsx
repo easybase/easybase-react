@@ -2,16 +2,19 @@ import React, { useState, useEffect, Fragment } from "react";
 import EasybaseContext from "./EasybaseContext";
 import deepEqual from "fast-deep-equal";
 import {
-    ConfigureFrameOptions,
     EasybaseProviderProps,
+    ContextValue
+} from "./reactTypes";
+import {
+    POST_TYPES,
+    FrameConfiguration,
+    FileFromURI,
     AddRecordOptions,
     UpdateRecordAttachmentOptions,
     StatusResponse,
-    ContextValue,
-    POST_TYPES,
-    FrameConfiguration,
-    FileFromURI
-} from "./types";
+    ConfigureFrameOptions,
+    DeleteRecordOptions
+} from "../node_modules/easybasejs/src/EasybaseProvider/types";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
@@ -19,15 +22,21 @@ import functionsFactory from "../node_modules/easybasejs/src/EasybaseProvider/fu
 import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
+import Cookies from 'universal-cookie';
 
 const g = gFactory();
 
 const {
     initAuth,
     tokenPost,
-    tokenPostAttachment
+    tokenPostAttachment,
+    signUp,
+    setUserAttribute,
+    getUserAttributes,
+    signIn,
+    signOut
 } = authFactory(g);
-const { log } = utilsFactory(g);
+const { log, generateBareUrl } = utilsFactory(g);
 const { 
     Query,
     fullTableSize,
@@ -41,6 +50,8 @@ let _frameConfiguration: FrameConfiguration = {
     limit: 0
 };
 
+const cookies = new Cookies();
+
 let _effect: React.EffectCallback = () => () => { };
 
 const _observedChangeStack: Record<string, any>[] = [];
@@ -49,6 +60,7 @@ let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
 const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
     const [isSyncing, setIsSyncing] = useState<boolean>(false);
+    const [userSignedIn, setUserSignedIn] = useState<boolean>(false);
 
     const [_frame, _setFrame] = useState<Record<string, any>[]>([]);
     const [_observableFrame, _setObservableFrame] = useState<any>({
@@ -63,7 +75,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 {children}
             </Fragment>
         );
-    } else if (!ebconfig.integration || !ebconfig.tt) {
+    } else if (!ebconfig.integration) {
         console.error("Invalid ebconfig object passed. Download ebconfig.json from Easybase.io and try again.");
         return (
             <Fragment>
@@ -86,14 +98,28 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             g.integrationID = ebconfig.integration;
             g.ebconfig = ebconfig;
 
-            const t1 = Date.now();
-            log("mounting...");
-            await initAuth();
-            const res = await tokenPost(POST_TYPES.VALID_TOKEN);
-            const elapsed = Date.now() - t1;
-            if (res.success) {
-                log("Valid auth initiation in " + elapsed + "ms");
+            if (g.ebconfig.tt && g.ebconfig.integration.split("-")[0].toUpperCase() !== "PROJECT") {
+                const t1 = Date.now();
+                log("mounting...");
+                await initAuth();
+                const res = await tokenPost(POST_TYPES.VALID_TOKEN);
+                const elapsed = Date.now() - t1;
+                if (res.success) {
+                    log("Valid auth initiation in " + elapsed + "ms");
+                    setMounted(true);
+                }
+            } else {
                 setMounted(true);
+                g.mounted = true;
+
+                const cookieName = g.ebconfig.integration.slice(-10);
+
+                if (cookies.get(cookieName + "token") && cookies.get(cookieName + "refreshToken") && cookies.get(cookieName + "session")) {
+                    g.token = cookies.get(cookieName + "token");
+                    g.refreshToken = cookies.get(cookieName + "refreshToken");
+                    g.session = cookies.get(cookieName + "session");
+                    setUserSignedIn(true);
+                }
             }
         }
 
@@ -145,17 +171,11 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const _recordIDExists = (record: Record<string, any>): Boolean => !!_recordIdMap.get(record);
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
-        if (options.limit === _frameConfiguration.limit && options.offset === _frameConfiguration.offset) {
-            return {
-                message: "Frame parameters are the same as the previous configuration.",
-                success: true
-            };
-        }
-
         _frameConfiguration = { ..._frameConfiguration };
 
         if (options.limit !== undefined) _frameConfiguration.limit = options.limit;
         if (options.offset !== undefined && options.offset >= 0) _frameConfiguration.offset = options.offset;
+        if (options.tableName !== undefined) _frameConfiguration.tableName = options.tableName;
 
         _isFrameInitialized = false;
         return {
@@ -169,7 +189,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const addRecord = async (options: AddRecordOptions): Promise<StatusResponse> => {
         const defaultValues: AddRecordOptions = {
             insertAtEnd: false,
-            newRecord: {}
+            newRecord: {},
+            tableName: undefined
         }
 
         const fullOptions: AddRecordOptions = { ...defaultValues, ...options };
@@ -190,12 +211,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
-    const deleteRecord = async (record: Record<string, any> | {}): Promise<StatusResponse> => {
-        const _frameRecord = _frame.find(ele => deepEqual(ele, record));
+    const deleteRecord = async (options: DeleteRecordOptions): Promise<StatusResponse> => {
+        const _frameRecord = _frame.find(ele => deepEqual(ele, options.record));
 
         if (_frameRecord && _recordIdMap.get(_frameRecord)) {
             const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
-                _id: _recordIdMap.get(_frameRecord)
+                _id: _recordIdMap.get(_frameRecord),
+                tableName: options.tableName
             });
             return {
                 success: res.success,
@@ -204,7 +226,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         } else {
             try {
                 const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
-                    record
+                    record: options.record,
+                    tableName: options.tableName
                 });
                 return {
                     success: res.success,
@@ -261,15 +284,12 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
         setIsSyncing(true);
 
-        const { offset, limit }: ConfigureFrameOptions = _frameConfiguration;
-
         if (_isFrameInitialized) {
             if (_observedChangeStack.length > 0) {
                 log("Stack change: ", _observedChangeStack);
                 const res = await tokenPost(POST_TYPES.SYNC_STACK, {
                     stack: _observedChangeStack,
-                    limit,
-                    offset
+                    ..._frameConfiguration
                 });
                 if (res.success) {
                     _observedChangeStack.length = 0;
@@ -278,10 +298,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
 
         try {
-            const res = await tokenPost(POST_TYPES.GET_FRAME, {
-                offset,
-                limit
-            });
+            const res = await tokenPost(POST_TYPES.GET_FRAME, _frameConfiguration);
 
             // Check if the array recieved from db is the same as frame
             // If not, update it and send useFrameEffect
@@ -372,7 +389,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         const customHeaders = {
             'Eb-upload-type': type,
             'Eb-column-name': options.columnName,
-            'Eb-record-id': _recordIdMap.get(_frameRecord)
+            'Eb-record-id': _recordIdMap.get(_frameRecord),
+            'Eb-table-name': options.tableName
         }
 
         const res = await tokenPostAttachment(formData, customHeaders);
@@ -383,6 +401,32 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             message: res.data,
             success: res.success
         };
+    }
+
+    const isUserSignedIn = (): boolean => userSignedIn;
+
+    g.newTokenCallback = () => {
+        const cookieName = g.ebconfig.integration.slice(-10);
+
+        if (!g.token) {
+            // User signed out
+            cookies.remove(cookieName + "token");
+            cookies.remove(cookieName + "refreshToken");
+            cookies.remove(cookieName + "session");
+            setUserSignedIn(false);
+        } else {
+            // User signed in or refreshed token
+            setUserSignedIn(true);
+            cookies.set(cookieName + "token", g.token, {
+                expires: new Date(Date.now() + 900000)
+            });
+            cookies.set(cookieName + "refreshToken", g.refreshToken, {
+                expires: new Date(Date.now() + (3600 * 1000 * 24))
+            });
+            cookies.set(cookieName + "session", g.session, {
+                expires: new Date(Date.now() + (3600 * 1000 * 24))
+            });
+        }
     }
 
     const c: ContextValue = {
@@ -398,7 +442,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         fullTableSize,
         tableTypes,
         currentConfiguration,
-        Query
+        Query,
+        signIn,
+        signOut,
+        isUserSignedIn,
+        signUp,
+        setUserAttribute,
+        getUserAttributes
     }
 
     return (
