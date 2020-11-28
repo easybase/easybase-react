@@ -45,6 +45,7 @@
   * [Installation](#installation)
 * [Usage](#usage)
 * [Types and Options](#types-and-options)
+* [useEasybase](#useEasybase)
 * [Example](#example)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
@@ -68,7 +69,50 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-**React and React Native** compatible library for use with EasyBase. [Learn more about Easybase.io](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
+**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a project. Features of either integration:
+
+<table>
+  <tr>
+    <th>REACT Integration</th>
+    <th>Project</th>
+  </tr>
+  <tr>
+    <td>Custom table permissions</td>
+    <td>Custom table permissions</td>
+  </tr>
+  <tr>
+    <td>Live usage analytics</td>
+    <td>Live usage analytics</td>
+  </tr>
+  <tr>
+    <td>Stateful database array</td>
+    <td>Stateful database array</td>
+  </tr>
+  <tr>
+    <td>Access to visual queries</td>
+    <td>Access to visual queries</td>
+  </tr>
+  <tr>
+    <td style="color: #00000061">User authentication</td>
+    <td>User authentication</td>
+  </tr>
+  <tr>
+    <td style="color: #00000061">Get/Set user attributes</td>
+    <td>Get/Set user attributes</td>
+  </tr>
+  <tr>
+    <td style="color: #00000061">Access multiple tables</td>
+    <td>Access multiple tables</td>
+  </tr>
+  <tr>
+    <td style="color: #00000061">Associate records to users</td>
+    <td>Associate records to users</td>
+  </tr>
+</table>
+
+<br />
+
+[Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
 
 ### Prerequisites
 
@@ -81,18 +125,20 @@ npm install easybase-react
 ```
 <br />
 
-#### **Create a React integration**
+#### **Create a React integration or Project**
 <img src="./assets/react-integration-3.gif">
 
-
 <br />
+<br />
+
+<img src="./assets/users-2.gif">
+
+
 <br />
 <br />
 
 #### **Then, download your token and place it the root of your project**
-<img src="./assets/token.png" height=430>
 
-<br />
 <br />
 
 <!-- USAGE EXAMPLES -->
@@ -110,6 +156,50 @@ function App() {
       <Container />
     </EasybaseProvider>
   );
+}
+```
+
+<br />
+
+Next, if you're using a project, allow users to sign in or sign up.
+```jsx
+function ProjectUser() {
+  const [usernameValue, setUsernameValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+
+  const {
+    isUserSignedIn,
+    signIn,
+    signUp,
+    getUserAttributes
+  } = useEasybase();
+
+  if (isUserSignedIn()) {
+    return (
+      <div>
+        <h2>Your signed in!</h2>
+        <button onClick={ _ => getUserAttributes().then(console.log) }>
+          Click me only works if your authenticated!
+        </button>
+        <Container />
+      </div>
+    )
+  } else {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <h4>Username</h4>
+        <input value={usernameValue} onChange={e => setUsernameValue(e.target.value)} />
+        <h4>Password</h4>
+        <input type="password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)} />
+        <button onClick={_ => signIn(usernameValue, passwordValue)}>
+          Sign In
+        </button>
+        <button onClick={_ => signUp(usernameValue, passwordValue)}>
+          Sign Up
+        </button>
+      </div>
+    )
+  }
 }
 ```
 
@@ -147,7 +237,11 @@ function Container() {
 
 <br />
 
-## **useEasybase properties**
+## **useEasybase**
+
+<br />
+
+### **Database array:**
 
 ### configureFrame(options: ConfigureFrameOptions): StatusResponse
 Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive your entire collection. This is useful for paging.
@@ -166,17 +260,42 @@ View your frames current configuration
 
 <br />
 
-*Note the below functions are isolated and do not have an effect on the synchronicity of Frame() as those above.*
+### **User authentication and attributes:**
+
+### signUp(newUserID: string, password: string, userAttributes?: Record<string, string>): Promise<StatusResponse>
+Create a new user for your project. You must still call signIn() after signing up.
+
+### signIn(userID: string, password: string): Promise<StatusResponse>
+Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid when a user signs out or after 24 hours.
+
+### onSignIn(callback: () => void): void
+Pass a callback function to run when a user signs in. This callback function will run after either successfully signing in with the signIn() function OR after a user is automatically signed in via valid tokens saved to the browser from a previous instance.
+
+### signOut(): void
+Sign out the current user and invalidate their cached tokens.
+
+### setUserAttribute(key: string, value: string): Promise<StatusResponse>
+Set a single attribute of the currently signed in user. Can also be updated visually in the Easybase 'Users' tab.
+
+### getUserAttributes(): Promise<Record<string, string>>
+Retrieve the currently signed in users attribute object.
+
+### isUserSignedIn(): boolean
+Check if a user is currently signed in.
 
 <br />
+
+### **Miscellaneous:**
+
+*Note the below functions are isolated and do not have an effect on the synchronicity of Frame() as those above.*
 
 ### Query(options: QueryOptions): Promise<Record<string, any>[]>
 Perform a query created in the Easybase Visual Query Builder by name. This returns an isolated array that has no effect on your frame or frame configuration. sync() and Frame() have no relationship with a Query(). An edited Query cannot be synced with your database, use Frame() for realtime database array features.
 
-### fullTableSize(): Promise\<number>
+### fullTableSize(tableName?: string): Promise\<number>
 Gets the number of records in your table.
 
-### tableTypes(): Promise<Record<string, any>>
+### tableTypes(tableName?: string): Promise<Record<string, any>>
 Retrieve an object detailing the columns in your table mapped to their corresponding type.
 
 ### updateRecordImage(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
@@ -231,6 +350,13 @@ interface AddRecordOptions {
     insertAtEnd?: boolean;
     /** Values to post to EasyBase collection. Format is { column name: value } */
     newRecord: Record<string, any>;
+    /** Table to post new record to. (Projects only) */
+    tableName?: string;
+}
+interface DeleteRecordOptions {
+    record: Record<string, any>;
+    /** Table to delete record from. (Projects only) */
+    tableName?: string;
 }
 
 interface QueryOptions {
@@ -246,6 +372,8 @@ interface QueryOptions {
     limit?: number;
     /** This object can be set to overwrite the query values as set in the integration menu. If your query is setup to find records where 'age' >= 0, passing in { age: 50 } will query where 'age' >= 50. Read more: https://easybase.io/about/2020/09/15/Customizing-query-values/ */
     customQuery?: Record<string, any>;
+    /** Table to query. (Projects only) */
+    tableName?: string;
 }
 
 interface ConfigureFrameOptions {
@@ -253,6 +381,8 @@ interface ConfigureFrameOptions {
     offset?: number;
     /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
     limit?: number | null;
+    /** Table to sync frame with. (Projects only) */
+    tableName?: string;
 }
 
 interface FrameConfiguration {
@@ -260,23 +390,31 @@ interface FrameConfiguration {
     offset: number;
     /** Limit the amount of records to be retrieved. Set to -1 or null to return all records. Can be used in combination with offset. */
     limit: number | null;
+    /** Table to sync frame with. (Projects only) */
+    tableName?: string;
 }
 
-
 interface UpdateRecordAttachmentOptions {
-    /** EasyBase Record to attach this attachment to. */
+    /** EasyBase Record to attach this attachment to */
     record: Record<string, any>;
     /** The name of the column that is of type file/image/video */
     columnName: string;
-    /** HTML File element containing the correct type of attachment. The file name must have a proper file extension corresponding to the attachment. */
-    attachment: File;
+    /** Either an HTML File element containing the correct type of attachment or a FileFromURI object for React Native instances.
+     * For React Native use libraries such as react-native-image-picker and react-native-document-picker.
+     * The file name must have a proper file extension corresponding to the attachment. 
+     */
+    attachment: File | FileFromURI;
+    /** Table to post attachment to. (Projects only) */
+    tableName?: string;
 }
 ```
 
 <!-- EXAMPLES -->
 ## Example
 
-### Check out [this walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) detailing how easy it can be to integrate data into your React and React Native projects.
+#### [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
+
+#### [User authentication walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 <!-- ROADMAP -->
 ## Roadmap
