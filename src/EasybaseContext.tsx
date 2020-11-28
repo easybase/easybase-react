@@ -36,7 +36,8 @@ const c: ContextValue = {
     setUserAttribute: async (_: string, _2: string) => ({}) as StatusResponse,
     signIn: async (_: string, _2: string) => ({}) as StatusResponse,
     signOut: () => {},
-    signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse
+    signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse,
+    onSignIn: (_: () => void) => {}
 }
 
 export default createContext(c);

@@ -28,7 +28,14 @@ export interface EasybaseProviderProps {
 }
 
 export interface ContextValue {
-        /**
+    /**
+     * Pass a callback function to run when a user signs in. This callback function will run after either successfully
+     * signing in with the signIn() function OR after a user is automatically signed in via valid tokens saved to the browser from a 
+     * previous sign in.
+     * @param callback callback function to run on sign in event
+     */
+    onSignIn(callback: () => void): void;
+    /**
      * Check if a user is currently signed in.
      */
     isUserSignedIn(): boolean;

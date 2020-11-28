@@ -15,23 +15,19 @@ export default function ProjectUser() {
         getUserAttributes,
         Frame,
         configureFrame,
-        sync
+        sync,
+        onSignIn
     } = useEasybase();
 
-
-
-    const onSignInClick = async () => {
-        await signIn(usernameValue, passwordValue);
-    }
-
-    const onLoadElements = () => {
+    onSignIn(() => {
+        console.log("Signed IN!");  
         configureFrame({
             limit: 10,
             offset: 0,
             tableName: "REACT TEST"
         });
         sync()
-    }
+    });
 
     const onSignUpClick = async() => {
         const res = await signUp(usernameValue, passwordValue, {
@@ -50,7 +46,6 @@ export default function ProjectUser() {
             <div style={{ display: "flex", width: '100vw', height: '90vh', justifyContent: 'center', alignItems: 'center', flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#BBB", padding: 40, borderRadius: 5 }}>
                     <button className="btn green m-4" onClick={onUserAttrsClick}><span>Get user attrs</span></button>
-                    <button className="btn green m-4" onClick={onLoadElements}><span>Load elements</span></button>
                     <button className="btn orange m-4" onClick={signOut}><span>Sign Out</span></button>
                 </div>
                 <div className="d-flex">
@@ -66,7 +61,7 @@ export default function ProjectUser() {
                     <input style={{ fontSize: 20, marginBottom: 20 }} value={usernameValue} onChange={e => setUsernameValue(e.target.value)} />
                     <h4>Password</h4>
                     <input type="password" style={{ fontSize: 20, marginBottom: 20 }} value={passwordValue} onChange={e => setPasswordValue(e.target.value)} />
-                    <button className="btn green m-4" onClick={onSignInClick}><span>Sign In</span></button>
+                    <button className="btn green m-4" onClick={() => signIn(usernameValue, passwordValue)}><span>Sign In</span></button>
                     <button className="btn orange m-4" onClick={onSignUpClick}><span>Sign Up</span></button>
                 </div>
             </div>

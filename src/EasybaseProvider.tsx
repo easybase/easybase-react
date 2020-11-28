@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import EasybaseContext from "./EasybaseContext";
 import deepEqual from "fast-deep-equal";
 import {
@@ -36,7 +36,7 @@ const {
     signIn,
     signOut
 } = authFactory(g);
-const { log, generateBareUrl } = utilsFactory(g);
+const { log } = utilsFactory(g);
 const { 
     Query,
     fullTableSize,
@@ -53,6 +53,7 @@ let _frameConfiguration: FrameConfiguration = {
 const cookies = new Cookies();
 
 let _effect: React.EffectCallback = () => () => { };
+let _signInCallback: () => void = () => {};
 
 const _observedChangeStack: Record<string, any>[] = [];
 let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
@@ -67,6 +68,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         observe: () => { },
         unobserve: () => { }
     });
+
+    const _ranSignInCallback = useRef<boolean>(false);
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
         console.error("No ebconfig object passed. do `import ebconfig from \"ebconfig.json\"` and pass it to the Easybase provider");
@@ -119,6 +122,11 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     g.refreshToken = cookies.get(cookieName + "refreshToken");
                     g.session = cookies.get(cookieName + "session");
                     setUserSignedIn(true);
+
+                    const validTokenRes = await tokenPost(POST_TYPES.VALID_TOKEN);
+                    if (!validTokenRes.success) {
+                        setUserSignedIn(false);
+                    }
                 }
             }
         }
@@ -129,6 +137,17 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const useFrameEffect = (effect: React.EffectCallback) => {
         _effect = effect;
     };
+
+    useEffect(() => {
+        if (userSignedIn === true && _ranSignInCallback.current === false) {
+            _signInCallback();
+            _ranSignInCallback.current = true;
+        }
+    }, [userSignedIn])
+
+    const onSignIn = (callback: () => void) => {
+        _signInCallback = callback;
+    }
 
     useEffect(() => {
         _observableFrame.observe((allChanges: any[]) => {
@@ -414,9 +433,11 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             cookies.remove(cookieName + "refreshToken");
             cookies.remove(cookieName + "session");
             setUserSignedIn(false);
+            _ranSignInCallback.current = false;
         } else {
             // User signed in or refreshed token
             setUserSignedIn(true);
+
             cookies.set(cookieName + "token", g.token, {
                 expires: new Date(Date.now() + 900000)
             });
@@ -448,7 +469,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         isUserSignedIn,
         signUp,
         setUserAttribute,
-        getUserAttributes
+        getUserAttributes,
+        onSignIn
     }
 
     return (
