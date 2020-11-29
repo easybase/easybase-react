@@ -69,7 +69,7 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a project. Features of either integration:
+**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a project.
 
 <table>
   <tr>
@@ -93,19 +93,19 @@
     <td>Access to visual queries</td>
   </tr>
   <tr>
-    <td style="color: #00000061">User authentication</td>
+    <td style="color:#00000061">User authentication</td>
     <td>User authentication</td>
   </tr>
   <tr>
-    <td style="color: #00000061">Get/Set user attributes</td>
+    <td style="color:#00000061">Get/Set user attributes</td>
     <td>Get/Set user attributes</td>
   </tr>
   <tr>
-    <td style="color: #00000061">Access multiple tables</td>
+    <td style="color:#00000061">Access multiple tables</td>
     <td>Access multiple tables</td>
   </tr>
   <tr>
-    <td style="color: #00000061">Associate records to users</td>
+    <td style="color:#00000061">Associate records to users</td>
     <td>Associate records to users</td>
   </tr>
 </table>
@@ -123,23 +123,29 @@
 ```sh
 npm install easybase-react
 ```
+
 <br />
 
 #### **Create a React integration or Project**
+
 <img src="./assets/react-integration-3.gif">
 
-<br />
 <br />
 
 <img src="./assets/users-2.gif">
 
-
-<br />
-<br />
-
 #### **Then, download your token and place it the root of your project**
 
-<br />
+<pre>
+├── src/
+│   ├── App.js
+│   ├── index.js
+│   └── ebconfig.js
+├── assets/
+├── package.json
+└── ...
+</pre>
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -238,8 +244,6 @@ function Container() {
 <br />
 
 ## **useEasybase**
-
-<br />
 
 ### **Database array:**
 
