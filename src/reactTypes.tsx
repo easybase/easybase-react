@@ -31,7 +31,7 @@ export interface ContextValue {
     /**
      * Pass a callback function to run when a user signs in. This callback function will run after either successfully
      * signing in with the signIn() function OR after a user is automatically signed in via valid tokens saved to the browser from a 
-     * previous sign in.
+     * previous instance.
      * @param callback callback function to run on sign in event
      */
     onSignIn(callback: () => void): void;
@@ -40,7 +40,7 @@ export interface ContextValue {
      */
     isUserSignedIn(): boolean;
     /**
-     * Sign out the current user.
+     * Sign out the current user and invalidate their cached tokens.
      */
     signOut(): void;
     /**
@@ -59,7 +59,9 @@ export interface ContextValue {
      */
     setUserAttribute(key: string, value: string): Promise<StatusResponse>;
     /**
-     * Sign in a user that already exists for a project.
+     * Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that 
+     * they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid
+     * when a user signs out or after 24 hours.
      * @abstract
      * @async
      * @param userID unique identifier for new user. Usually an email or phone number.
