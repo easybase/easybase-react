@@ -91,6 +91,8 @@
 * npm
 
 ### Installation
+
+#### **Install library**
 ```sh
 npm install easybase-react
 ```
