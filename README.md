@@ -71,7 +71,18 @@
 ## Getting Started
 **React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a project.
 
-<table>
+<style>
+.color-disabled {
+  color: #00000061;
+}
+.comparison-table {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+</style>
+
+<table class="comparison-table">
   <tr>
     <th>REACT Integration</th>
     <th>Project</th>
@@ -93,19 +104,19 @@
     <td>Access to visual queries</td>
   </tr>
   <tr>
-    <td style="color:#00000061">User authentication</td>
+    <td class="color-disabled">User authentication</td>
     <td>User authentication</td>
   </tr>
   <tr>
-    <td style="color:#00000061">Get/Set user attributes</td>
+    <td class="color-disabled">Get/Set user attributes</td>
     <td>Get/Set user attributes</td>
   </tr>
   <tr>
-    <td style="color:#00000061">Access multiple tables</td>
+    <td class="color-disabled">Access multiple tables</td>
     <td>Access multiple tables</td>
   </tr>
   <tr>
-    <td style="color:#00000061">Associate records to users</td>
+    <td class="color-disabled">Associate records to users</td>
     <td>Associate records to users</td>
   </tr>
 </table>
