@@ -69,65 +69,25 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a project.
+**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this can be found [here](#useEasybase). 
 
-<style>
-.color-disabled {
-  color: #00000061;
-}
-.comparison-table {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-</style>
 
-<table class="comparison-table">
-  <tr>
-    <th>REACT Integration</th>
-    <th>Project</th>
-  </tr>
-  <tr>
-    <td>Custom table permissions</td>
-    <td>Custom table permissions</td>
-  </tr>
-  <tr>
-    <td>Live usage analytics</td>
-    <td>Live usage analytics</td>
-  </tr>
-  <tr>
-    <td>Stateful database array</td>
-    <td>Stateful database array</td>
-  </tr>
-  <tr>
-    <td>Access to visual queries</td>
-    <td>Access to visual queries</td>
-  </tr>
-  <tr>
-    <td class="color-disabled">User authentication</td>
-    <td>User authentication</td>
-  </tr>
-  <tr>
-    <td class="color-disabled">Get/Set user attributes</td>
-    <td>Get/Set user attributes</td>
-  </tr>
-  <tr>
-    <td class="color-disabled">Access multiple tables</td>
-    <td>Access multiple tables</td>
-  </tr>
-  <tr>
-    <td class="color-disabled">Associate records to users</td>
-    <td>Associate records to users</td>
-  </tr>
-</table>
-
-<br />
+| REACT Integration          | Project                    |
+|----------------------------|----------------------------|
+| Custom table permissions   | Custom table permissions   |
+| Live usage analytics       | Live usage analytics       |
+| Stateful database array    | Stateful database array    |
+| Access to visual queries   | Access to visual queries   |
+| *~~User authentication~~*        | User authentication        |
+| *~~Get/Set user attributes~~*    | Get/Set user attributes    |
+| *~~Access multiple tables~~*     | Access multiple tables     |
+| *~~Associate records to users~~* | Associate records to users |
 
 [Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
 
 ### Prerequisites
 
-* React 16 or greater
+* React 16.8.0 or greater
 * npm
 
 ### Installation
