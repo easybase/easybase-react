@@ -17,10 +17,16 @@
 
 
 <!-- PROJECT LOGO -->
+<p align="center">
+  <img src="./assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
+</p>
+
+<hr />
 <br />
+
 <p align="center">
   <a href="https://easybase.io">
-    <img src="https://easybase.io/assets/images/logo_black.png" alt="Logo" width="80" height="80" href="easybase logo black">
+    <img src="https://easybase.io/assets/images/logo_black.png" alt="easybase logo black" width="80" height="80">
   </a>
 </p>
 
