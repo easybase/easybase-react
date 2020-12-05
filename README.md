@@ -21,7 +21,6 @@
   <img src="./assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
 </p>
 
-<hr />
 <br />
 
 <p align="center">
