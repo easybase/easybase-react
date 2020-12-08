@@ -71,6 +71,8 @@ React and React Native compatible library for use with EasyBase. This library wo
 
 [Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
 
+<img src="./assets/steps.png" width="100%" alt="easybase-react steps" />
+
 ### Prerequisites
 
 * React 16.8.0
@@ -82,7 +84,7 @@ React and React Native compatible library for use with EasyBase. This library wo
 npm install easybase-react
 ```
 
-##### Create a React integration or Project
+#### Create a React integration or Project
 
 <p align="center">
   <img src="./assets/react-integration-3.gif" width="80%" alt="react easybase integration 1">
@@ -91,7 +93,7 @@ npm install easybase-react
   <img src="./assets/users-2.gif" width="80%" alt="react easybase integration 2">
 </p>
 
-##### Then, download your token and place it the root of your project
+#### Then, download your token and place it the root of your project
 
 <pre>
 ├── src/
