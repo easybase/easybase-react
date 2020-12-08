@@ -14,7 +14,8 @@
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "microbundle-crl --no-compress --format modern,cjs"
+    "prepare": "microbundle-crl --no-compress --format modern,cjs",
+    "genDocs": "typedoc --gitRevision dev --excludeProtected --excludePrivate --excludeExternals --mode modules --out docs src"
   },
   "peerDependencies": {
     "react": "^16.0.0"
@@ -39,6 +40,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
+    "typedoc": "^0.19.2",
     "typescript": "^3.7.5"
   },
   "files": [

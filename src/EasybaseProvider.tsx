@@ -13,7 +13,8 @@ import {
     UpdateRecordAttachmentOptions,
     StatusResponse,
     ConfigureFrameOptions,
-    DeleteRecordOptions
+    DeleteRecordOptions,
+    ContextValue as JSContextValue
 } from "../node_modules/easybasejs/src/EasybaseProvider/types";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
@@ -25,17 +26,18 @@ import { Observable } from "object-observer";
 import Cookies from 'universal-cookie';
 
 const g = gFactory();
-
 const {
     initAuth,
     tokenPost,
-    tokenPostAttachment,
+    tokenPostAttachment
+} = authFactory(g);
+const {
     signUp,
     setUserAttribute,
     getUserAttributes,
     signIn,
     signOut
-} = authFactory(g);
+}: JSContextValue = authFactory(g);
 const { log } = utilsFactory(g);
 const { 
     Query,

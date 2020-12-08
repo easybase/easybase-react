@@ -74,7 +74,7 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-**React and React Native** compatible library for use with EasyBase. This library can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this can be found [here](#useEasybase). 
+React and React Native compatible library for use with EasyBase. This library works with a **free or premium** account. `easybase-react` can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this can be found [here](#useEasybase). 
 
 
 | REACT Integration          | Project                    |
