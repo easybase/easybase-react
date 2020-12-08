@@ -15,7 +15,7 @@
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "microbundle-crl --no-compress --format modern,cjs",
-    "genDocs": "typedoc --exclude \"**/EasybaseProvider.tsx\" --gitRevision dev --excludeProtected --excludePrivate --excludeExternals --mode modules --out docs src"
+    "genDocs": "typedoc"
   },
   "peerDependencies": {
     "react": "^16.0.0"

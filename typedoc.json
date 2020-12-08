@@ -1,0 +1,12 @@
+{
+    "inputFiles": [
+        "./src"
+    ],
+    "mode": "modules",
+    "out": "docs",
+    "excludeProtected": true,
+    "exclude": ["./src/EasybaseProvider.tsx"],
+    "gitRevision": "dev",
+    "excludePrivate": true,
+    "excludeExternals": true
+}

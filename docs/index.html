@@ -78,7 +78,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url] -->
 				<!-- PROJECT LOGO -->
 				<p align="center">
-					<img src="./assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
+					<img src="https://github.com/easybase/easybase-react/raw/master/assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
 				</p>
 				<br />
 				<p align="center">
@@ -301,15 +301,15 @@
 				<a href="#configureframeoptions-configureframeoptions-statusresponse" id="configureframeoptions-configureframeoptions-statusresponse" style="color: inherit; text-decoration: none;">
 					<h3>configureFrame(options: ConfigureFrameOptions): StatusResponse</h3>
 				</a>
-				<p>Configure the current frame size. Set the offset and amount of records to retreive assume you don&#39;t want to receive your entire collection. This is useful for paging.</p>
+				<p>Configure the current frame size. Set the offset and amount of records to retrieve assume you don&#39;t want to receive your entire collection. This is useful for paging.</p>
 				<a href="#sync-promiseltstatusresponsegt" id="sync-promiseltstatusresponsegt" style="color: inherit; text-decoration: none;">
 					<h3>sync(): Promise&lt;StatusResponse&gt;</h3>
 				</a>
-				<p>Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.</p>
+				<p>Call this method to synchronize your current changes with your database. Deletions, additions, and changes will all be reflected by your backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.</p>
 				<a href="#frameindex-number-recordltstring-anygt--recordltstring-anygt" id="frameindex-number-recordltstring-anygt--recordltstring-anygt" style="color: inherit; text-decoration: none;">
 					<h3>Frame(index?: number): Record&lt;string, any&gt; | Record&lt;string, any&gt;[]</h3>
 				</a>
-				<p>This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you want to syncronize your frame and EasyBase, call sync() then Frame(). Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.</p>
+				<p>This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you want to synchronize your frame and EasyBase, call sync() then Frame(). Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.</p>
 				<a href="#useframeeffecteffect-reacteffectcallback-void" id="useframeeffecteffect-reacteffectcallback-void" style="color: inherit; text-decoration: none;">
 					<h3>useFrameEffect(effect: React.EffectCallback): void</h3>
 				</a>
@@ -329,7 +329,7 @@
 				<a href="#signinuserid-string-password-string-promise" id="signinuserid-string-password-string-promise" style="color: inherit; text-decoration: none;">
 					<h3>signIn(userID: string, password: string): Promise<StatusResponse></h3>
 				</a>
-				<p>Sign in a user that already exists for a project. This will save authentication tokens to a user&#39;s browser so that they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid when a user signs out or after 24 hours.</p>
+				<p>Sign in a user that already exists for a project. This will save authentication tokens to a user&#39;s browser so that they will be automatically authenticated when they return to the application. These authentication tokens will become invalid when a user signs out or after 24 hours.</p>
 				<a href="#onsignincallback--gt-void-void" id="onsignincallback--gt-void-void" style="color: inherit; text-decoration: none;">
 					<h3>onSignIn(callback: () =&gt; void): void</h3>
 				</a>
@@ -370,15 +370,15 @@
 				<a href="#updaterecordimageoptions-updaterecordattachmentoptions-promiseltstatusresponsegt" id="updaterecordimageoptions-updaterecordattachmentoptions-promiseltstatusresponsegt" style="color: inherit; text-decoration: none;">
 					<h3>updateRecordImage(options: UpdateRecordAttachmentOptions): Promise&lt;StatusResponse&gt;</h3>
 				</a>
-				<p>Upload an image to your backend and attach it to a specific record. columnName must reference a column of type &#39;image&#39;. The file must have an extension of an image. Call sync() for fresh data with propery attachment links to cloud hosting.</p>
+				<p>Upload an image to your backend and attach it to a specific record. columnName must reference a column of type &#39;image&#39;. The file must have an extension of an image. Call sync() for fresh data with proper attachment links to cloud hosting.</p>
 				<a href="#updaterecordvideooptions-updaterecordattachmentoptions-promiseltstatusresponsegt" id="updaterecordvideooptions-updaterecordattachmentoptions-promiseltstatusresponsegt" style="color: inherit; text-decoration: none;">
 					<h3>updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise&lt;StatusResponse&gt;</h3>
 				</a>
-				<p>Upload a video to your backend and attach it to a specific record. columnName must reference a column of type &#39;video&#39;. The file must have an extension of a video. Call sync() for fresh data with propery attachment links to cloud hosting.</p>
+				<p>Upload a video to your backend and attach it to a specific record. columnName must reference a column of type &#39;video&#39;. The file must have an extension of a video. Call sync() for fresh data with proper attachment links to cloud hosting.</p>
 				<a href="#updaterecordfileoptions-updaterecordattachmentoptions-promiseltstatusresponsegt" id="updaterecordfileoptions-updaterecordattachmentoptions-promiseltstatusresponsegt" style="color: inherit; text-decoration: none;">
 					<h3>updateRecordFile(options: UpdateRecordAttachmentOptions): Promise&lt;StatusResponse&gt;</h3>
 				</a>
-				<p>Upload a file to your backend and attach it to a specific record. columnName must reference a column of type &#39;file&#39;. Call sync() for fresh data with propery attachment links to cloud hosting.</p>
+				<p>Upload a file to your backend and attach it to a specific record. columnName must reference a column of type &#39;file&#39;. Call sync() for fresh data with proper attachment links to cloud hosting.</p>
 				<a href="#addrecordoptions-addrecordoptions-promiseltstatusrespnsegt" id="addrecordoptions-addrecordoptions-promiseltstatusrespnsegt" style="color: inherit; text-decoration: none;">
 					<h3>addRecord(options: AddRecordOptions): Promise&lt;StatusRespnse&gt;</h3>
 				</a>
@@ -515,7 +515,7 @@
 				<a href="#contact" id="contact" style="color: inherit; text-decoration: none;">
 					<h2>Contact</h2>
 				</a>
-				<p><a href="https://twitter.com/easybase_io">@easybase_io</a> - <a href="mailto:&#x68;&#x65;&#108;&#x6c;&#111;&#64;&#x65;&#x61;&#115;&#x79;&#x62;&#x61;&#x73;&#x65;&#x2e;&#x69;&#x6f;">&#x68;&#x65;&#108;&#x6c;&#111;&#64;&#x65;&#x61;&#115;&#x79;&#x62;&#x61;&#x73;&#x65;&#x2e;&#x69;&#x6f;</a></p>
+				<p><a href="https://twitter.com/easybase_io">@easybase_io</a> - <a href="mailto:&#104;&#101;&#108;&#108;&#111;&#x40;&#x65;&#x61;&#x73;&#x79;&#x62;&#97;&#115;&#101;&#x2e;&#x69;&#111;">&#104;&#101;&#108;&#108;&#111;&#x40;&#x65;&#x61;&#x73;&#x79;&#x62;&#97;&#115;&#101;&#x2e;&#x69;&#111;</a></p>
 				<p>Project Link: <a href="https://github.com/easybase/easybase-react">https://github.com/easybase/easybase-react</a></p>
 				<!-- MARKDOWN LINKS & IMAGES -->
 				<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -550,6 +550,9 @@
 						<a href="modules/_reacttypes_.html">&quot;react<wbr>Types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/_types_.html">&quot;types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/_useeasybase_.html">&quot;use<wbr>Easybase&quot;</a>
 					</li>
 				</ul>
@@ -568,6 +571,9 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

@@ -18,7 +18,7 @@
 
 <!-- PROJECT LOGO -->
 <p align="center">
-  <img src="./assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
+  <img src="https://github.com/easybase/easybase-react/raw/master/assets/codekeep.png" alt="Logo" width="100%" alt="easybase code example">
 </p>
 
 <br />
@@ -224,13 +224,13 @@ function Container() {
 ### **Database array:**
 
 ### configureFrame(options: ConfigureFrameOptions): StatusResponse
-Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive your entire collection. This is useful for paging.
+Configure the current frame size. Set the offset and amount of records to retrieve assume you don't want to receive your entire collection. This is useful for paging.
 
 ### sync(): Promise\<StatusResponse>
-Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
+Call this method to synchronize your current changes with your database. Deletions, additions, and changes will all be reflected by your backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
 
 ### Frame(index?: number): Record<string, any> | Record<string, any>[]
-This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you want to syncronize your frame and EasyBase, call sync() then Frame(). Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
+This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you want to synchronize your frame and EasyBase, call sync() then Frame(). Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
 
 ### useFrameEffect(effect: React.EffectCallback): void
 This hook runs when the Frame changes. This can be triggered by calling sync().
@@ -246,7 +246,7 @@ View your frames current configuration
 Create a new user for your project. You must still call signIn() after signing up.
 
 ### signIn(userID: string, password: string): Promise<StatusResponse>
-Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid when a user signs out or after 24 hours.
+Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that they will be automatically authenticated when they return to the application. These authentication tokens will become invalid when a user signs out or after 24 hours.
 
 ### onSignIn(callback: () => void): void
 Pass a callback function to run when a user signs in. This callback function will run after either successfully signing in with the signIn() function OR after a user is automatically signed in via valid tokens saved to the browser from a previous instance.
@@ -279,13 +279,13 @@ Gets the number of records in your table.
 Retrieve an object detailing the columns in your table mapped to their corresponding type.
 
 ### updateRecordImage(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
-Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'. The file must have an extension of an image. Call sync() for fresh data with propery attachment links to cloud hosting.
+Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'. The file must have an extension of an image. Call sync() for fresh data with proper attachment links to cloud hosting.
 
 ### updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
-Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'. The file must have an extension of a video. Call sync() for fresh data with propery attachment links to cloud hosting.
+Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'. The file must have an extension of a video. Call sync() for fresh data with proper attachment links to cloud hosting.
 
 ### updateRecordFile(options: UpdateRecordAttachmentOptions): Promise\<StatusResponse>
-Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'. Call sync() for fresh data with propery attachment links to cloud hosting.
+Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'. Call sync() for fresh data with proper attachment links to cloud hosting.
 
 ### addRecord(options: AddRecordOptions): Promise\<StatusRespnse>
 Manually add a record to your collection regardless of your current frame. You must call sync() after this to see updated response.
