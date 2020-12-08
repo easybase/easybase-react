@@ -5,7 +5,10 @@
     "mode": "modules",
     "out": "docs",
     "excludeProtected": true,
-    "exclude": ["./src/EasybaseProvider.tsx"],
+    "exclude": [
+        "./src/EasybaseProvider.tsx",
+        "./src/index.tsx"
+    ],
     "gitRevision": "dev",
     "excludePrivate": true,
     "excludeExternals": true
