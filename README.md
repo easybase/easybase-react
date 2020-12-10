@@ -212,7 +212,7 @@ function Container() {
 
 <br />
 
-Let's think of the lifecycle of **frame()** as follows:
+Let's consider the lifecycle of **Frame()** as follows:
 
 ```python
 Frame Is Synchronized ->
