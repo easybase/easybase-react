@@ -43,7 +43,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-React and React Native compatible library for use with Easybase. Note that this serverless platform works with a **free** account. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this project can be found [here](#useEasybase). 
+React and React Native compatible library for use with Easybase. This serverless platform works with a **free** account. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this project can be found [here](#useEasybase). 
 
 
 | REACT Integration                | Project                    |
