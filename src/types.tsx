@@ -15,7 +15,7 @@ export interface EasybaseProviderPropsOptions {
 }
 
 export interface EasybaseProviderProps {
-    /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
+    /** Easybase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
     ebconfig: Ebconfig;
     /** Optional configuration parameters. */
     options?: EasybaseProviderPropsOptions
@@ -39,7 +39,7 @@ export interface Ebconfig {
 export interface AddRecordOptions {
     /** If true, record will be inserted at the end of the collection rather than the front. Overwrites absoluteIndex. */
     insertAtEnd?: boolean;
-    /** Values to post to EasyBase collection. Format is { column name: value } */
+    /** Values to post to Easybase collection. Format is { column name: value } */
     newRecord: Record<string, any>;
     /** Table to post new record to. (Projects only) */
     tableName?: string;
@@ -78,7 +78,7 @@ export interface FileFromURI {
 }
 
 export interface UpdateRecordAttachmentOptions {
-    /** EasyBase Record to attach this attachment to */
+    /** Easybase Record to attach this attachment to */
     record: Record<string, any>;
     /** The name of the column that is of type file/image/video */
     columnName: string;
@@ -227,16 +227,16 @@ export interface ContextValue {
      */
     updateRecordFile(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
     /**
-     * This function is how you access your current frame. This function does not get new data or push changes to EasyBase. If you 
-     * want to syncronize your frame and EasyBase, call sync() then Frame().
+     * This function is how you access your current frame. This function does not get new data or push changes to Easybase. If you 
+     * want to syncronize your frame and Easybase, call sync() then Frame().
      * @abstract
      * @return {Record<string, any>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
      * 
      */
     Frame(): Record<string, any>[];
     /**
-     * This function is how you access a single object your current frame. This function does not get new data or push changes to EasyBase. If you 
-     * want to syncronize your frame and EasyBase, call sync() then Frame().
+     * This function is how you access a single object your current frame. This function does not get new data or push changes to Easybase. If you 
+     * want to syncronize your frame and Easybase, call sync() then Frame().
      * @abstract
      * @param {number} [index] Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
      * @return {Record<string, any>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
