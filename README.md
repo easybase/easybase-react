@@ -210,6 +210,17 @@ function Container() {
 }
 ```
 
+Let's think of the lifecycle of **frame()** as follows:
+
+```python
+Frame Is Synchronized ->
+useFrameEffect() runs ->
+Edit Frame() ->
+Call sync() ->
+Frame Is Synchronized ->
+useFrameEffect() runs
+```
+
 </p>
 </details>
 
