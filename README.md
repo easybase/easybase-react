@@ -43,15 +43,15 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-React and React Native compatible library for use with EasyBase. This library works with a **free or premium** account. `easybase-react` can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this project can be found [here](#useEasybase). 
+React and React Native compatible library for use with Easybase. Note that this serverless platform works with a **free** account. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this project can be found [here](#useEasybase). 
 
 
-| REACT Integration          | Project                    |
-|----------------------------|----------------------------|
-| Live usage analytics       | Live usage analytics       |
-| Custom table permissions   | Custom table permissions   |
-| Stateful database array    | Stateful database array    |
-| Access to visual queries   | Access to visual queries   |
+| REACT Integration                | Project                    |
+|----------------------------------|----------------------------|
+| Live usage analytics             | Live usage analytics       |
+| Custom table permissions         | Custom table permissions   |
+| Stateful database array          | Stateful database array    |
+| Access to visual queries         | Access to visual queries   |
 | *~~User authentication~~*        | User authentication        |
 | *~~Get/Set user attributes~~*    | Get/Set user attributes    |
 | *~~Access multiple tables~~*     | Access multiple tables     |
@@ -61,7 +61,9 @@ React and React Native compatible library for use with EasyBase. This library wo
 
 ### Purpose
 
-This project aims to be the most developer-friendly serverless framework for React. The **only** configuration needed to get this library up and running is an `ebconfig.js` token, as provided by Easybase. Your project will instantly have access to the features laid out in the above table.
+This project aims to be the most developer-friendly serverless framework for React. Functions and attributes of `easybase-react` are stateful and explicitly follow the React component lifecycle. 
+
+The **only** configuration needed to get this library up and running is an `ebconfig.js` token, as provided by Easybase. Your React & React Native applications will instantly have secure access to the features laid out in the above table.
 
 ### Built With
 
