@@ -210,6 +210,8 @@ function Container() {
 }
 ```
 
+<br />
+
 Let's think of the lifecycle of **frame()** as follows:
 
 ```python
