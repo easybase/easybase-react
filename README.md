@@ -214,7 +214,7 @@ function Container() {
 
 Let's consider the lifecycle of **Frame()** as follows:
 
-```python
+```PHP
 Frame Is Synchronized ->
 useFrameEffect() runs ->
 Edit Frame() ->
