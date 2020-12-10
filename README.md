@@ -27,6 +27,7 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
+  * [Purpose](#purpose)
   * [Built With](#built-with)
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
@@ -34,7 +35,6 @@
 * [Usage](#usage)
 * [Documentation](https://easybase.io/docs/easybase-react/)
 * [Example](#example)
-* [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
@@ -43,6 +43,25 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+React and React Native compatible library for use with EasyBase. This library works with a **free or premium** account. `easybase-react` can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this project can be found [here](#useEasybase). 
+
+
+| REACT Integration          | Project                    |
+|----------------------------|----------------------------|
+| Live usage analytics       | Live usage analytics       |
+| Custom table permissions   | Custom table permissions   |
+| Stateful database array    | Stateful database array    |
+| Access to visual queries   | Access to visual queries   |
+| *~~User authentication~~*        | User authentication        |
+| *~~Get/Set user attributes~~*    | Get/Set user attributes    |
+| *~~Access multiple tables~~*     | Access multiple tables     |
+| *~~Associate records to users~~* | Associate records to users |
+
+[Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
+
+### Purpose
+
+This project aims to be the most developer-friendly serverless framework for React. The **only** configuration needed to get this library up and running is an `ebconfig.js` token, as provided by Easybase. Your project will instantly have access to the features laid out in the above table.
 
 ### Built With
 
@@ -55,21 +74,6 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-React and React Native compatible library for use with EasyBase. This library works with a **free or premium** account. `easybase-react` can be used with a table specific REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. Documentation for this can be found [here](#useEasybase). 
-
-
-| REACT Integration          | Project                    |
-|----------------------------|----------------------------|
-| Custom table permissions   | Custom table permissions   |
-| Live usage analytics       | Live usage analytics       |
-| Stateful database array    | Stateful database array    |
-| Access to visual queries   | Access to visual queries   |
-| *~~User authentication~~*        | User authentication        |
-| *~~Get/Set user attributes~~*    | Get/Set user attributes    |
-| *~~Access multiple tables~~*     | Access multiple tables     |
-| *~~Associate records to users~~* | Associate records to users |
-
-[Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
 
 ### Prerequisites
 
@@ -222,12 +226,6 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 [User authentication walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/easybase/easybase-react/issues) for a list of proposed features (and known issues).
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
