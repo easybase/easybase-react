@@ -118,7 +118,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     cacheToken,
                     cacheRefreshToken,
                     cacheSession
-                } = cache.getCacheTokens(cookieName);
+                } = await cache.getCacheTokens(cookieName);
 
                 if (cacheToken && cacheRefreshToken && cacheSession) {
                     g.token = cacheToken;
@@ -436,13 +436,15 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
         if (!g.token) {
             // User signed out
-            cache.clearCacheTokens(cookieName);
-            setUserSignedIn(false);
-            _ranSignInCallback.current = false;
+            cache.clearCacheTokens(cookieName).then(_ => {
+                setUserSignedIn(false);
+                _ranSignInCallback.current = false;
+            });
         } else {
             // User signed in or refreshed token
-            cache.setCacheTokens(g, cookieName);
-            setUserSignedIn(true);
+            cache.setCacheTokens(g, cookieName).then(_ => {
+                setUserSignedIn(true);
+            });
         }
     }
 
