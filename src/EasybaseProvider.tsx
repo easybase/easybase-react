@@ -110,28 +110,31 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     setMounted(true);
                 }
             } else {
+                g.mounted = true; // Bypass initAuth()
+
                 const cookieName = g.ebconfig.integration.slice(-10);
 
                 const {
                     cacheToken,
                     cacheRefreshToken,
                     cacheSession
-                } = cache.getCacheTokens(g, cookieName);
+                } = cache.getCacheTokens(cookieName);
 
                 if (cacheToken && cacheRefreshToken && cacheSession) {
                     g.token = cacheToken;
                     g.refreshToken = cacheRefreshToken;
                     g.session = +cacheSession;
-                    setUserSignedIn(true);
-
+                    
+                    const fallbackMount = setTimeout(() => { setMounted(true) }, 2500);
+                
                     const validTokenRes = await tokenPost(POST_TYPES.VALID_TOKEN);
-                    if (!validTokenRes.success) {
-                        setUserSignedIn(false);
+                    if (validTokenRes.success) {
+                        clearTimeout(fallbackMount);
+                        setUserSignedIn(true);
                     }
                 }
 
                 setMounted(true);
-                g.mounted = true;
             }
         }
 
@@ -433,7 +436,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
         if (!g.token) {
             // User signed out
-            cache.clearCacheTokens(g, cookieName);
+            cache.clearCacheTokens(cookieName);
             setUserSignedIn(false);
             _ranSignInCallback.current = false;
         } else {

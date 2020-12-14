@@ -18,7 +18,8 @@
     "genDocs": "typedoc"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": "^16.0.0",
+    "react-native": "*"
   },
   "devDependencies": {
     "@types/node": "^12.12.38",
