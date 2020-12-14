@@ -1,19 +1,17 @@
 import { Globals } from "./types";
 import Storage from 'react-native-storage';
 
-let storageBackend;
+let storage: Storage;
 
 if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
     import('@react-native-community/async-storage').then(AsyncStorage => {
-        storageBackend = AsyncStorage;
+        storage = new Storage({ storageBackend: AsyncStorage.default });
     })
 } else {
-    storageBackend = window.localStorage;
+    storage = new Storage({ storageBackend: window.localStorage });
 }
 
 // https://github.com/sunnylqm/react-native-storage
-const storage = new Storage({ storageBackend });
-
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
 
     try {
