@@ -81,7 +81,7 @@ The **only** configuration needed to get this library up and running is an `ebco
 
 * React 16.8.0
 * npm
-* On React Native, install the async-storage peer dependency with `npm i @react-native-community/async-storage`.
+* For React Native, install the [async-storage](https://react-native-async-storage.github.io/async-storage/docs/install/) peer dependency with `npm i @react-native-community/async-storage`.
 
 ### Installation
 
