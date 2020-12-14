@@ -68,7 +68,7 @@ The **only** configuration needed to get this library up and running is an `ebco
 ### Built With
 
 * [create-react-library](https://github.com/transitive-bullshit/create-react-library)
-* [axios](https://github.com/axios/axios)
+* [cross-fetch](https://github.com/lquixada/cross-fetch)
 * [easybase.io](https://easybase.io)
 * [object-observer](https://github.com/gullerya/object-observer)
 * [microbundle](https://github.com/developit/microbundle)
