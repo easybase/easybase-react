@@ -22,7 +22,7 @@ import functionsFactory from "../node_modules/easybasejs/src/EasybaseProvider/fu
 import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
-import Cookies from 'universal-cookie';
+import * as cache from "./cache";
 
 const g = gFactory();
 
@@ -49,8 +49,6 @@ let _frameConfiguration: FrameConfiguration = {
     offset: 0,
     limit: 0
 };
-
-const cookies = new Cookies();
 
 let _effect: React.EffectCallback = () => () => { };
 let _signInCallback: () => void = () => {};
@@ -112,15 +110,18 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     setMounted(true);
                 }
             } else {
-                setMounted(true);
-                g.mounted = true;
-
                 const cookieName = g.ebconfig.integration.slice(-10);
 
-                if (cookies.get(cookieName + "token") && cookies.get(cookieName + "refreshToken") && cookies.get(cookieName + "session")) {
-                    g.token = cookies.get(cookieName + "token");
-                    g.refreshToken = cookies.get(cookieName + "refreshToken");
-                    g.session = cookies.get(cookieName + "session");
+                const {
+                    cacheToken,
+                    cacheRefreshToken,
+                    cacheSession
+                } = cache.getCacheTokens(g, cookieName);
+
+                if (cacheToken && cacheRefreshToken && cacheSession) {
+                    g.token = cacheToken;
+                    g.refreshToken = cacheRefreshToken;
+                    g.session = +cacheSession;
                     setUserSignedIn(true);
 
                     const validTokenRes = await tokenPost(POST_TYPES.VALID_TOKEN);
@@ -128,6 +129,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                         setUserSignedIn(false);
                     }
                 }
+
+                setMounted(true);
+                g.mounted = true;
             }
         }
 
@@ -429,24 +433,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
         if (!g.token) {
             // User signed out
-            cookies.remove(cookieName + "token");
-            cookies.remove(cookieName + "refreshToken");
-            cookies.remove(cookieName + "session");
+            cache.clearCacheTokens(g, cookieName);
             setUserSignedIn(false);
             _ranSignInCallback.current = false;
         } else {
             // User signed in or refreshed token
+            cache.setCacheTokens(g, cookieName);
             setUserSignedIn(true);
-
-            cookies.set(cookieName + "token", g.token, {
-                expires: new Date(Date.now() + 900000)
-            });
-            cookies.set(cookieName + "refreshToken", g.refreshToken, {
-                expires: new Date(Date.now() + (3600 * 1000 * 24))
-            });
-            cookies.set(cookieName + "session", g.session, {
-                expires: new Date(Date.now() + (3600 * 1000 * 24))
-            });
         }
     }
 
