@@ -13,7 +13,6 @@ if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
 
 // https://github.com/sunnylqm/react-native-storage
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
-
     try {
         const cacheToken = await storage.load({ key: cookieName + "token" });
         const cacheRefreshToken = await storage.load({ key: cookieName + "refreshToken" });

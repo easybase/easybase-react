@@ -18,8 +18,7 @@
     "genDocs": "typedoc"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "@react-native-community/async-storage": "^1.12.1"
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.38",
@@ -48,6 +47,7 @@
     "dist"
   ],
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "axios": "^0.21.0",
     "easybasejs": "^3.0.8",
     "fast-deep-equal": "^3.1.3",
