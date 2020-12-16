@@ -240,7 +240,7 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 
 [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
-[User authentication walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
+[User authentication walkthrough](https://easybase.io/react/2020/11/25/The-Easiest-Way-To-Add-User-Authentication-To-Your-React-Project/)
 
 For React Native users, this library will not work with [expo](https://expo.io/) due to native dependencies. Instead, use `react-native run-ios`.
 
