@@ -238,6 +238,8 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 <!-- EXAMPLES -->
 ## Example
 
+[Starting from scratch to serverless database + authentication](https://easybase.io/react/)
+
 [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 [User authentication walkthrough](https://easybase.io/react/2020/11/25/The-Easiest-Way-To-Add-User-Authentication-To-Your-React-Project/)

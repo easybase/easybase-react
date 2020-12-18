@@ -51,7 +51,7 @@ let _frameConfiguration: FrameConfiguration = {
 };
 
 let _effect: React.EffectCallback = () => () => { };
-let _signInCallback: () => void = () => {};
+let _signInCallback: () => void;
 
 const _observedChangeStack: Record<string, any>[] = [];
 let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
@@ -146,7 +146,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     };
 
     useEffect(() => {
-        if (userSignedIn === true && _ranSignInCallback.current === false) {
+        if (userSignedIn === true && _ranSignInCallback.current === false && _signInCallback !== undefined) {
             _signInCallback();
             _ranSignInCallback.current = true;
         }
@@ -154,6 +154,11 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
     const onSignIn = (callback: () => void) => {
         _signInCallback = callback;
+
+        if (userSignedIn === true && _ranSignInCallback.current === false && _signInCallback !== undefined) {
+            _signInCallback();
+            _ranSignInCallback.current = true;
+        }
     }
 
     useEffect(() => {
