@@ -120,16 +120,22 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     cacheSession
                 } = await cache.getCacheTokens(cookieName);
 
-                if (cacheToken && cacheRefreshToken && cacheSession) {
+                if (cacheRefreshToken) {
                     g.token = cacheToken;
                     g.refreshToken = cacheRefreshToken;
                     g.session = +cacheSession;
                     
                     const fallbackMount = setTimeout(() => { setMounted(true) }, 2500);
-                
-                    const validTokenRes = await tokenPost(POST_TYPES.VALID_TOKEN);
-                    if (validTokenRes.success) {
+
+                    const refreshTokenRes = await tokenPost(POST_TYPES.REQUEST_TOKEN, {
+                        refreshToken: g.refreshToken,
+                        token: g.token
+                    });
+
+                    if (refreshTokenRes.success) {
                         clearTimeout(fallbackMount);
+                        g.token = refreshTokenRes.data.token
+                        await cache.setCacheTokens(g, cookieName)
                         setUserSignedIn(true);
                     }
                 }

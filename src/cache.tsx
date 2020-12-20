@@ -13,19 +13,28 @@ if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
 
 // https://github.com/sunnylqm/react-native-storage
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
-    try {
-        const cacheToken = await storage.load({ key: cookieName + "token" });
-        const cacheRefreshToken = await storage.load({ key: cookieName + "refreshToken" });
-        const cacheSession = await storage.load({ key: cookieName + "session" });
+    let cacheToken = false;
+    let cacheRefreshToken = false;
+    let cacheSession = false;
 
-        return {
-            cacheToken,
-            cacheRefreshToken,
-            cacheSession
-        }
-    } catch (_) {
-        return {};
+    try {
+        cacheToken = await storage.load({ key: cookieName + "token" });
+    } catch (_) {}
+
+    try {
+        cacheRefreshToken = await storage.load({ key: cookieName + "refreshToken" });
+    } catch (_) {}
+
+    try {
+        cacheSession = await storage.load({ key: cookieName + "session" });
+    } catch (_) {}
+
+    return {
+        cacheToken,
+        cacheRefreshToken,
+        cacheSession
     }
+
 }
 
 export async function clearCacheTokens(cookieName: string) {
@@ -38,7 +47,7 @@ export async function setCacheTokens(g: Globals, cookieName: string) {
     await storage.save({
         key: cookieName + "token",
         data: g.token,
-        expires: 900000
+        expires: 3600 * 1000 * 24
     });
 
     await storage.save({
@@ -50,6 +59,6 @@ export async function setCacheTokens(g: Globals, cookieName: string) {
     await storage.save({
         key: cookieName + "session",
         data: g.session,
-        expires: 3600 * 1000 * 24
+        expires: null
     });
 }
