@@ -57,7 +57,7 @@ React and React Native compatible library for use with Easybase. This serverless
 | *~~Access multiple tables~~*     | Access multiple tables     |
 | *~~Associate records to users~~* | Associate records to users |
 
-[Click here](https://easybase.io/about/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/) to learn more about Easybase.io and check out the examples below.
+[Click here](https://easybase.io/react/) to learn more about Easybase.io and check out the examples below.
 
 ### Purpose
 
