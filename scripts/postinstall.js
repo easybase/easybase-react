@@ -13,7 +13,7 @@ try {
             if (commandExistsSync('xcodebuild')) {
                 try {
                     // xcodebuild clean forces RN to rebuild iOS app on the next start
-                    execSync("cd .. && cd.. && cd ios && xcodebuild clean", {
+                    execSync("cd .. && cd .. && cd ios && xcodebuild clean", {
                         windowsHide: true,
                         timeout: 60000
                     })   
