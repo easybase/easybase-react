@@ -10,7 +10,7 @@ try {
         var newLine = "  # easybase-react dependency\n  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'\n";
         if (!data.includes(newLine)) {
             fs.writeFileSync("../../ios/Podfile", data.slice(0, newIndex) + newLine + data.slice(newIndex));
-            if (commandExistsSync('xcodebuild -version')) {
+            if (commandExistsSync('xcodebuild')) {
                 try {
                     // xcodebuild clean forces RN to rebuild iOS app on the next start
                     execSync("cd .. && cd.. && cd ios && xcodebuild clean", {
