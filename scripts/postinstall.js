@@ -1,6 +1,6 @@
 var fs = require("fs");
 var execSync = require("child_process").execSync;
-var commandExistsSync = require('command-exists').sync;
+var commandExistsSync = require("./command-exists").sync;
 
 try {
     if (fs.existsSync("../../ios/Podfile")) {
