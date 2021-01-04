@@ -1,8 +1,8 @@
 var fs = require("fs");
 var execSync = require("child_process").execSync;
 var commandExistsSync = require("./command-exists").sync;
-var path = require("path")
-var rootPackageJson = require("../../../package.json");
+var path = require("path");
+var rootPackageJson = JSON.parse(fs.readFileSync("../../package.json", 'utf-8'));
 
 var isUsingWindows = process.platform === "win32";
 
