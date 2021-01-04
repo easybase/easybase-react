@@ -16,7 +16,7 @@
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "microbundle-crl --no-compress --format modern,cjs",
     "genDocs": "typedoc",
-    "postinstall": "node ./scripts/postinstall.js && cd .. && cd .. && npx pod-install --quiet"
+    "postinstall": "node ./scripts/postinstall.js"
   },
   "peerDependencies": {
     "react": "^16.0.0"

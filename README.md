@@ -259,7 +259,7 @@ Errors can arise due to the fact that this library depends on [Async Storage](ht
   Or
 
   1. `npm install @react-native-community/async-storage@1.12.1`
-  2. [Read here to link package](https://react-native-async-storage.github.io/async-storage/docs/install/#link)
+  2. [Read here to link package](https://github.com/react-native-async-storage/async-storage/tree/9aad474ff7ca64d34ef94358a39205a609455aca#link)
 
 
 #### React

@@ -5,7 +5,15 @@ var path = require("path");
 
 var rootPackageJson = fs.existsSync("../../package.json") ? JSON.parse(fs.readFileSync("../../package.json", 'utf-8')) : null;
 
+// const root = process.cwd()
+
 const isUsingWindows = process.platform === "win32";
+
+const execSyncDefaultSettings = {
+    env: process.env,
+    stdio: 'inherit',
+    maxBuffer: 100 * 1000 * 1000
+}
 
 const troubleshootString = "For troubleshooting, go to https://github.com/easybase/easybase-react#troubleshoot";
 
@@ -13,12 +21,13 @@ function clean() {
     console.log("Cleaning project and installation...");
     try {
         if (isUsingWindows) {
-            execSync("cd .. && cd .. && cd android && gradlew clean", {
-                timeout: 60000
+            execSync("gradlew clean", {
+                cwd: "../../android/",
+                ...execSyncDefaultSettings
             });
-            execSync("rd /S /Q %tmp%\\metro-cache");
+            execSync("rd /S /Q %tmp%\\metro-cache", execSyncDefaultSettings);
         } else {
-            execSync("rm -rf $TMPDIR/metro-*");
+            execSync("rm -rf $TMPDIR/metro-*", execSyncDefaultSettings);
         }
     } catch (error) {
         console.log("tmp cache not cleared");
@@ -27,8 +36,9 @@ function clean() {
     if (!isUsingWindows && commandExistsSync('xcodebuild')) {
         try {
             // xcodebuild clean forces RN to rebuild iOS app on the next start
-            execSync("cd .. && cd .. && cd ios && xcodebuild clean", {
-                timeout: 60000
+            execSync("xcodebuild clean", {
+                cwd: "../../ios/",
+                ...execSyncDefaultSettings
             });
         } catch (error) {
             console.log("Error cleaning ios folder: ", error);
@@ -118,9 +128,9 @@ function tryAndroidInstall() {
 function installAsyncStorage() {
     try {
         console.log("Downloading and installing async-storage. This may take a few minutes...");
-        execSync("cd .. && cd .. && npm i --no-save --no-progress @react-native-community/async-storage@1.12.1", {
-            timeout: 2700000, // 45 Minutes
-            maxBuffer: 100 * 1000 * 1000
+        execSync("npm i --no-progress @react-native-community/async-storage@1.12.1", {
+            cwd: "../../",
+            ...execSyncDefaultSettings
         });
     } catch (error) {
         console.log("Failed installing asyncStorage.", error, " " + troubleshootString);
@@ -150,10 +160,15 @@ function linkAsyncStorage() {
     try {
         if (isNewerVersion("0.59", rnVersion)) {
             // React Native 0.60+
+            execSync("npx pod-install --quiet", {
+                cwd: "../../",
+                ...execSyncDefaultSettings
+            });
         } else {
             // React Native <= 0.59
-            execSync("cd .. && cd .. && react-native link @react-native-async-storage/async-storage", {
-                timeout: 60000
+            execSync("react-native link @react-native-community/async-storage", {
+                cwd: "../../",
+                ...execSyncDefaultSettings
             });
         }   
     } catch (error) {
@@ -165,9 +180,9 @@ function linkAsyncStorage() {
 
 try {
     if (rootPackageJson !== null && "react-native" in rootPackageJson.dependencies) {
+        clean();
         installAsyncStorage();
         linkAsyncStorage();
-        clean();
     }
 } catch (e) {
     console.log(e, " " + troubleshootString);
