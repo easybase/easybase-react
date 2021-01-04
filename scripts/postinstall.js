@@ -2,7 +2,8 @@ var fs = require("fs");
 var execSync = require("child_process").execSync;
 var commandExistsSync = require("./command-exists").sync;
 var path = require("path");
-var rootPackageJson = JSON.parse(fs.readFileSync("../../package.json", 'utf-8'));
+
+var rootPackageJson = fs.existsSync("../../package.json") ? JSON.parse(fs.readFileSync("../../package.json", 'utf-8')) : null;
 
 var isUsingWindows = process.platform === "win32";
 
@@ -163,7 +164,7 @@ function linkAsyncStorage() {
 }
 
 try {
-    if ("react-native" in rootPackageJson.dependencies) {
+    if (rootPackageJson !== null && "react-native" in rootPackageJson.dependencies) {
         installAsyncStorage();
         linkAsyncStorage();
         clean();
