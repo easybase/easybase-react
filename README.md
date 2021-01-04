@@ -258,7 +258,7 @@ Errors can arise due to the fact that this library depends on [Async Storage](ht
 
   Or
 
-  1. `npm i @react-native-community/async-storage@1.12.1`
+  1. `npm install @react-native-community/async-storage@1.12.1`
   2. [Read here to link package](https://react-native-async-storage.github.io/async-storage/docs/install/#link)
 
 
