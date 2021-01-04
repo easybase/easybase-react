@@ -5,7 +5,7 @@ var path = require("path");
 
 var rootPackageJson = fs.existsSync("../../package.json") ? JSON.parse(fs.readFileSync("../../package.json", 'utf-8')) : null;
 
-var isUsingWindows = process.platform === "win32";
+const isUsingWindows = process.platform === "win32";
 
 const troubleshootString = "For troubleshooting, go to https://github.com/easybase/easybase-react#troubleshoot";
 
