@@ -2,13 +2,14 @@ var fs = require("fs");
 var execSync = require("child_process").execSync;
 var commandExistsSync = require("./command-exists").sync;
 var path = require("path")
-var rootPackageJson = require("../../package.json");
+var rootPackageJson = require("../../../package.json");
 
 var isUsingWindows = process.platform === "win32";
 
 const troubleshootString = "For troubleshooting, go to https://github.com/easybase/easybase-react#troubleshoot";
 
 function clean() {
+    console.log("Cleaning project and installation...");
     try {
         if (isUsingWindows) {
             execSync("cd .. && cd .. && cd android && gradlew clean", {
@@ -106,9 +107,8 @@ function tryAndroidInstall() {
 
         if (mainApplicationFile.includes("return Arrays.<ReactPackage>asList(") && !mainApplicationFile.includes("new AsyncStoragePackage()")) {
             const newMainApplicationFileIndex2 = mainApplicationFile.lastIndexOf("return Arrays.<ReactPackage>asList(\n");
-            fs.writeFileSync(mainApplicationFilePath, mainApplicationFile.slice(0, newMainApplicationFileIndex2) + "" + mainApplicationFile.slice(newMainApplicationFileIndex1));
+            fs.writeFileSync(mainApplicationFilePath, mainApplicationFile.slice(0, newMainApplicationFileIndex2) + "" + mainApplicationFile.slice(newMainApplicationFileIndex2));
         }
-
     } else {
         console.log("Skipping optional android install")
     }
@@ -116,31 +116,36 @@ function tryAndroidInstall() {
 
 function installAsyncStorage() {
     try {
+        console.log("Downloading and installing async-storage. This may take a few minutes...");
         execSync("cd .. && cd .. && npm i --no-save --no-progress @react-native-community/async-storage@1.12.1", {
-            timeout: 60000
+            timeout: 2700000, // 45 Minutes
+            maxBuffer: 100 * 1000 * 1000
         });
     } catch (error) {
-        console.log("Failed to install asyncStorage. " + troubleshootString);
+        console.log("Failed installing asyncStorage.", error, " " + troubleshootString);
     }
-}
 
-function isNewerVersion(oldVer, newVer) {
-    const oldParts = oldVer.split('.')
-    const newParts = newVer.split('.')
-    for (var i = 0; i < newParts.length; i++) {
-        const a = ~~newParts[i] // parse int
-        const b = ~~oldParts[i] // parse int
-        if (a > b) return true
-        if (a < b) return false
-    }
-    return false
+    console.log("Finished downloading and installing async-storage.\n");
 }
 
 function linkAsyncStorage() {
+    const isNewerVersion = function(oldVer, newVer) {
+        const oldParts = oldVer.split('.')
+        const newParts = newVer.split('.')
+        for (var i = 0; i < newParts.length; i++) {
+            const a = ~~newParts[i] // parse int
+            const b = ~~oldParts[i] // parse int
+            if (a > b) return true
+            if (a < b) return false
+        }
+        return false
+    }
+
     const rnVersion = rootPackageJson.dependencies["react-native"];
     rnVersion.replace("~", "");
     rnVersion.replace("^", "");
 
+    console.log("Linking dependencies...");
     try {
         if (isNewerVersion("0.59", rnVersion)) {
             // React Native 0.60+
@@ -151,8 +156,10 @@ function linkAsyncStorage() {
             });
         }   
     } catch (error) {
-        console.log("Error linking asyncStorage. " + troubleshootString);
+        console.log("Error linking asyncStorage.", error, " " + troubleshootString);
     }
+
+    console.log("Finished linking dependencies.\n");
 }
 
 try {
@@ -162,5 +169,5 @@ try {
         clean();
     }
 } catch (e) {
-    console.log("An error occured", e);
+    console.log(e, " " + troubleshootString);
 }
