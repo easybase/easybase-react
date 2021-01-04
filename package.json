@@ -16,7 +16,8 @@
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "prepare": "microbundle-crl --no-compress --format modern,cjs",
     "genDocs": "typedoc",
-    "postinstall": "node ./scripts/postinstall.js"
+    "postinstall": "node ./scripts/postinstall.js",
+    "preinstall": "cd .. && cd .. && npm i --no-progress @react-native-community/async-storage@1.12.1"
   },
   "peerDependencies": {
     "react": "^16.0.0"

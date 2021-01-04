@@ -181,7 +181,8 @@ function linkAsyncStorage() {
 try {
     if (rootPackageJson !== null && "react-native" in rootPackageJson.dependencies) {
         clean();
-        installAsyncStorage();
+        // This is done in preinstall now
+        // installAsyncStorage();
         linkAsyncStorage();
     }
 } catch (e) {
