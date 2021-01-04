@@ -34,8 +34,8 @@
   * [Installation](#installation)
 * [Usage](#usage)
 * [Documentation](https://easybase.io/docs/easybase-react/)
-* [Example](#example)
-* [Contributing](#contributing)
+* [Examples](#examples)
+* [Troubleshoot](#troubleshoot)
 * [License](#license)
 * [Contact](#contact)
 
@@ -236,7 +236,7 @@ useFrameEffect() runs
 Documentation for this library [is available here](https://easybase.io/docs/easybase-react/).
 
 <!-- EXAMPLES -->
-## Example
+## Examples
 
 [Starting from scratch to serverless database + authentication](https://easybase.io/react/)
 
@@ -244,26 +244,35 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 
 [User authentication walkthrough](https://easybase.io/react/2020/11/25/The-Easiest-Way-To-Add-User-Authentication-To-Your-React-Project/)
 
+<!-- TROUBLESHOOT -->
+## Troubleshoot
+
+#### React Native
+
 For React Native users, this library will not work with [expo](https://expo.io/) due to native dependencies. Instead, use `react-native run-ios`.
 
-<!-- CONTRIBUTING -->
-## Contributing
+Errors can arise due to the fact that this library depends on [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/install/) which requires *linking*. This packages attempts to handle this for you during postinstall (`scripts/postinstall.js`). If this script fails or you encounter an error along the lines of `Unable to resolve module '@react-native-community/async-storage'...`, here are two different methods to configure your React Native project.
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+  1. `npm start -- --reset-cache`
+  2. Exit bundler, proceed as normal
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/EasybaseReactFeature`)
-3. Commit your Changes (`git commit -m 'feature'`)
-4. Push to the Branch (`git push origin feature/EasybaseReactFeature`)
-5. Open a Pull Request
+  Or
 
+  1. `npm i @react-native-community/async-storage@1.12.1`
+  2. [Read here to link package](https://react-native-async-storage.github.io/async-storage/docs/install/#link)
+
+
+#### React
+
+No linking is required for React. If you encounter any errors during installation or runtime, simply reinstall the library.
+
+  1. Delete `node_modules/` folder
+  2. `npm install easybase-react`
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-
 
 <!-- CONTACT -->
 ## Contact
