@@ -32,11 +32,11 @@ function clean() {
     console.log("Cleaning project and installation...");
     try {
         if (isUsingWindows) {
+            execute("rd /S /Q %tmp%\\metro-cache", execSyncDefaultSettings);
             execute("gradlew clean", {
                 cwd: "../../android/",
                 ...execSyncDefaultSettings
             });
-            execute("rd /S /Q %tmp%\\metro-cache", execSyncDefaultSettings);
         } else {
             execute("rm -rf $TMPDIR/metro-*", execSyncDefaultSettings);
         }
