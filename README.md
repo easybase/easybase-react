@@ -97,7 +97,7 @@ npm install easybase-react
   <img src="./assets/users-2.gif" width="80%" alt="react easybase integration 2">
 </p>
 
-#### Then, download your token and place it the root of your project
+#### Then, download your token and place it at the root of your project
 
 <pre>
 ├── src/
@@ -244,8 +244,6 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 
 [User authentication walkthrough](https://www.freecodecamp.org/news/build-react-native-app-user-authentication/)
 
-[freeCodeCamp tutorial on serverless database](https://www.freecodecamp.org/news/how-to-add-a-serverless-database-to-react-projects-and-web-apps/)
-
 <!-- TROUBLESHOOT -->
 ## Troubleshoot
 
@@ -253,7 +251,7 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 
 For React Native users, this library will not work with [expo](https://expo.io/) due to native dependencies. Instead, use `react-native run-ios`.
 
-Errors can arise due to the fact that this library depends on [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/install/) which requires *linking*. This packages attempts to handle this for you during postinstall (`scripts/postinstall.js`). If this script fails or you encounter an error along the lines of `Unable to resolve module '@react-native-community/async-storage'...`, here are two different methods to configure your React Native project.
+Errors can arise because this library depends on [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/install/) which requires *linking*. This package attempts to automatically handle this for you during postinstall (`scripts/postinstall.js`). If this script fails or you encounter an error along the lines of `Unable to resolve module '@react-native-community/async-storage'...`, here are two different methods to configure your React Native project.
 
   1. `npm start -- --reset-cache`
   2. Exit bundler, proceed as normal
@@ -261,7 +259,7 @@ Errors can arise due to the fact that this library depends on [Async Storage](ht
   Or
 
   1. `npm install @react-native-community/async-storage@1.12.1`
-  2. [Read here to link package](https://github.com/react-native-async-storage/async-storage/tree/9aad474ff7ca64d34ef94358a39205a609455aca#link)
+  2. [Link package via these instructions](https://github.com/react-native-async-storage/async-storage/tree/9aad474ff7ca64d34ef94358a39205a609455aca#link)
 
 
 #### React
