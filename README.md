@@ -242,7 +242,9 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 
 [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
-[User authentication walkthrough](https://easybase.io/react/2020/11/25/The-Easiest-Way-To-Add-User-Authentication-To-Your-React-Project/)
+[User authentication walkthrough](https://www.freecodecamp.org/news/build-react-native-app-user-authentication/)
+
+[freeCodeCamp tutorial on serverless database](https://www.freecodecamp.org/news/how-to-add-a-serverless-database-to-react-projects-and-web-apps/)
 
 <!-- TROUBLESHOOT -->
 ## Troubleshoot
