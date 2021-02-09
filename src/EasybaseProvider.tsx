@@ -55,6 +55,7 @@ let _signInCallback: () => void;
 
 const _observedChangeStack: Record<string, any>[] = [];
 let _recordIdMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
+let _proxyRecordMap: WeakMap<Record<string, any>, "string"> = new WeakMap();
 
 const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
@@ -187,6 +188,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             });
         });
 
+        _proxyRecordMap = new WeakMap();
+        _frame.forEach((_: any, i: number) => _proxyRecordMap.set(_observableFrame[i], "" + i as any))
+
         _effect(); // call useFrameEffect
     }, [_observableFrame]);
 
@@ -205,7 +209,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
-    const _recordIDExists = (record: Record<string, any>): Boolean => !!_recordIdMap.get(record);
+    const _recordIDExists = (record: Record<string, any>): Boolean => !!_recordIdMap.get(record) || !!_recordIdMap.get(_getRawRecordFromProxy(record) || {});
+    const _getRawRecordFromProxy = (proxyRecord: Record<string, any>): Record<string, any> | undefined => _proxyRecordMap.get(proxyRecord) ? _frame[+_proxyRecordMap.get(proxyRecord)!] : undefined
 
     const configureFrame = (options: ConfigureFrameOptions): StatusResponse => {
         _frameConfiguration = { ..._frameConfiguration };
@@ -249,7 +254,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const deleteRecord = async (options: DeleteRecordOptions): Promise<StatusResponse> => {
-        const _frameRecord = _frame.find(ele => deepEqual(ele, options.record));
+        const _frameRecord = _getRawRecordFromProxy(options.record) || _frame.find(ele => deepEqual(ele, options.record));
 
         if (_frameRecord && _recordIdMap.get(_frameRecord)) {
             const res = await tokenPost(POST_TYPES.SYNC_DELETE, {
@@ -300,17 +305,17 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 }
             }
 
-            !isNewDataTheSame && _setFrame(oldframe => {
-                oldframe.length = newData.length;
+            if (!isNewDataTheSame) {
                 _recordIdMap = new WeakMap();
-                for (let i = 0; i < newData.length; i++) {
-                    const currNewEle = newData[i];
+                _frame.length = newData.length;
+
+                newData.forEach((currNewEle, i) => {
+                    _frame[i] = currNewEle;
                     _recordIdMap.set(currNewEle, currNewEle._id);
                     delete currNewEle._id;
-                    oldframe[i] = currNewEle;
-                }
-                return [...oldframe];
-            });
+                });
+                _setFrame([..._frame]);
+            }
         }
 
         if (isSyncing) {
@@ -337,7 +342,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         try {
             const res = await tokenPost(POST_TYPES.GET_FRAME, _frameConfiguration);
 
-            // Check if the array recieved from db is the same as frame
+            // Check if the array received from db is the same as frame
             // If not, update it and send useFrameEffect
 
             if (res.success === false) {
@@ -381,7 +386,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     }
 
     const _updateRecordAttachment = async (options: UpdateRecordAttachmentOptions, type: string): Promise<StatusResponse> => {
-        const _frameRecord: Record<string, any> | undefined = _frame.find(ele => deepEqual(ele, options.record));
+        const _frameRecord: Record<string, any> | undefined = _getRawRecordFromProxy(options.record) || _frame.find(ele => deepEqual(ele, options.record));
 
         if (_frameRecord === undefined || !_recordIDExists(_frameRecord)) {
             log("Attempting to add attachment to a new record that has not been synced. Please sync() before trying to add attachment.");
