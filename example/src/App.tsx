@@ -5,6 +5,7 @@ import ebconfig2 from "./ebconfig2";
 import { EasybaseProvider } from 'easybase-react';
 import FrameSyncExample from "./FrameSyncExample";
 import QueryExample from "./QueryExample";
+import FunctionExample from "./CloudFunctionExample";
 import "./styles.css";
 import {
   HashRouter,
@@ -19,6 +20,8 @@ const IntegrationExample = () => (
     <FrameSyncExample />
     <hr className="m-4" />
     <QueryExample />
+    <hr className="m-4" />
+    <FunctionExample />
   </EasybaseProvider>
 )
 

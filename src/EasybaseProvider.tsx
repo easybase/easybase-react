@@ -18,7 +18,7 @@ import {
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
-import functionsFactory from "../node_modules/easybasejs/src/EasybaseProvider/functions";
+import tableFactory from "../node_modules/easybasejs/src/EasybaseProvider/table";
 import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
@@ -36,12 +36,14 @@ const {
     signIn,
     signOut
 } = authFactory(g);
+
 const { log } = utilsFactory(g);
+
 const { 
     Query,
     fullTableSize,
     tableTypes
- } = functionsFactory(g);
+} = tableFactory(g);
 
 let _isFrameInitialized: boolean = true;
 
