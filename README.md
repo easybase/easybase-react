@@ -57,7 +57,7 @@ React and React Native compatible library for use with Easybase. This serverless
 | *~~Access multiple tables~~*     | Access multiple tables     |
 | *~~Associate records to users~~* | Associate records to users |
 
-[Click here](https://easybase.io/react/) to learn more about Easybase.io and check out the examples below.
+**Cloud functions** can be invoked using this package with the automatically generated route as provided by Easybase. [Click here](https://easybase.io/react/) to learn more about Easybase.io and check out the examples below.
 
 ### Purpose
 
@@ -88,6 +88,7 @@ The **only** configuration needed to get this library up and running is an `ebco
 npm install easybase-react
 ```
 
+### Database
 #### Create a React integration or Project
 
 <p align="center">
@@ -109,8 +110,24 @@ npm install easybase-react
 └── ...
 </pre>
 
+### Cloud Functions
+
+#### Deploy a new cloud function
+
+<p align="center">
+  <img src="./assets/deploy-function-1.png" width="80%" alt="react easybase deploy function 1">
+</p>
+
+#### Take note of the automatically generated route
+
+<p align="center">
+  <img src="./assets/deploy-function-14.png" width="80%" alt="react easybase deploy function 1">
+</p>
+
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+### Database
 
 Wrap your root component in *EasybaseProvider* with your credentials.
 ```jsx
@@ -230,6 +247,27 @@ useFrameEffect() runs
  
 **Frame()** acts just like a plain array! When you want to push changes and synchronize with your data, just call **sync()**.
 
+
+### Cloud Functions
+
+The *EasybaseProvider* pattern is not necessary for invoking cloud functions, only *callFunction* is needed.
+```jsx
+import { callFunction } from 'easybase-react';
+
+function App() {
+    async function handleButtonClick() {
+        const response = await callFunction("123456-YOUR-ROUTE", {
+            hello: "world",
+            message: "Find me in event.body"
+        });
+
+        console.log("Cloud function: " + response);
+    }
+
+    //...
+}
+```
+
 <!-- DOCUMENTATION -->
 ## Documentation
 
@@ -243,6 +281,8 @@ Documentation for this library [is available here](https://easybase.io/docs/easy
 [Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 [User authentication walkthrough](https://www.freecodecamp.org/news/build-react-native-app-user-authentication/)
+
+[Deploying cloud functions](https://easybase.io/react/2021/03/09/The-Easiest-Way-To-Deploy-Cloud-Functions-for-your-React-Projects/)
 
 <!-- TROUBLESHOOT -->
 ## Troubleshoot
