@@ -20,6 +20,7 @@ import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
 import tableFactory from "../node_modules/easybasejs/src/EasybaseProvider/table";
 import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
+import dbFactory from "../node_modules/easybasejs/src/EasybaseProvider/db";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
 import * as cache from "./cache";
@@ -44,6 +45,8 @@ const {
     fullTableSize,
     tableTypes
 } = tableFactory(g);
+
+const { db } = dbFactory();
 
 let _isFrameInitialized: boolean = true;
 
@@ -486,7 +489,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         signUp,
         setUserAttribute,
         getUserAttributes,
-        onSignIn
+        onSignIn,
+        db
     }
 
     return (

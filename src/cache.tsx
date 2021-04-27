@@ -34,7 +34,6 @@ export async function getCacheTokens(cookieName: string): Promise<Record<string,
         cacheRefreshToken,
         cacheSession
     }
-
 }
 
 export async function clearCacheTokens(cookieName: string) {

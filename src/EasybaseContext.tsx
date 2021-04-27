@@ -10,6 +10,7 @@ import {
     FrameConfiguration,
     QueryOptions
 } from "../node_modules/easybasejs/src/EasybaseProvider/types";
+import { SQW } from "EasyQB/types/sq";
 
 function Frame(): Record<string, any>[];
 function Frame(index: number): Record<string, any>;
@@ -37,7 +38,8 @@ const c: ContextValue = {
     signIn: async (_: string, _2: string) => ({}) as StatusResponse,
     signOut: () => {},
     signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse,
-    onSignIn: (_: () => void) => {}
+    onSignIn: (_: () => void) => {},
+    db: (_?: string) => ({}) as SQW
 }
 
 export default createContext(c);

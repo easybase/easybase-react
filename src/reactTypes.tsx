@@ -1,4 +1,5 @@
 import React from "react";
+import { SQW } from "EasyQB/types/sq";
 
 import type {
     Ebconfig,
@@ -203,4 +204,10 @@ export interface ContextValue {
      * @return {Promise<Record<string, any>[]>} Isolated array of records in the same form as Frame(). Editing this array has no effect and cannot be synced with your database. Use Frame() for realtime database features.
      */
     Query(options: QueryOptions): Promise<Record<string, any>[]>;
+    /**
+     * Instantiate EasyQB instance for dynamic CRUD query building: https://easybase.github.io/EasyQB/
+     * @param {string} [tableName] Name of your table.
+     * @returns {SQW} EasyQB object for dynamic querying: https://easybase.github.io/EasyQB/
+     */
+    db(tableName?: string): SQW;
 }
