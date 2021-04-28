@@ -9,7 +9,8 @@ import type {
     FrameConfiguration,
     QueryOptions,
     AddRecordOptions,
-    DeleteRecordOptions
+    DeleteRecordOptions,
+    DB_STATUS
 } from './types';
 
 export interface EasybaseProviderPropsOptions {
@@ -210,4 +211,10 @@ export interface ContextValue {
      * @returns {SQW} EasyQB object for dynamic querying: https://easybase.github.io/EasyQB/
      */
     db(tableName?: string): SQW;
+    /**
+     * Subscribe to db events, invoked by calling `.all` or `.one`: https://easybase.github.io/EasyQB/
+     * @param {function(status?: DB_STATUS, queryType?: string, queryCount?: string):void} [callback] Callback function to execute on db operations.
+     * @returns {function():void} Calling this function unsubscribes your callback function from events.
+     */
+    dbEventListener(callback: (status?: DB_STATUS, queryType?: string, queryCount?: string) => void): () => void;
 }

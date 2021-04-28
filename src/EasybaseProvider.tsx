@@ -46,7 +46,10 @@ const {
     tableTypes
 } = tableFactory(g);
 
-const { db } = dbFactory();
+const {
+    db,
+    dbEventListener
+} = dbFactory();
 
 let _isFrameInitialized: boolean = true;
 
@@ -490,7 +493,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         setUserAttribute,
         getUserAttributes,
         onSignIn,
-        db
+        db,
+        dbEventListener
     }
 
     return (

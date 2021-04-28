@@ -118,6 +118,12 @@ export enum POST_TYPES {
     EASY_QB = "easyqb"
 }
 
+export enum DB_STATUS {
+    ERROR = "error",
+    PENDING = "pending",
+    SUCCESS = "success"
+}
+
 export interface AuthPostResponse {
     success: boolean;
     data: any;

@@ -16,7 +16,8 @@ const FrameSyncExample = () => {
         tableTypes,
         currentConfiguration,
         addRecord,
-        deleteRecord
+        deleteRecord,
+        // db
     } = useEasybase();
 
     useFrameEffect(() => {

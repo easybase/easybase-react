@@ -39,7 +39,8 @@ const c: ContextValue = {
     signOut: () => {},
     signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse,
     onSignIn: (_: () => void) => {},
-    db: (_?: string) => ({}) as SQW
+    db: (_?: string) => ({}) as SQW,
+    dbEventListener: (_: () => void) => () => {}
 }
 
 export default createContext(c);
