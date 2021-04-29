@@ -50,7 +50,7 @@ React and React Native compatible library for use with Easybase. This serverless
 |----------------------------------|----------------------------|
 | Live usage analytics             | Live usage analytics       |
 | Custom table permissions         | Custom table permissions   |
-| Stateful database array          | Stateful database array    |
+| Database query builder           | Database query builder     |
 | Access to visual queries         | Access to visual queries   |
 | *~~User authentication~~*        | User authentication        |
 | *~~Get/Set user attributes~~*    | Get/Set user attributes    |
@@ -200,53 +200,53 @@ function ProjectUser() {
 <summary>Then, interface with your data in a stateful and synchronous manner.</summary>
 <p>
 
+[EasyQB](https://easybase.github.io/EasyQB/) is a powerful query builder to perform **Select**, **Update**, **Insert**, and **Delete** operations on your table. You can access this through the `.db` function. [Learn how to use the `.db` function here](https://easybase.github.io/EasyQB/). Here's an example of how to use a simple clause to read and insert data with your table.
+
 ```jsx
 function Container() {
-  const { Frame, useFrameEffect, configureFrame, sync } = useEasybase();
+  const { db } = useEasybase();
+
+  const [easybaseData, setEasybaseData] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
 
   useEffect(() => {
-    configureFrame({ limit: 10, offset: 0 });
-    sync();
-  }, []);
+    const mounted = async () => {
+      const res = await db('MY TABLE').return().limit(10).offset(currentPage * 10).all()
+      setCurrentData(res)
+    }
 
-  useFrameEffect(() => {
-    console.log("Frame data changed!");
-  });
+    mounted();
+  }, [currentPage]);
 
-  const onChange = (index, column, newValue) => {
-      Frame(index)[column] = newValue;
-      sync();
+  const onChange = async (_key, column, newValue) => {
+      await db('MY TABLE').set({ [column]: newValue }).where({ _key: _key }).one()
+  }
+
+  const onChangePage = (pageNum) => {
+    setCurrentPage(pageNum)
   }
 
   return (
     <div>
-      {Frame().map(ele => <Card {...ele} onChange={onChange} index={index}  />)}
+      {easybaseData.map(ele => <Card
+          {...ele}
+          onChangeValue={onChangeValue}
+          onChangePage={onChangePage}
+        />
+      )}
     </div>
   )
 
 }
 ```
 
-<br />
-
-Let's consider the lifecycle of **Frame()** as follows:
-
-```Perl
-Frame Is Synchronized ->
-useFrameEffect() runs ->
-Edit Frame() ->
-Call sync() ->
-Frame Is Synchronized ->
-useFrameEffect() runs
-```
-
+To see just how much functionality is packed into the `.db` function (aggregators, grouping, expressions), [check out the documentation here](https://easybase.github.io/EasyQB/).
 </p>
 </details>
 
 <br />
  
-**Frame()** acts just like a plain array! When you want to push changes and synchronize with your data, just call **sync()**.
-
+Learn about using the `.db` function for [Select](https://easybase.github.io/EasyQB/docs/select_queries.html), [Update](https://easybase.github.io/EasyQB/docs/update_queries.html), [Delete](https://easybase.github.io/EasyQB/docs/delete_queries.html), or [Insert](https://easybase.github.io/EasyQB/docs/insert_queries.html) queries!
 
 ### Cloud Functions
 
@@ -273,12 +273,10 @@ function App() {
 
 Documentation for this library [is available here](https://easybase.io/docs/easybase-react/).
 
+Details on **database querying** [is available on EasyQB](https://easybase.github.io/EasyQB/).
+
 <!-- EXAMPLES -->
 ## Examples
-
-[Starting from scratch to serverless database + authentication](https://easybase.io/react/)
-
-[Stateful database array walkthrough](https://easybase.io/react/2020/09/20/The-Best-Way-To-Add-A-Database-To-Your-React-React-Native-Apps/)
 
 [User authentication walkthrough](https://www.freecodecamp.org/news/build-react-native-app-user-authentication/)
 
