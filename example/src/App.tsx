@@ -6,6 +6,7 @@ import { EasybaseProvider } from 'easybase-react';
 import FrameSyncExample from "./FrameSyncExample";
 import QueryExample from "./QueryExample";
 import FunctionExample from "./CloudFunctionExample";
+import DbExample from "./DbExample";
 import "./styles.css";
 import {
   HashRouter,
@@ -22,6 +23,8 @@ const IntegrationExample = () => (
     <QueryExample />
     <hr className="m-4" />
     <FunctionExample />
+    <hr className="m-4" />
+    <DbExample />
   </EasybaseProvider>
 )
 

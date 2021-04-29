@@ -208,9 +208,10 @@ export interface ContextValue {
     /**
      * Instantiate EasyQB instance for dynamic CRUD query building: https://easybase.github.io/EasyQB/
      * @param {string} [tableName] Name of your table.
+     * @param {boolean} [userAssociatedRecordsOnly] **PROJECTS ONLY** Operations will only be performed on records already associated to the currently signed-in user. Inserted records will automatically be associate to the user.
      * @returns {SQW} EasyQB object for dynamic querying: https://easybase.github.io/EasyQB/
      */
-    db(tableName?: string): SQW;
+    db(tableName?: string, userAssociatedRecordsOnly?: boolean): SQW;
     /**
      * Subscribe to db events, invoked by calling `.all` or `.one`: https://easybase.github.io/EasyQB/
      * @param {function(status?: DB_STATUS, queryType?: string, queryCount?: string):void} [callback] Callback function to execute on db operations.

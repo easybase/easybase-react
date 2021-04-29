@@ -49,7 +49,7 @@ const {
 const {
     db,
     dbEventListener
-} = dbFactory();
+} = dbFactory(g);
 
 let _isFrameInitialized: boolean = true;
 

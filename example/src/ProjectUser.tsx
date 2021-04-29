@@ -6,6 +6,7 @@ export default function ProjectUser() {
     
     const [usernameValue, setUsernameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+    const [data, setData] = useState<Record<string, any>[]>([]);
 
     const {
         isUserSignedIn,
@@ -13,10 +14,8 @@ export default function ProjectUser() {
         signUp,
         signOut,
         getUserAttributes,
-        Frame,
-        configureFrame,
-        sync,
-        onSignIn
+        onSignIn,
+        db
     } = useEasybase();
 
     const onSignUpClick = async() => {
@@ -33,24 +32,24 @@ export default function ProjectUser() {
 
     useEffect(() => {
         console.log("Mobile Apps allowed when not signed in");
-        configureFrame({
-            limit: 10,
-            offset: 0,
-            tableName: "MOBILE APPS"
+        db('MOBILE APPS').return().limit(10).all().then(res => {
+            setData(res as Record<string, any>[]);
         });
-        sync();
 
         onSignIn(() => {
             console.log("Signed In!");  
-            configureFrame({
-                limit: 10,
-                offset: 0,
-                tableName: "REACT TEST"
+            db('REACT TEST', true).return().limit(10).all().then(res => {
+                setData(res as Record<string, any>[]);
             });
-            sync()
         });
         
     }, []);
+
+    const addUserRecord = async () => {
+        await db('REACT TEST', true).insert({rating: 68, app_name: "this is only for this user"}).one();
+        const res = await db('REACT TEST', true).return().limit(10).all();
+        setData(res as Record<string, any>[]);
+    }
 
     if (isUserSignedIn()) {
         return (
@@ -58,9 +57,10 @@ export default function ProjectUser() {
                 <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#BBB", padding: 40, borderRadius: 5 }}>
                     <button className="btn green m-4" onClick={onUserAttrsClick}><span>Get user attrs</span></button>
                     <button className="btn orange m-4" onClick={signOut}><span>Sign Out</span></button>
+                    <button className="btn orange m-4" onClick={addUserRecord}><span>Add User Record</span></button>
                 </div>
                 <div className="d-flex">
-                    {Frame().map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                    {data.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
                 </div>
             </div>
         )
@@ -76,7 +76,7 @@ export default function ProjectUser() {
                     <button className="btn orange m-4" onClick={onSignUpClick}><span>Sign Up</span></button>
                 </div>
                 <div className="d-flex">
-                    {Frame().map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                    {data.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
                 </div>
             </div>
         )

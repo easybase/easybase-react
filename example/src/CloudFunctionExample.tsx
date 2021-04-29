@@ -6,10 +6,7 @@ const CloudFunctionExample = () => {
     const [funcOutput, setFuncOutput] = useState("");
 
     const onButtonClick = async () => {
-        const response = await callFunction('d6f217bde0b6b4d2a1d9138be901e3d8-newf', {
-            hello: "world",
-            message: "Find me in event.body"
-        });
+        const response = await callFunction('d6f217bde0b6b4d2a1d9138be901e3d8-march-12', {});
         setFuncOutput(response);
     }
 
@@ -20,7 +17,6 @@ const CloudFunctionExample = () => {
         width: 500,
         height: 100,
         color: "white"
-
     }
 
     return (
