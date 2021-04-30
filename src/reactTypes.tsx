@@ -82,12 +82,16 @@ export interface ContextValue {
      */
     signUp(newUserID: string, password: string, userAttributes?: Record<string, string>): Promise<StatusResponse>;
     /**
+     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * 
      * This hook runs when the Frame changes. This can be triggered by calling sync().
      * @abstract
      * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
      */
     useFrameEffect(effect: React.EffectCallback): void;
    /**
+     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * 
      * Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive
      * your entire collection. This is useful for paging.
      * @abstract
@@ -112,6 +116,8 @@ export interface ContextValue {
      */
     deleteRecord(options: DeleteRecordOptions): Promise<StatusResponse>;
     /**
+     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * 
      * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
      * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
      * @abstract
@@ -149,6 +155,8 @@ export interface ContextValue {
      */
     updateRecordFile(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
     /**
+     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * 
      * This function is how you access your current frame. This function does not get new data or push changes to Easybase. If you 
      * want to syncronize your frame and Easybase, call sync() then Frame().
      * @abstract
@@ -157,6 +165,8 @@ export interface ContextValue {
      */
     Frame(): Record<string, any>[];
     /**
+     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * 
      * This function is how you access a single object your current frame. This function does not get new data or push changes to Easybase. If you 
      * want to syncronize your frame and Easybase, call sync() then Frame().
      * @abstract
