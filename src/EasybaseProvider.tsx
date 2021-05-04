@@ -143,9 +143,11 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
                     if (refreshTokenRes.success) {
                         clearTimeout(fallbackMount);
-                        g.token = refreshTokenRes.data.token
-                        await cache.setCacheTokens(g, cookieName)
+                        g.token = refreshTokenRes.data.token;
+                        await cache.setCacheTokens(g, cookieName);
                         setUserSignedIn(true);
+                    } else {
+                        cache.clearCacheTokens(cookieName);
                     }
                 }
 
