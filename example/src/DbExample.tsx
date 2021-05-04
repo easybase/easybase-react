@@ -77,7 +77,7 @@ const DbExample = () => {
                     <button className="btn green" onClick={() => changePage(10)}><span>Next</span></button>
                 </div>
                 <div className="d-flex align-items-center">
-                    <p className="m-4">Edit frame size: </p>
+                    <p className="m-4">Edit db limit: </p>
                     <input type="number" onChange={e => setFrameLength(+e.target.value)} value={frameLength} />
                 </div>
                 <div className="d-flex align-items-center">

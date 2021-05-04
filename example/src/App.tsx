@@ -29,7 +29,7 @@ const IntegrationExample = () => (
 )
 
 const ProjectExample = () => (
-  <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>
+  <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
     <ProjectUser />
   </EasybaseProvider>
 )
