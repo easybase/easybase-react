@@ -1,5 +1,6 @@
 import React from "react";
 import { SQW } from "EasyQB/types/sq";
+import { NewExpression } from "EasyQB/types/expression";
 import {
     EXECUTE_COUNT,
     DB_STATUS
@@ -49,6 +50,22 @@ export interface EasybaseProviderProps {
     ebconfig: Ebconfig;
     /** Optional configuration parameters. */
     options?: EasybaseProviderPropsOptions
+}
+
+export interface UseReturnValue {
+    /** Stateful frame that responds to local calls to `.update`, `.delete`, and `.set` */
+    frame: Record<string, any>[];
+    /** Call this function to unsubscribe to future events */
+    unsubscribe(): void;
+    /** Errors that occur in the useReturn workflow */
+    error: any;
+    /**
+     * @async
+     * Manually refresh the data in `frame`
+     */
+    manualFetch(): Promise<void>;
+    /** Is the frame awaiting a response from server to be set to */
+    loading: boolean;
 }
 
 export interface ContextValue {
@@ -250,4 +267,26 @@ export interface ContextValue {
      * @returns {function():void} Calling this function unsubscribes your callback function from events.
      */
     dbEventListener(callback: (status?: DB_STATUS, queryType?: string, executeCount?: EXECUTE_COUNT, tableName?: string | null, returned?: any) => void): () => void;
+    /**
+     * Expressions and operations builder for `.db()`, used to create complex conditions, aggregators, and clauses. https://easybase.github.io/EasyQB/docs/operations.html
+     */
+    e: NewExpression;
+    /**
+     * Custom stateful hook to an instance of `db().return`. Other local changes will automatically re-fetch the query 
+     * as detailed in the passed-in db.
+     * ```jsx
+     * const { frame } = useReturn(db('MYTABLE').return().where(e.gt('rating', 15)).limit(10))
+     * 
+     * const onButtonClick = (_key) => {
+     *   db('MYTABLE').delete().where({ _key }).all();
+     * }
+     * 
+     * // Stays fresh after call to `.delete()`
+     * return (<div>{ frame.map(ele => <Card {...ele} />) }</div>)
+     * ```
+     * @param {function():SQW} dbInstance Function returning an instance of `db().return` without having called `.all` or `.one`
+     * @param {React.DependencyList} deps If present, instance will be reloaded if the values in the list change.
+     * @return {UseReturnValue} Object with the required values to statefully access an array that is subscribed to local executions to the corresponding db instance.
+     */
+    useReturn(dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue;
 }

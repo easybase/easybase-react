@@ -6,9 +6,11 @@ import {
     UpdateRecordAttachmentOptions,
     FrameConfiguration,
     QueryOptions,
-    ContextValue
+    ContextValue,
+    UseReturnValue
 } from "./types";
 import { SQW } from "EasyQB/types/sq";
+import { NewExpression } from "EasyQB/types/expression";
 
 function Frame(): Record<string, any>[];
 function Frame(index: number): Record<string, any>;
@@ -38,7 +40,9 @@ const c: ContextValue = {
     signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse,
     onSignIn: (_: () => void) => {},
     db: (_?: string) => ({}) as SQW,
-    dbEventListener: (_: () => void) => () => {}
+    dbEventListener: (_: () => void) => () => {},
+    useReturn: (_: () => SQW) => ({}) as UseReturnValue,
+    e: ({}) as NewExpression
 }
 
 export default createContext(c);

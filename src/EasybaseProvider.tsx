@@ -11,7 +11,10 @@ import {
     ConfigureFrameOptions,
     DeleteRecordOptions,
     EasybaseProviderProps,
-    ContextValue
+    ContextValue,
+    DB_STATUS,
+    EXECUTE_COUNT,
+    UseReturnValue
 } from "./types";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
@@ -47,7 +50,8 @@ const {
 
 const {
     db,
-    dbEventListener
+    dbEventListener,
+    e
 } = dbFactory(g);
 
 let _isFrameInitialized: boolean = true;
@@ -473,24 +477,63 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
-    // const useReturn = (dbInstance: SQW) => {
-    //     const [currData, setCurrData] = useState<Record<string, any>[]>([]);
-    //     useEffect(() => {
-    //         const doFetch = async () => {
-    //             const res = await dbInstance.all();
-    //             if (Array.isArray(res)) {
-    //                 setCurrData(res as Record<string, any>[]);
-    //             }
-    //         }
+    const useReturn = (dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue => {
+        // eslint-disable-next-line no-extra-parens
+        const [unsubscribe, setUnsubscribe] = useState<() => void>(() => () => { });
+        const [frame, setFrame] = useState<Record<string, any>[]>([]);
+        const [error, setError] = useState<any>(null);
+        const [loading, setLoading] = useState<boolean>(false);
 
-    //         dbEventListener((status?: DB_STATUS, queryType?: string, executeCount?: EXECUTE_COUNT, tableName?: string | null, returned?: any) => {
+        const [dead, setDead] = useState<boolean>(false);
 
-    //         });
+        const doFetch = async (): Promise<void> => {
+            setLoading(true);
+            try {
+                const res = await dbInstance().all();
+                if (Array.isArray(res)) {
+                    setFrame(res as Record<string, any>[]);
+                }
+            } catch (error) {
+                setError(error);
+            }
+            setLoading(false);
+        }
 
-    //         doFetch();
-    //     }, []);
-    //     return currData;
-    // };
+        useEffect(() => {
+            if (!dead) {
+                const _instanceTableName: string = (dbInstance() as any)._tableName;
+                (unsubscribe as any)("true");
+
+                const _listener = dbEventListener((status?: DB_STATUS, queryType?: string, executeCount?: EXECUTE_COUNT, tableName?: string | null, returned?: any) => {
+                    log(_instanceTableName, status, queryType, executeCount, tableName)
+                    if ((tableName === null && _instanceTableName === "untable") || tableName === _instanceTableName) {
+                        if (status === DB_STATUS.SUCCESS && queryType !== "select") {
+                            if (typeof returned === "number" && returned > 0) {
+                                doFetch();
+                            } else if (Array.isArray(returned) && typeof returned[0] === "number" && returned[0] > 0) {
+                                doFetch();
+                            }
+                        }
+                    }
+                });
+                
+                setUnsubscribe(() => (stayAlive?: string) => {
+                    _listener();
+                    stayAlive !== "true" && setDead(true);
+                });
+
+                doFetch();
+            }
+        }, deps || []);
+
+        return {
+            frame,
+            unsubscribe,
+            error,
+            manualFetch: doFetch,
+            loading
+        };
+    };
 
     const c: ContextValue = {
         configureFrame,
@@ -514,7 +557,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         getUserAttributes,
         onSignIn,
         db,
-        dbEventListener
+        dbEventListener,
+        e,
+        useReturn
     }
 
     return (

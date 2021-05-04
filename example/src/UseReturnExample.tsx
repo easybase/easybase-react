@@ -1,63 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useEasybase } from 'easybase-react';
-import CardElement from "./CardElement";
+import CardElement from "./DbCardElement";
 
-const DbExample = () => {
+const UseReturnExample = () => {
 
     const [tableLength, setTableLength] = useState(0);
     const [frameLength, setFrameLength] = useState(10);
     const [frameOffset, setFrameOffset] = useState(0);
-    const [currentData, setCurrentData] = useState<any[]>([]);
+    const [ratingState, setRatingState] = useState(50);
 
     const {
         db,
+        useReturn,
         fullTableSize,
-        tableTypes
+        e
     } = useEasybase();
 
-    useEffect(() => {
-        const mounted = async () => {
-            setTableLength(await fullTableSize());
-        }
-        mounted();
-    }, []);
+    const { frame, manualFetch, unsubscribe, loading } = useReturn(() => db().return().where(e.lt('rating', ratingState)).limit(frameLength).offset(frameOffset), [ frameLength, frameOffset, ratingState ]);
 
     useEffect(() => {
-        const runEffect = async () => {
-            setCurrentData(await db().return().limit(frameLength).offset(frameOffset).all());
+        async function mounted() {
+            setTableLength(await fullTableSize())
         }
-        runEffect();
-    }, [frameOffset, frameLength])
+        mounted();
+    }, [])
     
 
     const onAddPage = async () => {
-        await db().insert({ rating: 50, "app name": "Inserted App", _position: 0 }).all();
-        setCurrentData(await db().return().limit(frameLength).offset(frameOffset).all());
-    }
-
-    const tableAndFrameStats = async () => {
-        console.log((await tableTypes()));
-        console.log((await fullTableSize()));
+        await db().insert({ rating: 68, "app name": "Inserted App", _position: 0 }).all();
     }
 
     const changePage = async (change: number) => {
         setFrameOffset(prev => Math.abs(prev + change));
     }
 
-    const deleteSecondRecord = async () => {
-        const firstRecord = currentData[1];
-        if (firstRecord) {
-            console.log("Second record begin deleted: ", firstRecord);
-            await db().delete(firstRecord as any).all();
-            setCurrentData(await db().return().limit(frameLength).offset(frameOffset).all());
-        }
-    }
-
     const getFirstRecord = async () => {
-        await db().return("app_name").where({ _position: 0 }).one();
-        await db().return("app_name").where({ _position: 0 }).all();
-        await db().return().where({ _position: 0 }).one();
-        await db().return().where({ _position: 0 }).all();
+        console.log(await db().return("app_name").where({ _position: 0 }).one());
+        console.log(await db().return("app_name").where({ _position: 0 }).all());
+        console.log(await db().return().where({ _position: 0 }).one());
+        console.log(await db().return().where({ _position: 0 }).all());
     }
 
     return (
@@ -66,7 +47,7 @@ const DbExample = () => {
                 <div className="m-4">
                     <button className="btn green" onClick={onAddPage}><span>Add<br />Card</span></button>
                 </div>
-                {Array.isArray(currentData) && currentData.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                {loading ? <div className="loader"></div> : frame.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">
@@ -77,16 +58,19 @@ const DbExample = () => {
                 <div className="d-flex align-items-center">
                     <p className="m-4">Edit db limit: </p>
                     <input type="number" onChange={e => setFrameLength(+e.target.value)} value={frameLength} />
+                    <div className="spacer m-4"></div>
+                    <p className="m-4">Edit Rating filter: </p>
+                    <input type="number" onChange={e => setRatingState(+e.target.value)} value={ratingState} />
                 </div>
                 <div className="d-flex align-items-center">
-                    <button className="btn green m-4" onClick={deleteSecondRecord}><span>Delete 2st Card</span></button>
                     <button className="btn green m-4" onClick={getFirstRecord}><span>Get 1st Card</span></button>
                     <div className="spacer m-4"></div>
-                    <button className="btn green m-4" onClick={tableAndFrameStats}><span>Log Stats</span></button>
+                    <button className="btn green m-4" onClick={manualFetch}><span>Manual Fetch</span></button>
+                    <button className="btn green m-4" onClick={unsubscribe}><span>Unsubscribe</span></button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default DbExample;
+export default UseReturnExample;
