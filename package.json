@@ -40,7 +40,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
-    "typedoc": "^0.19.2",
+    "typedoc": "^0.20.36",
     "typescript": "^3.7.5"
   },
   "files": [

@@ -2,10 +2,6 @@ import React, { useState, useEffect, Fragment, useRef } from "react";
 import EasybaseContext from "./EasybaseContext";
 import deepEqual from "fast-deep-equal";
 import {
-    EasybaseProviderProps,
-    ContextValue
-} from "./reactTypes";
-import {
     POST_TYPES,
     FrameConfiguration,
     FileFromURI,
@@ -13,8 +9,10 @@ import {
     UpdateRecordAttachmentOptions,
     StatusResponse,
     ConfigureFrameOptions,
-    DeleteRecordOptions
-} from "../node_modules/easybasejs/src/EasybaseProvider/types";
+    DeleteRecordOptions,
+    EasybaseProviderProps,
+    ContextValue
+} from "./types";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
@@ -24,6 +22,7 @@ import dbFactory from "../node_modules/easybasejs/src/EasybaseProvider/db";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
 import * as cache from "./cache";
+import { SQW } from "EasyQB/types/sq";
 
 const g = gFactory();
 
@@ -40,7 +39,7 @@ const {
 
 const { log } = utilsFactory(g);
 
-const { 
+const {
     Query,
     fullTableSize,
     tableTypes
@@ -133,7 +132,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     g.token = cacheToken;
                     g.refreshToken = cacheRefreshToken;
                     g.session = +cacheSession;
-                    
+
                     const fallbackMount = setTimeout(() => { setMounted(true) }, 2500);
 
                     const refreshTokenRes = await tokenPost(POST_TYPES.REQUEST_TOKEN, {
@@ -473,6 +472,25 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             });
         }
     }
+
+    // const useReturn = (dbInstance: SQW) => {
+    //     const [currData, setCurrData] = useState<Record<string, any>[]>([]);
+    //     useEffect(() => {
+    //         const doFetch = async () => {
+    //             const res = await dbInstance.all();
+    //             if (Array.isArray(res)) {
+    //                 setCurrData(res as Record<string, any>[]);
+    //             }
+    //         }
+
+    //         dbEventListener((status?: DB_STATUS, queryType?: string, executeCount?: EXECUTE_COUNT, tableName?: string | null, returned?: any) => {
+
+    //         });
+
+    //         doFetch();
+    //     }, []);
+    //     return currData;
+    // };
 
     const c: ContextValue = {
         configureFrame,

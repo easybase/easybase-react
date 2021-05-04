@@ -1,15 +1,13 @@
 import { createContext } from "react";
 import {
-    ContextValue
-} from "./reactTypes";
-import {
     ConfigureFrameOptions,
     StatusResponse,
     AddRecordOptions,
     UpdateRecordAttachmentOptions,
     FrameConfiguration,
-    QueryOptions
-} from "../node_modules/easybasejs/src/EasybaseProvider/types";
+    QueryOptions,
+    ContextValue
+} from "./types";
 import { SQW } from "EasyQB/types/sq";
 
 function Frame(): Record<string, any>[];

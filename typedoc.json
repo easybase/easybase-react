@@ -1,16 +1,19 @@
 {
-    "inputFiles": [
-        "./src"
+    "entryPoints": [
+        "./src/"
     ],
-    "mode": "modules",
     "out": "docs",
     "excludeProtected": true,
     "exclude": [
         "./src/EasybaseProvider.tsx",
         "./src/index.tsx",
-        "./src/cache.tsx"
+        "./src/cache.tsx",
+        "./src/typings.d.ts",
+        "./src/react-app-env.d.ts",
+        "./src/decs.d.ts"
     ],
     "gitRevision": "dev",
     "excludePrivate": true,
-    "excludeExternals": true
+    "excludeExternals": false,
+    "categorizeByGroup": false
 }
