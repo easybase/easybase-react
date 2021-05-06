@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useEasybase } from "easybase-react";
-import CardElement from "./CardElement";
+import DbCardElement from "./DbCardElement";
 
 export default function ProjectUser() {
     
@@ -60,7 +60,7 @@ export default function ProjectUser() {
                     <button className="btn orange m-4" onClick={addUserRecord}><span>Add User Record</span></button>
                 </div>
                 <div className="d-flex">
-                    {data.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                    {data.map((ele, index) => <DbCardElement {...ele} tableName="REACT TEST" key={index} />)}
                 </div>
             </div>
         )
@@ -76,7 +76,7 @@ export default function ProjectUser() {
                     <button className="btn orange m-4" onClick={onSignUpClick}><span>Sign Up</span></button>
                 </div>
                 <div className="d-flex">
-                    {data.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                    {data.map((ele, index) => <DbCardElement {...ele} tableName="MOBILE APPS" key={index} />)}
                 </div>
             </div>
         )

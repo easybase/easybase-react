@@ -1,18 +1,18 @@
 import React, { useRef } from "react";
 import { useEasybase } from "easybase-react";
 
-const CardElement = ({ rating, picture, app_name, hq, latest_release, _key }: any) => {
+const CardElement = ({ rating, picture, app_name, hq, latest_release, _key, tableName }: any) => {
 
     const inputEl = useRef<HTMLInputElement>(null);
 
     const { db } = useEasybase();
 
     const onRatingChange = (change: number) => {
-        db().set({ 'rating': rating + change }).where({ _key }).all()
+        db(tableName || "").set({ 'rating': rating + change }).where({ _key }).all()
     }
 
     const onDelete = () => {
-        db().delete().where({ _key }).one();
+        db(tableName || "").delete().where({ _key }).one();
     }
 
     return (

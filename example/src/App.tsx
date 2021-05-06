@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import ebconfig from "./ebconfig.json";
-// import ebconfig2 from "./ebconfig2";
+import ebconfig2 from "./ebconfig2";
 import { EasybaseProvider } from 'easybase-react';
 import QueryExample from "./QueryExample";
 import FunctionExample from "./CloudFunctionExample";
@@ -33,7 +33,7 @@ const IntegrationExample = () => (
 )
 
 const ProjectExample = () => (
-  <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
+  <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>
     <ProjectUser />
   </EasybaseProvider>
 )
