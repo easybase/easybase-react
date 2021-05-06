@@ -483,7 +483,6 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         const [frame, setFrame] = useState<Record<string, any>[]>([]);
         const [error, setError] = useState<any>(null);
         const [loading, setLoading] = useState<boolean>(false);
-
         const [dead, setDead] = useState<boolean>(false);
 
         const doFetch = async (): Promise<void> => {
@@ -500,11 +499,15 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
 
         useEffect(() => {
+            let isAlive = true;
             if (!dead) {
                 const _instanceTableName: string = (dbInstance() as any)._tableName;
                 (unsubscribe as any)("true");
 
                 const _listener = dbEventListener((status?: DB_STATUS, queryType?: string, executeCount?: EXECUTE_COUNT, tableName?: string | null, returned?: any) => {
+                    if (!isAlive) {
+                        return;
+                    }
                     log(_instanceTableName, status, queryType, executeCount, tableName)
                     if ((tableName === null && _instanceTableName === "untable") || tableName === _instanceTableName) {
                         if (status === DB_STATUS.SUCCESS && queryType !== "select") {
@@ -524,6 +527,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
                 doFetch();
             }
+            return () => { isAlive = false; }
         }, deps || []);
 
         return {
