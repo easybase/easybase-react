@@ -36,6 +36,7 @@ const {
     signUp,
     setUserAttribute,
     getUserAttributes,
+    resetUserPassword,
     signIn,
     signOut
 } = authFactory(g);
@@ -559,6 +560,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         signUp,
         setUserAttribute,
         getUserAttributes,
+        resetUserPassword,
         onSignIn,
         db,
         dbEventListener,

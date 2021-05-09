@@ -100,6 +100,13 @@ export interface ContextValue {
      */
     setUserAttribute(key: string, value: string): Promise<StatusResponse>;
     /**
+     * Reset the currently signed-in user's password to a new string.
+     * @async
+     * @param {string} newPassword New user password
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    resetUserPassword(newPassword: string): Promise<StatusResponse>;
+    /**
      * Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that 
      * they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid
      * when a user signs out or after 24 hours.

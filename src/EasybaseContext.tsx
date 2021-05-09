@@ -35,6 +35,7 @@ const c: ContextValue = {
     getUserAttributes: async() => ({}) as Record<string, string>,
     isUserSignedIn: () => false,
     setUserAttribute: async (_: string, _2: string) => ({}) as StatusResponse,
+    resetUserPassword: async (_: string) => ({}) as StatusResponse,
     signIn: async (_: string, _2: string) => ({}) as StatusResponse,
     signOut: () => {},
     signUp: async (_: string, _2: string, _3?: Record<string, string>) => ({}) as StatusResponse,
