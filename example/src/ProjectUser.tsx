@@ -14,6 +14,7 @@ export default function ProjectUser() {
         signUp,
         signOut,
         getUserAttributes,
+        resetUserPassword,
         onSignIn,
         db
     } = useEasybase();
@@ -51,6 +52,13 @@ export default function ProjectUser() {
         setData(res as Record<string, any>[]);
     }
 
+    const resetPassword = async () => {
+        const new_pass = prompt("Enter new password", "");
+        if (!new_pass) return;
+        console.log(await resetUserPassword(new_pass));
+        signOut();
+    }
+
     if (isUserSignedIn()) {
         return (
             <div style={{ display: "flex", width: '100vw', height: '90vh', justifyContent: 'center', alignItems: 'center', flexDirection: "column" }}>
@@ -58,6 +66,7 @@ export default function ProjectUser() {
                     <button className="btn green m-4" onClick={onUserAttrsClick}><span>Get user attrs</span></button>
                     <button className="btn orange m-4" onClick={signOut}><span>Sign Out</span></button>
                     <button className="btn orange m-4" onClick={addUserRecord}><span>Add User Record</span></button>
+                    <button className="btn orange m-4" onClick={resetPassword}><span>Reset Password</span></button>
                 </div>
                 <div className="d-flex">
                     {data.map((ele, index) => <DbCardElement {...ele} tableName="REACT TEST" key={index} />)}
