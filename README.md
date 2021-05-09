@@ -273,7 +273,7 @@ function App() {
 
 Documentation for this library [is available here](https://easybase.io/docs/easybase-react/).
 
-Details on **database querying** [is available on EasyQB](https://easybase.github.io/EasyQB/).
+Information on **database querying** [can be found in the EasyQB docs](https://easybase.github.io/EasyQB/).
 
 <!-- EXAMPLES -->
 ## Examples
