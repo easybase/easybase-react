@@ -264,7 +264,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             return {
                 message: "Easybase Error: addRecord failed " + err,
                 success: false,
-                error: err
+                errorCode: err
             }
         }
     }
@@ -291,12 +291,12 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     success: res.success,
                     message: res.data
                 }
-            } catch (err) {
-                console.error("Easybase Error: deleteRecord failed ", err);
+            } catch (error) {
+                console.error("Easybase Error: deleteRecord failed ", error);
                 return {
                     success: false,
-                    message: "Easybase Error: deleteRecord failed " + err,
-                    error: err
+                    message: "Easybase Error: deleteRecord failed " + error,
+                    errorCode: error.errorCode || undefined
                 }
             }
         }
@@ -377,13 +377,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     success: true
                 }
             }
-        } catch (err) {
-            console.error("Easybase Error: get failed ", err);
+        } catch (error) {
+            console.error("Easybase Error: get failed ", error);
             setIsSyncing(false);
             return {
                 success: false,
-                message: "Easybase Error: get failed " + err,
-                error: err
+                message: "Easybase Error: get failed " + error,
+                errorCode: error.errorCode || undefined
             }
         }
     }
