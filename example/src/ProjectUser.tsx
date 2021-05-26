@@ -72,7 +72,7 @@ export default function ProjectUser() {
         switch (forgotDialogStep) {
             case 0:
                 if (forgotUsernameVal) {
-                    await forgotPassword(forgotUsernameVal, { footer: "hello<b>here</b>", greeting: "Hello World", appName: "My React Test" })
+                    await forgotPassword(forgotUsernameVal, { appName: "My React Test" })
                     setForgotDialogStep(1);
                 }
                 break;
@@ -85,6 +85,7 @@ export default function ProjectUser() {
                     setForgotDialogStep(0)
                     setForgotDialogOpen(false)
                 }
+                break;
             default:
                 break;
         }
