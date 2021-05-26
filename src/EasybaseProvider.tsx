@@ -85,7 +85,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const _ranSignInCallback = useRef<boolean>(false);
 
     if (typeof ebconfig !== 'object' || ebconfig === null || ebconfig === undefined) {
-        console.error("No ebconfig object passed. do `import ebconfig from \"ebconfig.json\"` and pass it to the Easybase provider");
+        console.error("No ebconfig object passed. do `import ebconfig from \"./ebconfig.js\"` and pass it to the Easybase provider");
         return (
             <Fragment>
                 {children}
