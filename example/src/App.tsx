@@ -16,6 +16,7 @@ import {
 import ProjectUser from "./ProjectUser";
 import UseReturnExample from './UseReturnExample';
 import UseReturnStressTest from './UseReturnStressTest';
+import 'semantic-ui-css/semantic.min.css'
 
 const IntegrationExample = () => {
   React.useEffect(() => console.log("MOUNTING INTEGRATION EXAMPLE"), []);

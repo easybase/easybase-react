@@ -7,7 +7,8 @@ import {
     FrameConfiguration,
     QueryOptions,
     ContextValue,
-    UseReturnValue
+    UseReturnValue,
+    EmailTemplate
 } from "./types";
 import { SQW } from "EasyQB/types/sq";
 import { NewExpression } from "EasyQB/types/expression";
@@ -43,7 +44,9 @@ const c: ContextValue = {
     db: (_?: string) => ({}) as SQW,
     dbEventListener: (_: () => void) => () => {},
     useReturn: (_: () => SQW) => ({}) as UseReturnValue,
-    e: ({}) as NewExpression
+    e: ({}) as NewExpression,
+    forgotPassword: async (_: string, _2?: EmailTemplate) => ({}) as StatusResponse,
+    forgotPasswordConfirm: async (_: string, _2: string, _3: string) => ({}) as StatusResponse
 }
 
 export default createContext(c);

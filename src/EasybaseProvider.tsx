@@ -38,7 +38,9 @@ const {
     getUserAttributes,
     resetUserPassword,
     signIn,
-    signOut
+    signOut,
+    forgotPassword,
+    forgotPasswordConfirm
 } = authFactory(g);
 
 const { log } = utilsFactory(g);
@@ -565,7 +567,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         db,
         dbEventListener,
         e,
-        useReturn
+        useReturn,
+        forgotPassword,
+        forgotPasswordConfirm
     }
 
     return (

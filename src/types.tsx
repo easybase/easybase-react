@@ -14,7 +14,8 @@ import type {
     FrameConfiguration,
     QueryOptions,
     AddRecordOptions,
-    DeleteRecordOptions
+    DeleteRecordOptions,
+    EmailTemplate
 } from "../node_modules/easybasejs/src/EasybaseProvider/types"
 
 export type {
@@ -27,7 +28,8 @@ export type {
     FrameConfiguration,
     QueryOptions,
     AddRecordOptions,
-    DeleteRecordOptions
+    DeleteRecordOptions,
+    EmailTemplate
 } from "../node_modules/easybasejs/src/EasybaseProvider/types"
 
 export {
@@ -296,4 +298,24 @@ export interface ContextValue {
      * @return {UseReturnValue} Object with the required values to statefully access an array that is subscribed to local executions to the corresponding db instance.
      */
     useReturn(dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue;
+    /**
+     * @async
+     * Trigger an email to the given username with a verification code to reset the user's password. This verification 
+     * code is used in the `forgotPasswordConfirm` function, along with a new password. **The username must be the user's email address**.
+     * @param {string} username A username which must also be a valid email address
+     * @param {EmailTemplate} emailTemplate Optional details for the formatting & content of the verification email
+     * @return {Promise<StatusResponse>} A StatusResponse corresponding to the successful sending of a verification code email
+     */
+    forgotPassword(username: string, emailTemplate?: EmailTemplate): Promise<StatusResponse>
+    /**
+     * @async
+     * Confirm the resetting of an unauthenticated users password. This function is invoked after `forgotpassword` is used to trigger
+     * an email containing a verification code to the given username [*which must also be an email*]. The user's randomly generated
+     * verification code from their email is passed in the first parameter. 
+     * @param {string} code Verification code found in the email sent from the `forgotPassword` function
+     * @param {string} username The same username (email) used in the `forgotPassword` function
+     * @param {string} newPassword The new password for the corresponding verified user
+     * @return {Promise<StatusResponse>} A StatusResponse corresponding to the successful setting of a new password
+     */
+    forgotPasswordConfirm(code: string, username: string, newPassword: string): Promise<StatusResponse>
 }

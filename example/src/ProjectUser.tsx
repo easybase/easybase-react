@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useEasybase } from "easybase-react";
 import DbCardElement from "./DbCardElement";
+import { Modal, Button, Form } from 'semantic-ui-react'
 
 export default function ProjectUser() {
-    
+
     const [usernameValue, setUsernameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const [data, setData] = useState<Record<string, any>[]>([]);
+
+    const [forgotDialogOpen, setForgotDialogOpen] = useState<boolean>(false);
+    const [forgotDialogStep, setForgotDialogStep] = useState(0);
+    const [forgotUsernameVal, setForgotUsernameVal] = useState("");
+    const [forgotNewPassVal, setForgotNewPassVal] = useState("");
+    const [forgotCodeVal, setForgotCodeVal] = useState("");
 
     const {
         isUserSignedIn,
@@ -16,10 +23,12 @@ export default function ProjectUser() {
         getUserAttributes,
         resetUserPassword,
         onSignIn,
-        db
+        db,
+        forgotPassword,
+        forgotPasswordConfirm
     } = useEasybase();
 
-    const onSignUpClick = async() => {
+    const onSignUpClick = async () => {
         const res = await signUp(usernameValue, passwordValue, {
             testKey: "testValue"
         });
@@ -38,16 +47,16 @@ export default function ProjectUser() {
         });
 
         onSignIn(() => {
-            console.log("Signed In!");  
+            console.log("Signed In!");
             db('REACT TEST', true).return().limit(10).all().then(res => {
                 setData(res as Record<string, any>[]);
             });
         });
-        
+
     }, []);
 
     const addUserRecord = async () => {
-        await db('REACT TEST', true).insert({rating: 68, app_name: "this is only for this user"}).one();
+        await db('REACT TEST', true).insert({ rating: 68, app_name: "this is only for this user" }).one();
         const res = await db('REACT TEST', true).return().limit(10).all();
         setData(res as Record<string, any>[]);
     }
@@ -57,6 +66,28 @@ export default function ProjectUser() {
         if (!new_pass) return;
         console.log(await resetUserPassword(new_pass));
         signOut();
+    }
+
+    const onForgotSubmit = async () => {
+        switch (forgotDialogStep) {
+            case 0:
+                if (forgotUsernameVal) {
+                    await forgotPassword(forgotUsernameVal, { footer: "hello<b>here</b>", greeting: "Hello World", appName: "My React Test" })
+                    setForgotDialogStep(1);
+                }
+                break;
+            case 1:
+                if (forgotCodeVal && forgotNewPassVal) {
+                    await forgotPasswordConfirm(forgotCodeVal, forgotUsernameVal, forgotNewPassVal)
+                    setForgotCodeVal("")
+                    setForgotNewPassVal("")
+                    setForgotUsernameVal("")
+                    setForgotDialogStep(0)
+                    setForgotDialogOpen(false)
+                }
+            default:
+                break;
+        }
     }
 
     if (isUserSignedIn()) {
@@ -83,10 +114,41 @@ export default function ProjectUser() {
                     <input type="password" style={{ fontSize: 20, marginBottom: 20 }} value={passwordValue} onChange={e => setPasswordValue(e.target.value)} />
                     <button className="btn green m-4" onClick={() => signIn(usernameValue, passwordValue)}><span>Sign In</span></button>
                     <button className="btn orange m-4" onClick={onSignUpClick}><span>Sign Up</span></button>
+                    <a href="javascript:void(0)" style={{ textAlign: "end" }} onClick={_ => setForgotDialogOpen(true)}><small>Forgot Password</small></a>
                 </div>
                 <div className="d-flex">
                     {data.map((ele, index) => <DbCardElement {...ele} tableName="MOBILE APPS" key={index} />)}
                 </div>
+                <Modal open={forgotDialogOpen} onClose={_ => setForgotDialogOpen(false)}>
+                    <Modal.Content>
+                        <Form onSubmit={onForgotSubmit}>
+                            {forgotDialogStep === 0 &&
+                                <Form.Field>
+                                    <label>Username (email)</label>
+                                    <input value={forgotUsernameVal} onChange={e => setForgotUsernameVal(e.target.value)} />
+                                </Form.Field>
+                            }
+                            {forgotDialogStep === 1 &&
+                                <>
+                                    <Form.Field>
+                                        <label>Code</label>
+                                        <input value={forgotCodeVal} onChange={e => setForgotCodeVal(e.target.value)} />
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <label>New Password</label>
+                                        <input value={forgotNewPassVal} onChange={e => setForgotNewPassVal(e.target.value)} />
+                                    </Form.Field>
+                                </>
+                            }
+                            <Button type='submit'>Submit</Button>
+                        </Form>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button color='black' onClick={() => setForgotDialogOpen(false)}>
+                            Close
+                        </Button>
+                    </Modal.Actions>
+                </Modal>
             </div>
         )
     }
