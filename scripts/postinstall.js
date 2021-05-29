@@ -111,7 +111,7 @@ function linkAsyncStorage() {
 }
 
 try {
-    if (rootPackageJson !== null && "react-native" in rootPackageJson.dependencies) {
+    if (rootPackageJson !== null && rootPackageJson.dependencies && "react-native" in rootPackageJson.dependencies) {
         clean();
         installAsyncStorage();
         linkAsyncStorage();

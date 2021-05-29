@@ -110,7 +110,7 @@ export interface ContextValue {
     resetUserPassword(newPassword: string): Promise<StatusResponse>;
     /**
      * Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that 
-     * they will be automatically authenticated when they return to the application. These authentcation tokens will become invalid
+     * they will be automatically authenticated when they return to the application. These authentication tokens will become invalid
      * when a user signs out or after 24 hours.
      * @abstract
      * @async
@@ -140,7 +140,7 @@ export interface ContextValue {
    /**
      * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
      * 
-     * Configure the current frame size. Set the offset and amount of records to retreive assume you don't want to receive
+     * Configure the current frame size. Set the offset and amount of records to retrieve assume you don't want to receive
      * your entire collection. This is useful for paging.
      * @abstract
      * @param {ConfigureFrameOptions} options ConfigureFrameOptions
@@ -166,7 +166,7 @@ export interface ContextValue {
     /**
      * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
      * 
-     * Call this method to syncronize your current changes with your database. Delections, additions, and changes will all be reflected by your 
+     * Call this method to synchronize your current changes with your database. Deletions, additions, and changes will all be reflected by your 
      * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
      * @abstract
      * @async
@@ -206,7 +206,7 @@ export interface ContextValue {
      * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
      * 
      * This function is how you access your current frame. This function does not get new data or push changes to Easybase. If you 
-     * want to syncronize your frame and Easybase, call sync() then Frame().
+     * want to synchronize your frame and Easybase, call sync() then Frame().
      * @abstract
      * @return {Record<string, any>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
      * 
@@ -216,7 +216,7 @@ export interface ContextValue {
      * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
      * 
      * This function is how you access a single object your current frame. This function does not get new data or push changes to Easybase. If you 
-     * want to syncronize your frame and Easybase, call sync() then Frame().
+     * want to synchronize your frame and Easybase, call sync() then Frame().
      * @abstract
      * @param {number} [index] Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
      * @return {Record<string, any>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
@@ -309,7 +309,7 @@ export interface ContextValue {
     forgotPassword(username: string, emailTemplate?: EmailTemplate): Promise<StatusResponse>
     /**
      * @async
-     * Confirm the resetting of an unauthenticated users password. This function is invoked after `forgotpassword` is used to trigger
+     * Confirm the resetting of an unauthenticated users password. This function is invoked after `forgotPassword` is used to trigger
      * an email containing a verification code to the given username [*which must also be an email*]. The user's randomly generated
      * verification code from their email is passed in the first parameter. 
      * @param {string} code Verification code found in the email sent from the `forgotPassword` function
