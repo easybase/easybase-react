@@ -91,6 +91,11 @@ export default function ProjectUser() {
         }
     }
 
+    const handleSignIn = async () => {
+        const res = await signIn(usernameValue, passwordValue)
+        console.log(res)
+    }
+
     if (isUserSignedIn()) {
         return (
             <div style={{ display: "flex", width: '100vw', height: '90vh', justifyContent: 'center', alignItems: 'center', flexDirection: "column" }}>
@@ -113,7 +118,7 @@ export default function ProjectUser() {
                     <input style={{ fontSize: 20, marginBottom: 20 }} value={usernameValue} onChange={e => setUsernameValue(e.target.value)} />
                     <h4>Password</h4>
                     <input type="password" style={{ fontSize: 20, marginBottom: 20 }} value={passwordValue} onChange={e => setPasswordValue(e.target.value)} />
-                    <button className="btn green m-4" onClick={() => signIn(usernameValue, passwordValue)}><span>Sign In</span></button>
+                    <button className="btn green m-4" onClick={handleSignIn}><span>Sign In</span></button>
                     <button className="btn orange m-4" onClick={onSignUpClick}><span>Sign Up</span></button>
                     <a href="javascript:void(0)" style={{ textAlign: "end" }} onClick={_ => setForgotDialogOpen(true)}><small>Forgot Password</small></a>
                 </div>
