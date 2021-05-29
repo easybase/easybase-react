@@ -4,7 +4,7 @@ import { NewExpression } from "EasyQB/types/expression";
 import {
     EXECUTE_COUNT,
     DB_STATUS
-} from "easybasejs/src/EasybaseProvider/types"
+} from "./jsTypes"
 
 import type {
     Ebconfig,
@@ -16,7 +16,7 @@ import type {
     AddRecordOptions,
     DeleteRecordOptions,
     EmailTemplate
-} from "easybasejs/src/EasybaseProvider/types"
+} from "./jsTypes"
 
 export interface EasybaseProviderPropsOptions {
     /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */

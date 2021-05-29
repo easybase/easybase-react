@@ -2,19 +2,23 @@
     "entryPoints": [
         "./src/"
     ],
-    "out": "docs",
+    "out": "easybase-react",
     "excludeProtected": true,
     "exclude": [
         "./src/EasybaseProvider.tsx",
         "./src/index.tsx",
         "./src/cache.tsx",
-        "./src/typings.d.ts",
-        "./src/react-app-env.d.ts",
-        "./src/decs.d.ts"
+        "./src/types/typings.d.ts",
+        "./src/types/react-app-env.d.ts",
+        "./src/types/decs.d.ts"
+    ],
+    "externalPattern": [
+        "./src/types/*.ts",
+        "./src/types/*.tsx"
     ],
     "gitRevision": "dev",
     "excludePrivate": true,
     "excludeExternals": false,
-    "categorizeByGroup": false,
+    "categorizeByGroup": true,
     "gaID": "UA-180320774-1"
 }
