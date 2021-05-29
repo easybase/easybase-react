@@ -1,4 +1,4 @@
-import { Globals } from "./types";
+import { Globals } from "./types/jsTypes";
 import Storage from 'react-native-storage';
 
 let storage: Storage;

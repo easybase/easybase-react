@@ -1,15 +1,17 @@
 import { createContext } from "react";
 import {
+    ContextValue,
+    UseReturnValue
+} from "./types/types";
+import {
     ConfigureFrameOptions,
     StatusResponse,
     AddRecordOptions,
     UpdateRecordAttachmentOptions,
     FrameConfiguration,
     QueryOptions,
-    ContextValue,
-    UseReturnValue,
     EmailTemplate
-} from "./types";
+} from "./types/jsTypes";
 import { SQW } from "EasyQB/types/sq";
 import { NewExpression } from "EasyQB/types/expression";
 

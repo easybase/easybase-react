@@ -2,6 +2,11 @@ import React, { useState, useEffect, Fragment, useRef } from "react";
 import EasybaseContext from "./EasybaseContext";
 import deepEqual from "fast-deep-equal";
 import {
+    EasybaseProviderProps,
+    ContextValue,
+    UseReturnValue
+} from "./types/types";
+import {
     POST_TYPES,
     FrameConfiguration,
     FileFromURI,
@@ -10,12 +15,9 @@ import {
     StatusResponse,
     ConfigureFrameOptions,
     DeleteRecordOptions,
-    EasybaseProviderProps,
-    ContextValue,
     DB_STATUS,
-    EXECUTE_COUNT,
-    UseReturnValue
-} from "./types";
+    EXECUTE_COUNT
+} from "./types/jsTypes"
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
