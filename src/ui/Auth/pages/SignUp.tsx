@@ -8,7 +8,7 @@ import SubmitButton from '../components/SubmitButton';
 import Spacer from '../components/Spacer';
 import ErrorText from '../components/ErrorText';
 import { useForm } from 'react-hook-form';
-import { IPage } from '../types';
+import { IPage } from '../uiTypes';
 import toast from 'react-hot-toast';
 import useEasybase from '../../../useEasybase';
 

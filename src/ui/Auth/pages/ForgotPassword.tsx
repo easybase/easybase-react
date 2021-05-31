@@ -7,7 +7,7 @@ import SecondaryButton from '../components/SecondaryButton';
 import SubmitButton from '../components/SubmitButton';
 import Spacer from '../components/Spacer';
 import { useForm } from 'react-hook-form';
-import { IPage } from '../types';
+import { IPage } from '../uiTypes';
 import toast from 'react-hot-toast';
 import ErrorText from '../components/ErrorText';
 import Input from '../components/internal/Input';

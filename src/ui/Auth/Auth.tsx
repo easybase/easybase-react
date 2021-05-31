@@ -3,7 +3,7 @@ import Container from './components/Container';
 import { ThemeProvider } from 'styled-components';
 import { Toaster } from 'react-hot-toast';
 import { mergeDeep } from './utils';
-import { IStyles, IAuth, IDefaultPages } from './types';
+import { IStyles, IAuth, IDefaultPages } from './uiTypes';
 import useEasybase from '../../useEasybase';
 
 export default function({ theme, customStyles, children }: IAuth): JSX.Element {

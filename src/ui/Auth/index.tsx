@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IAuth } from './types';
+import { IAuth } from './uiTypes';
 
 export default function(props: IAuth): JSX.Element {
     const [Auth, setAuth] = useState<React.FC<IAuth> | undefined>();

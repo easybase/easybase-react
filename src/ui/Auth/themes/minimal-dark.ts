@@ -1,4 +1,4 @@
-import { IStyles } from "../types";
+import { IStyles } from "../uiTypes";
 
 export default {
     init: () => {},

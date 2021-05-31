@@ -12,11 +12,12 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "npm run clean && microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
-    "start": "npm run clean && microbundle watch --jsx React.createElement --external react --no-compress --format modern,cjs",
-    "prepare": "npm run clean && microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
+    "build": "npm run clean && npm run microbundle && npm run fixDist",
+    "prepare": "npm run clean && npm run microbundle && npm run fixDist",
+    "microbundle": "microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
     "genDocs": "typedoc",
     "clean": "shx rm -rf dist",
+    "fixDist": "shx cp -r dist/src/ui/Auth/. dist/ui/Auth && shx rm -rf dist/src/",
     "postinstall": "node ./scripts/postinstall.js",
     "test": "echo 'no test specified' || true"
   },
