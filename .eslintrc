@@ -32,6 +32,8 @@
     "semi": 0,
     "quotes": 0,
     "no-trailing-spaces": 0,
-    "no-unused-vars": 0
+    "no-unused-vars": 0,
+    "jsx-quotes": 0,
+    "react/jsx-indent-props": 0
   }
 }
