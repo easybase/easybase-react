@@ -21,7 +21,7 @@
     "test": "echo 'no test specified' || true"
   },
   "peerDependencies": {
-    "react": "^16.0.0"
+    "react": ">=16.8.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.38",
