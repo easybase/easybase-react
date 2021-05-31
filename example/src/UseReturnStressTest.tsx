@@ -20,7 +20,7 @@ const ChildUseReturn = () => {
     return (
         <div>
             <div style={{ display: "flex", alignItems: "center" }}>
-                {loading ? <div className="loader"></div> : frame.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                {loading ? <div className="loader"></div> : frame.map((ele: any, index: any) => <CardElement {...ele} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">

@@ -4,9 +4,7 @@ import deepEqual from "fast-deep-equal";
 import {
     EasybaseProviderProps,
     ContextValue,
-    UseReturnValue
-} from "./types/types";
-import {
+    UseReturnValue,
     POST_TYPES,
     FrameConfiguration,
     FileFromURI,
@@ -17,7 +15,7 @@ import {
     DeleteRecordOptions,
     DB_STATUS,
     EXECUTE_COUNT
-} from "./types/jsTypes"
+} from "./types/types";
 import imageExtensions from "./assets/image-extensions.json";
 import videoExtensions from "./assets/video-extensions.json";
 import utilsFactory from "../node_modules/easybasejs/src/EasybaseProvider/utils";
@@ -27,7 +25,7 @@ import dbFactory from "../node_modules/easybasejs/src/EasybaseProvider/db";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
 import * as cache from "./cache";
-import { SQW } from "EasyQB/types/sq";
+import { SQW } from "easyqb/types/sq";
 
 const g = gFactory();
 

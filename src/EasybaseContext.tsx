@@ -1,9 +1,7 @@
 import { createContext } from "react";
 import {
     ContextValue,
-    UseReturnValue
-} from "./types/types";
-import {
+    UseReturnValue,
     ConfigureFrameOptions,
     StatusResponse,
     AddRecordOptions,
@@ -11,9 +9,9 @@ import {
     FrameConfiguration,
     QueryOptions,
     EmailTemplate
-} from "./types/jsTypes";
-import { SQW } from "EasyQB/types/sq";
-import { NewExpression } from "EasyQB/types/expression";
+} from "./types/types";
+import { SQW } from "easyqb/types/sq";
+import { NewExpression } from "easyqb/types/expression";
 
 function Frame(): Record<string, any>[];
 function Frame(index: number): Record<string, any>;

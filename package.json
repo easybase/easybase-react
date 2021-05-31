@@ -12,10 +12,11 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "microbundle-crl --no-compress --format modern,cjs",
+    "build": "npm run clean && microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
+    "start": "npm run clean && microbundle watch --jsx React.createElement --external react --no-compress --format modern,cjs",
+    "prepare": "npm run clean && microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
     "genDocs": "typedoc",
+    "clean": "shx rm -rf dist",
     "postinstall": "node ./scripts/postinstall.js",
     "test": "echo 'no test specified' || true"
   },
@@ -26,6 +27,7 @@
     "@types/node": "^12.12.38",
     "@types/react": "^16.9.27",
     "@types/react-dom": "^16.9.7",
+    "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "cross-env": "^7.0.2",
@@ -37,10 +39,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
-    "microbundle-crl": "^0.13.10",
+    "microbundle": "^0.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
+    "shx": "^0.3.3",
     "typedoc": "^0.20.36",
     "typescript": "^3.7.5"
   },
@@ -49,11 +52,14 @@
     "scripts"
   ],
   "dependencies": {
-    "@react-native-community/async-storage": "1.12.1",
-    "easybasejs": "4.2.11",
-    "EasyQB": "git+https://github.com/easybase/EasyQB.git",
+    "@react-native-async-storage/async-storage": "github:easybase/async-storage",
+    "easybasejs": "4.2.13",
+    "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",
     "object-observer": "^4.0.3",
-    "react-native-storage": "^1.0.1"
+    "react-hook-form": "^7.7.1",
+    "react-hot-toast": "^2.0.0",
+    "react-native-storage": "^1.0.1",
+    "styled-components": "^5.3.0"
   }
 }

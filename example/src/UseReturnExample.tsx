@@ -47,7 +47,7 @@ const UseReturnExample = () => {
                 <div className="m-4">
                     <button className="btn green" onClick={onAddPage}><span>Add<br />Card</span></button>
                 </div>
-                {loading ? <div className="loader"></div> : frame.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                {loading ? <div className="loader"></div> : frame.map((ele: any, index: any) => <CardElement {...ele} index={index} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">

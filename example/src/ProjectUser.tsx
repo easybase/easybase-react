@@ -42,13 +42,13 @@ export default function ProjectUser() {
 
     useEffect(() => {
         console.log("Mobile Apps allowed when not signed in");
-        db('MOBILE APPS').return().limit(10).all().then(res => {
+        db('MOBILE APPS').return().limit(10).all().then((res: any[]) => {
             setData(res as Record<string, any>[]);
         });
 
         onSignIn(() => {
             console.log("Signed In!");
-            db('REACT TEST', true).return().limit(10).all().then(res => {
+            db('REACT TEST', true).return().limit(10).all().then((res: any[]) => {
                 setData(res as Record<string, any>[]);
             });
         });

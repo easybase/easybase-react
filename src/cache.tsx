@@ -1,10 +1,10 @@
-import { Globals } from "./types/jsTypes";
+import { Globals } from "./types/types";
 import Storage from 'react-native-storage';
 
 let storage: Storage;
 
 if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
-    import('@react-native-community/async-storage').then(AsyncStorage => {
+    import('@react-native-async-storage/async-storage').then(AsyncStorage => {
         storage = new Storage({ storageBackend: AsyncStorage.default });
     })
 } else {

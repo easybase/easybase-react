@@ -62,7 +62,7 @@ function clean() {
 function installAsyncStorage() {
     try {
         console.log("Installing async-storage...");
-        rootPackageJson.dependencies["@react-native-community/async-storage"] = "^1.12.1";
+        rootPackageJson.dependencies["@react-native-async-storage/async-storage"] = "^1.12.1";
         fs.writeFileSync("../../package.json", JSON.stringify(rootPackageJson, null, 2));
     } catch (error) {
         console.log("Failed installing asyncStorage.", error, " " + troubleshootString);
@@ -98,7 +98,7 @@ function linkAsyncStorage() {
             });
         } else {
             // React Native <= 0.59
-            execute("react-native link @react-native-community/async-storage", {
+            execute("react-native link @react-native-async-storage/async-storage", {
                 cwd: "../../",
                 ...execSyncDefaultSettings
             });
