@@ -5,9 +5,9 @@ import Storage from 'react-native-storage';
 let storage: Storage;
 
 if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
-    const _import_name = 'react-native';
+    const _importName = 'react-native';
     try {
-        import(_import_name).then(RN => {
+        import(_importName).then(RN => {
             storage = new Storage({ storageBackend: RN.AsyncStorage });
         })
     } catch (error) {
