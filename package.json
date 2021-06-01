@@ -53,7 +53,7 @@
     "scripts"
   ],
   "dependencies": {
-    "@react-native-async-storage/async-storage": "github:easybase/async-storage",
+    "easybase-async-storage": "^1.14.0",
     "easybasejs": "4.2.13",
     "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",

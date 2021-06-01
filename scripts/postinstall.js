@@ -4,8 +4,6 @@ var commandExistsSync = require("./command-exists").sync;
 
 var rootPackageJson = fs.existsSync("../../package.json") ? JSON.parse(fs.readFileSync("../../package.json", 'utf-8')) : null;
 
-// const root = process.cwd()
-
 const isUsingWindows = process.platform === "win32";
 
 const execSyncDefaultSettings = {
@@ -62,7 +60,7 @@ function clean() {
 function installAsyncStorage() {
     try {
         console.log("Installing async-storage...");
-        rootPackageJson.dependencies["@react-native-async-storage/async-storage"] = "^1.12.1";
+        rootPackageJson.dependencies["easybase-async-storage"] = "^1.14.0";
         fs.writeFileSync("../../package.json", JSON.stringify(rootPackageJson, null, 2));
     } catch (error) {
         console.log("Failed installing asyncStorage.", error, " " + troubleshootString);
@@ -72,37 +70,13 @@ function installAsyncStorage() {
 }
 
 function linkAsyncStorage() {
-    const isNewerVersion = function(oldVer, newVer) {
-        const oldParts = oldVer.split('.')
-        const newParts = newVer.split('.')
-        for (var i = 0; i < newParts.length; i++) {
-            const a = ~~newParts[i] // parse int
-            const b = ~~oldParts[i] // parse int
-            if (a > b) return true
-            if (a < b) return false
-        }
-        return false
-    }
-
-    const rnVersion = rootPackageJson.dependencies["react-native"];
-    rnVersion.replace("~", "");
-    rnVersion.replace("^", "");
-
     console.log("Linking dependencies...");
     try {
-        if (isNewerVersion("0.59", rnVersion)) {
-            // React Native 0.60+
-            execute("npx pod-install --quiet", {
-                cwd: "../../",
-                ...execSyncDefaultSettings
-            });
-        } else {
-            // React Native <= 0.59
-            execute("react-native link @react-native-async-storage/async-storage", {
-                cwd: "../../",
-                ...execSyncDefaultSettings
-            });
-        }   
+        // React Native 0.60+
+        execute("npx pod-install --quiet", {
+            cwd: "../../",
+            ...execSyncDefaultSettings
+        });
     } catch (error) {
         console.log("Error linking asyncStorage.", error, " " + troubleshootString);
     }
