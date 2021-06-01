@@ -5,9 +5,14 @@ import Storage from 'react-native-storage';
 let storage: Storage;
 
 if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
-    import('@react-native-async-storage/async-storage').then(AsyncStorage => {
-        storage = new Storage({ storageBackend: AsyncStorage.default });
-    })
+    const _import_name = 'react-native';
+    try {
+        import(_import_name).then(RN => {
+            storage = new Storage({ storageBackend: RN.AsyncStorage });
+        })
+    } catch (error) {
+        console.error('No AsyncStorage detected')
+    }
 } else {
     storage = new Storage({ storageBackend: window.localStorage });
 }
