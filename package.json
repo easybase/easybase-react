@@ -18,7 +18,8 @@
     "genDocs": "typedoc",
     "clean": "shx rm -rf dist",
     "fixDist": "shx cp -r dist/src/ui/Auth/. dist/ui/Auth && shx rm -rf dist/src/",
-    "test": "echo 'no test specified' || true"
+    "test": "echo 'no test specified' || true",
+    "postinstall": "echo 'POSTINSTALL'"
   },
   "peerDependencies": {
     "react": ">= 16.8.0"
