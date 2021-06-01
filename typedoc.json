@@ -10,7 +10,12 @@
         "./src/cache.tsx",
         "./src/types/typings.d.ts",
         "./src/types/react-app-env.d.ts",
-        "./src/types/decs.d.ts"
+        "./src/types/decs.d.ts",
+        "./src/ui/Auth/themes",
+        "./src/ui/Auth/components",
+        "./src/ui/Auth/pages",
+        "./src/ui/Auth/utils.tsx",
+        "./src/ui/Auth/Auth.tsx"
     ],
     "externalPattern": [
         "./src/types/*.ts",
