@@ -12,6 +12,7 @@ const SubmitButton = styled.button(props => ({
     overflow: "hidden",
     outline: "none",
     cursor: "pointer",
+    boxSizing: 'border-box',
     ...(props.theme.submitButton ? { ...props.theme.submitButton } : {})
 }))
 

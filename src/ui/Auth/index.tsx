@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, Fragment, lazy } from 'react';
 import { IAuth } from './uiTypes';
 
-export default function(props: IAuth): JSX.Element {
-    const [Auth, setAuth] = useState<React.FC<IAuth> | undefined>();
+const Auth = lazy(() => import('./Auth'));
 
-    useEffect(() => {
-        async function mounted() {
-            const _auth = (await import('./Auth')).default;
-            setAuth(_auth);
-        }
-
-        mounted()
-    }, [])
-
-    if (Auth) {
-        return <Auth {...props} />
-    }
-
-    return <React.Fragment />
+export default function (props: IAuth): JSX.Element {
+    return (
+        <Suspense fallback={<Fragment />}>
+            <Auth {...props} />
+        </Suspense>
+    )
 }
 
 /**

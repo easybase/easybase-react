@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const Form = styled.form(props => ({
     display: "flex",
     justifyContent: "center",
-    width: 390,
+    minWidth: 300,
+    width: 380,
     padding: '33px 55px',
     boxShadow: '0 5px 10px 0 rgb(0 0 0 / 10%)',
     borderRadius: 10,

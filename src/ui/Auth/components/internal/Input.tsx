@@ -8,6 +8,7 @@ const TextFieldRoot = styled.div(props => ({
     width: '100%',
     maxWidth: '100%',
     padding: 0,
+    height: 46,
     fontFamily: "inherit",
     ...(props.theme.textFieldRoot ? { ...props.theme.textFieldRoot } : {})
 }))

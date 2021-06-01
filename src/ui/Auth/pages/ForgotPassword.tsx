@@ -14,7 +14,7 @@ import Input from '../components/internal/Input';
 import PasswordInput from '../components/PasswordInput';
 import useEasybase from '../../../useEasybase';
 
-export default function ({ setCurrentPage }: IPage) {
+export default function ({ setCurrentPage, dictionary }: IPage) {
     const [onConfirm, setOnConfirm] = useState<boolean>(false);
     const [forgottenUsername, setForgottenUsername] = useState<string | undefined>();
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -32,10 +32,13 @@ export default function ({ setCurrentPage }: IPage) {
             toast.success('Check your email for a verification code')
         } else {
             if (forgotRes.errorCode === "RequestLimitExceeded") {
-                toast.error('Password recently changed, please try again later');
+                toast.error(dictionary.errorRequestLimitExceeded!);
             } else if (forgotRes.errorCode === "BadFormat") {
                 reset();
-                toast.error('Bad input format');
+                toast.error(dictionary.errorBadInputFormat!);
+            } else if (forgotRes.errorCode === "NoUserExists") {
+                reset();
+                toast.error(dictionary.errorNoAccountFound!);
             } else {
                 reset();
                 toast.error('Bad request');
@@ -51,19 +54,19 @@ export default function ({ setCurrentPage }: IPage) {
         if (forgotConfirmRes.success) {
             setOnConfirm(false);
             setForgottenUsername("");
-            setCurrentPage('signIn');
+            setCurrentPage('SignIn');
             toast.success('Password successfully changed')
         } else {
             if (forgotConfirmRes.errorCode === "BadPasswordLength") {
-                toast.error('New password must be at least 8 characters long');
+                toast.error(dictionary.errorPasswordTooShort!);
             } else if (forgotConfirmRes.errorCode === "BadFormat") {
                 reset();
-                toast.error('Bad input format');
+                toast.error(dictionary.errorBadInputFormat!);
             } else if (forgotConfirmRes.errorCode === "NoUserExists") {
                 reset();
-                toast.error('No user exists with that email');
+                toast.error(dictionary.errorNoAccountFound!);
             } else if (forgotConfirmRes.errorCode === "WrongVerificationCode") {
-                toast.error('Incorrect verification code');
+                toast.error(dictionary.errorWrongVerificationCode!);
             } else {
                 toast.error('Bad request');
             }
@@ -95,41 +98,40 @@ export default function ({ setCurrentPage }: IPage) {
     if (!onConfirm) {
         return (
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <HeaderText>Reset your password</HeaderText>
-                <SecondaryText>Enter your email address and we will send you a verification code.</SecondaryText>
+                <HeaderText>{dictionary.forgotPasswordHeader}</HeaderText>
+                <SecondaryText>{dictionary.forgotPasswordSecondaryHeader}</SecondaryText>
                 <Spacer size="medium" />
                 <EmailInput
                     register={() => register("email")}
-                    label="Email *"
+                    label={dictionary.newEmailLabel}
                     disabled={isSubmitting}
                 />
                 <Spacer size="medium" />
-                <SubmitButton disabled={isSubmitting}>Continue</SubmitButton>
-                <SecondaryButton onClick={_ => setCurrentPage("signIn")} disabled={isSubmitting}>Back to Sign In</SecondaryButton>
+                <SubmitButton disabled={isSubmitting}>{dictionary.forgotPasswordSubmitButton}</SubmitButton>
+                <SecondaryButton onClick={_ => setCurrentPage("SignIn")} disabled={isSubmitting}>{dictionary.backToSignIn}</SecondaryButton>
             </Form>
         )
     } else {
         return (
             <Form onSubmit={handleSubmit(onConfirmSubmit)}>
-                <HeaderText>Reset your password</HeaderText>
+                <HeaderText>{dictionary.forgotPasswordConfirmHeader}</HeaderText>
                 <Spacer size="medium" />
                 <Input
                     register={() => register("code", codeReqs)}
-                    label="Code *"
+                    label={dictionary.codeLabel!}
                     disabled={isSubmitting}
                 />
                 <ErrorText value={errors.code?.message} />
                 <Spacer size="xlarge" />
                 <PasswordInput
                     register={() => register("newPassword", passwordReqs)}
-                    label="New Password *"
+                    label={dictionary.forgotPasswordConfirmLabel}
                     autoComplete="new-password"
                     disabled={isSubmitting}
                 />
                 <ErrorText value={errors.newPassword?.message} />
                 <Spacer size="xlarge" />
-                <SubmitButton disabled={isSubmitting}>Continue</SubmitButton>
-                <SecondaryButton onClick={_ => setCurrentPage("signIn")} disabled={isSubmitting}>Back to Sign In</SecondaryButton>
+                <SubmitButton disabled={isSubmitting}>{dictionary.forgotPasswordConfirmSubmitButton}</SubmitButton>
             </Form>
         )
     }

@@ -2,6 +2,7 @@ import React from "react";
 
 export interface IPage {
     setCurrentPage: React.Dispatch<React.SetStateAction<any>>;
+    dictionary: IDictionary;
 }
 
 export interface IStyles {
@@ -25,13 +26,57 @@ export interface IStyles {
 }
 
 export interface IAuth {
+    /** Theme for consistent styling, defaults to 'minimal' */
     theme?: "minimal" | "minimal-dark" | "material";
+    /** Override specific styles for components of an Auth instance */
     customStyles?: IStyles;
-    children: React.ReactNode
+    children: React.ReactNode;
+    /** Edit specific language across the Auth instance components  */
+    dictionary?: IDictionary;
 }
 
-export interface IDefaultPages {
-    SignIn: React.FC<IPage>;
-    SignUp: React.FC<IPage>;
-    ForgotPassword: React.FC<IPage>;
+export interface IDictionary {
+    /**
+     * SignUp
+     */
+    newPasswordLabel?: string;
+    confirmNewPasswordLabel?: string;
+    newEmailLabel?: string;
+    signUpSubmitButton?: string;
+    backToSignIn?: string;
+    signUpHeader?: string;
+
+    /**
+     * SignIn
+     */
+    signInHeader?: string;
+    emailLabel?: string;
+    passwordLabel?: string;
+    forgotPasswordButton?: string;
+    signInSubmitButton?: string;
+    noAccountButton?: string;
+
+    /**
+     * ForgotPassword
+     */
+    forgotPasswordHeader?: string;
+    forgotPasswordConfirmHeader?: string;
+    forgotPasswordSecondaryHeader?: string;
+    forgotPasswordConfirmSubmitButton?: string;
+    forgotPasswordSubmitButton?: string;
+    codeLabel?: string;
+    forgotPasswordConfirmLabel?: string;
+
+    /**
+     * Errors
+     */
+    errorPasswordsDoNotMatch?: string;
+    errorBadInputFormat?: string;
+    errorPasswordTooShort?: string;
+    errorUserAlreadyExists?: string;
+    errorUserDoesNotExist?: string;
+    errorRequestLimitExceeded?: string;
+    errorNoAccountFound?: string;
+    errorWrongVerificationCode?: string;
+
 }

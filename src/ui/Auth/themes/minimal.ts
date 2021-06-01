@@ -8,7 +8,7 @@ export default {
     },
     textFieldRoot: {
         backgroundColor: "#FFF",
-        minHeight: 44,
+        height: 46,
         borderRadius: 4,
         cursor: "text",
         display: 'inline-flex',

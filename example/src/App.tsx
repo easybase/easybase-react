@@ -2,7 +2,7 @@
 import React from 'react'
 import ebconfig from "./ebconfig.json";
 import ebconfig2 from "./ebconfig2";
-import { EasybaseProvider } from 'easybase-react';
+import { EasybaseProvider, Auth, useEasybase } from 'easybase-react';
 import QueryExample from "./QueryExample";
 import FunctionExample from "./CloudFunctionExample";
 import DbExample from "./DbExample";
@@ -46,6 +46,18 @@ const ProjectExample = () => {
   )
 }
 
+
+const AuthExample = () => {
+  React.useEffect(() => console.log("MOUNTING AUTH EXAMPLE"), []);
+  const { signOut } = useEasybase();
+  return (
+    <Auth theme="minimal-dark">
+      <h2>You're in!</h2>
+      <button onClick={signOut}>Sign Out</button>
+    </Auth>
+  )
+}
+
 const App = () => {
   return (
     <HashRouter>
@@ -59,6 +71,9 @@ const App = () => {
         <li>
           <Link to="/usereturnstresstest">useReturn Stress Test</Link>
         </li>
+        <li>
+          <Link to="/auth">Auth UI</Link>
+        </li>
       </ul>
 
       <Switch>
@@ -67,6 +82,11 @@ const App = () => {
         </Route>
         <Route path="/project" exact >
           <ProjectExample />
+        </Route>
+        <Route path="/auth" exact >
+          <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>
+            <AuthExample />
+          </EasybaseProvider>
         </Route>
         <Route path="/usereturnstresstest" exact >
           <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>

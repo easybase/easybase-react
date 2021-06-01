@@ -8,7 +8,7 @@ export default {
     },
     textFieldRoot: {
         backgroundColor: "#212121",
-        minHeight: 44,
+        height: 46,
         borderRadius: 4,
         cursor: "text",
         display: 'inline-flex',
@@ -70,7 +70,9 @@ export default {
         }
     },
     toast: {
-        borderRadius: '10px'
+        borderRadius: '10px',
+        color: '#FFF',
+        backgroundColor: '#242424'
     },
     form: {
         backgroundColor: '#242424'

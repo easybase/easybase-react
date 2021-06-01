@@ -12,7 +12,7 @@ import { IPage } from '../uiTypes';
 import toast from 'react-hot-toast';
 import useEasybase from '../../../useEasybase';
 
-export default function ({ setCurrentPage }: IPage) {
+export default function ({ setCurrentPage, dictionary }: IPage) {
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm();
     const { signUp, signIn } = useEasybase();
 
@@ -21,24 +21,24 @@ export default function ({ setCurrentPage }: IPage) {
             return;
         }
         if (formData.password !== formData.passwordConfirm) {
-            toast('Passwords do not match');
+            toast.error(dictionary.errorPasswordsDoNotMatch!);
             reset();
             return;
         }
 
         const signUpRes = await signUp(formData.email, formData.password, { createdAt: new Date().toISOString() });
         if (signUpRes.success) {
-            setCurrentPage("signIn")
+            setCurrentPage("SignIn")
             await signIn(formData.email, formData.password)
         } else {
             if (signUpRes.errorCode === "BadFormat") {
                 reset();
-                toast.error('Bad input format');
+                toast.error(dictionary.errorBadInputFormat!);
             } else if (signUpRes.errorCode === "BadPasswordLength") {
-                toast.error('Password must be at least 8 characters long');
+                toast.error(dictionary.errorPasswordTooShort!);
             } else if (signUpRes.errorCode === "UserExists") {
                 reset();
-                toast.error('A user with that email already exists');
+                toast.error(dictionary.errorUserAlreadyExists!);
             }
         }
     }
@@ -60,19 +60,19 @@ export default function ({ setCurrentPage }: IPage) {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
-            <HeaderText>Create your account</HeaderText>
+            <HeaderText>{dictionary.signUpHeader}</HeaderText>
             <Spacer size="medium" />
 
             <EmailInput
                 register={() => register("email")}
-                label="Email *"
+                label={dictionary.newEmailLabel}
                 disabled={isSubmitting}
             />
 
             <Spacer size="xlarge" />
             <PasswordInput
                 register={() => register("password", passwordReqs)}
-                label="Password *"
+                label={dictionary.newPasswordLabel}
                 autoComplete="new-password"
                 disabled={isSubmitting}
             />
@@ -80,15 +80,15 @@ export default function ({ setCurrentPage }: IPage) {
             <Spacer size="xlarge" />
             <PasswordInput
                 register={() => register("passwordConfirm", passwordReqs)}
-                label="Confirm Password *"
+                label={dictionary.confirmNewPasswordLabel}
                 autoComplete="new-password"
                 disabled={isSubmitting}
             />
             <ErrorText value={errors.passwordConfirm?.message} />
 
             <Spacer size="xlarge" />
-            <SubmitButton disabled={isSubmitting}>Continue</SubmitButton>
-            <SecondaryButton onClick={_ => setCurrentPage("signIn")} disabled={isSubmitting}>Back to Sign In</SecondaryButton>
+            <SubmitButton disabled={isSubmitting}>{dictionary.signUpSubmitButton}</SubmitButton>
+            <SecondaryButton onClick={_ => setCurrentPage("SignIn")} disabled={isSubmitting}>{dictionary.backToSignIn}</SecondaryButton>
         </Form>
     )
 }

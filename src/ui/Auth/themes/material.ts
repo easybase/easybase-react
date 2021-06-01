@@ -98,7 +98,6 @@ export default {
         height: 45,
         padding: '0 5px',
         borderRadius: 0,
-        marginTop: -10,
         borderBottom: '1px solid rgba(255, 255, 255, 0.7)',
         '&:focus': {
             outline: "none"
@@ -109,13 +108,13 @@ export default {
             color: '#2196F3'
         },
         '&:focus ~ div:before': {
-            width: 390
+            width: '100%'
         }
     },
     textFieldBar: {
         position: 'relative',
         display: 'block',
-        width: 390,
+        width: '100%',
         '&:before': {
             content: "''",
             height: 2,
@@ -138,7 +137,8 @@ export default {
         transition: '300ms ease all'
     },
     textFieldRoot: {
-        borderBottom: '2px solid #adadad'
+        borderBottom: '2px solid #adadad',
+        marginTop: -10
     },
     secondaryButton: {
         color: '#2196F3'

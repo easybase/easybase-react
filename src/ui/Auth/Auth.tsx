@@ -1,30 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense, Fragment } from 'react';
 import Container from './components/Container';
 import { ThemeProvider } from 'styled-components';
 import { Toaster } from 'react-hot-toast';
-import { mergeDeep } from './utils';
-import { IStyles, IAuth, IDefaultPages } from './uiTypes';
+import { mergeDeep, defaultDictionary } from './utils';
+import { IStyles, IAuth, IDictionary } from './uiTypes';
 import useEasybase from '../../useEasybase';
 
-export default function({ theme, customStyles, children }: IAuth): JSX.Element {
+const DefaultSignIn = lazy(() => import('./pages/SignIn'));
+const DefaultSignUp = lazy(() => import('./pages/SignUp'));
+const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+
+export default function({ theme, customStyles, children, dictionary }: IAuth): JSX.Element {
     const [themeVal, setThemeVal] = useState<any>({});
-    const [pageElements, setPageElements] = useState<IDefaultPages | undefined>();
+    const [dictionaryVal, setDictionaryVal] = useState<IDictionary>({ ...defaultDictionary, ...dictionary });
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
     const { isUserSignedIn } = useEasybase();
     
-    async function loadDefaultPages() {
-        // Force code splitting
-        const _signIn = (await import('./pages/SignIn')).default;
-        const _signUp = (await import('./pages/SignUp')).default;
-        const _forgotPassword = (await import('./pages/ForgotPassword')).default;
-    
-        setPageElements({
-            SignIn: _signIn,
-            SignUp: _signUp,
-            ForgotPassword: _forgotPassword
-        })
-    }
-
     useEffect(() => {
         try {
             document.body.style.margin = "0px";
@@ -32,14 +23,12 @@ export default function({ theme, customStyles, children }: IAuth): JSX.Element {
         async function mounted() {
             let loadedTheme: IStyles = {};
             if (theme === "minimal-dark") {
-                loadDefaultPages()
                 const _theme = (await import('./themes/minimal-dark')).default;
                 if (_theme.init) {
                     _theme.init()
                 }
                 loadedTheme = _theme;
             } else if (theme === "material") {
-                loadDefaultPages()
                 const _theme = (await import('./themes/material')).default;
                 if (_theme.init) {
                     _theme.init()
@@ -47,7 +36,6 @@ export default function({ theme, customStyles, children }: IAuth): JSX.Element {
                 loadedTheme = _theme;
             } else {
                 // catch all
-                loadDefaultPages()
                 const _theme = (await import('./themes/minimal')).default;
                 if (_theme.init) {
                     _theme.init()
@@ -64,22 +52,22 @@ export default function({ theme, customStyles, children }: IAuth): JSX.Element {
         mounted();
     }, [theme])
 
+    useEffect(() => {
+        setDictionaryVal({ ...defaultDictionary, ...dictionary })
+    }, [dictionary])
+
     if (isUserSignedIn()) {
         return <React.Fragment>{children}</React.Fragment>
     }
 
     const getCurrentPage = () => {
-        if (!pageElements) {
-            return <React.Fragment />;
-        }
-
         switch (currentPage) {
             case "SignIn":
-                return <pageElements.SignIn setCurrentPage={setCurrentPage} />
+                return <Suspense fallback={<Fragment />}><DefaultSignIn setCurrentPage={setCurrentPage} dictionary={dictionaryVal} /></Suspense>
             case "SignUp":
-                return <pageElements.SignUp setCurrentPage={setCurrentPage} />
+                return <Suspense fallback={<Fragment />}><DefaultSignUp setCurrentPage={setCurrentPage} dictionary={dictionaryVal} /></Suspense>
             case "ForgotPassword":
-                return <pageElements.ForgotPassword setCurrentPage={setCurrentPage} />
+                return <Suspense fallback={<Fragment />}><DefaultForgotPassword setCurrentPage={setCurrentPage} dictionary={dictionaryVal} /></Suspense>
             default:
                 return <React.Fragment />;
         }

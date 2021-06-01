@@ -1,3 +1,5 @@
+import { IDictionary } from "./uiTypes";
+
 /**
 * https://stackoverflow.com/a/48218209
 *
@@ -26,4 +28,46 @@ export function mergeDeep(...objects: any[]) {
 
         return prev;
     }, {});
+}
+
+export const defaultDictionary: IDictionary = {
+    newPasswordLabel: "Password *",
+    confirmNewPasswordLabel: "Confirm Password *",
+    newEmailLabel: "Email *",
+    signUpSubmitButton: "Continue",
+    backToSignIn: "Back to Sign In",
+    signUpHeader: "Create your account",
+
+    /**
+     * SignIn
+     */
+    signInHeader: "Sign in to your account",
+    emailLabel: "Email",
+    passwordLabel: "Password",
+    forgotPasswordButton: "Forgot Your Password?",
+    signInSubmitButton: "Continue",
+    noAccountButton: "No Account? Sign Up",
+
+    /**
+     * ForgotPassword
+     */
+    forgotPasswordHeader: "Reset your password",
+    forgotPasswordConfirmHeader: "Reset your password",
+    forgotPasswordSecondaryHeader: "Enter your email address and we will send you a verification code.",
+    forgotPasswordConfirmSubmitButton: "Continue",
+    forgotPasswordSubmitButton: "Continue",
+    codeLabel: "Code *",
+    forgotPasswordConfirmLabel: "New Password *",
+
+    /**
+     * Errors
+     */
+     errorPasswordsDoNotMatch: "Passwords do not match",
+     errorBadInputFormat: "Bad input format",
+     errorPasswordTooShort: "Password must be at least 8 characters long",
+     errorUserAlreadyExists: "An account with that email already exists",
+     errorUserDoesNotExist: "Incorrect email or password",
+     errorRequestLimitExceeded: "Password recently changed, please try again later",
+     errorNoAccountFound: "No account found",
+     errorWrongVerificationCode: "Incorrect verification code"
 }

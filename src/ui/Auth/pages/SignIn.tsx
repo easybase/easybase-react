@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { IPage } from '../uiTypes';
 import useEasybase from '../../../useEasybase';
 
-export default function ({ setCurrentPage }: IPage) {
+export default function ({ setCurrentPage, dictionary }: IPage) {
     const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm();
     const { signIn } = useEasybase();
     const onSubmit = async (formData: Record<string, string>) => {
@@ -20,10 +20,10 @@ export default function ({ setCurrentPage }: IPage) {
         const signInRes = await signIn(formData.email, formData.password);
         if (!signInRes.success) {
             if (signInRes.errorCode === "NoUserExists") {
-                toast.error('Incorrect email or password')
+                toast.error(dictionary.errorUserDoesNotExist!)
             } else if (signInRes.errorCode === "BadFormat") {
                 reset();
-                toast.error('Bad input format')
+                toast.error(dictionary.errorBadInputFormat!)
             }
         }
         // Will automatically change views
@@ -31,11 +31,11 @@ export default function ({ setCurrentPage }: IPage) {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
-            <HeaderText>Sign in to your account</HeaderText>
+            <HeaderText>{dictionary.signInHeader}</HeaderText>
             <Spacer size="medium" />
             <EmailInput
                 register={() => register("email")}
-                label="Email"
+                label={dictionary.emailLabel}
                 disabled={isSubmitting}
             />
             <Spacer size="xlarge" />
@@ -43,11 +43,12 @@ export default function ({ setCurrentPage }: IPage) {
                 register={() => register("password")}
                 autoComplete="current-password"
                 disabled={isSubmitting}
+                label={dictionary.passwordLabel}
             />
             <Spacer size="xlarge" />
-            <ForgotPassword onClick={_ => setCurrentPage("forgotPassword")} disabled={isSubmitting}>Forgot Your Password?</ForgotPassword>
-            <SubmitButton disabled={isSubmitting}>Continue</SubmitButton>
-            <SecondaryButton onClick={_ => setCurrentPage("signUp")} disabled={isSubmitting}>No Account? Sign Up</SecondaryButton>
+            <ForgotPassword onClick={_ => setCurrentPage("ForgotPassword")} disabled={isSubmitting}>{dictionary.forgotPasswordButton}</ForgotPassword>
+            <SubmitButton disabled={isSubmitting}>{dictionary.signInSubmitButton}</SubmitButton>
+            <SecondaryButton onClick={_ => setCurrentPage("SignUp")} disabled={isSubmitting}>{dictionary.noAccountButton}</SecondaryButton>
         </Form>
     )
 }

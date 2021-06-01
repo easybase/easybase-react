@@ -10,6 +10,7 @@ const Container = styled.div(props => ({
     bottom: 0,
     right: 0,
     overflow: 'auto',
+    boxSizing: 'content-box',
     ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
