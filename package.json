@@ -14,20 +14,20 @@
   "scripts": {
     "build": "npm run clean && npm run microbundle && npm run fixDist",
     "prepare": "npm run clean && npm run microbundle && npm run fixDist",
-    "microbundle": "microbundle build --jsx React.createElement --external react --no-compress --format modern,cjs",
+    "microbundle": "microbundle build --jsx React.createElement --external react,react-native --no-compress --format modern,cjs",
     "genDocs": "typedoc",
     "clean": "shx rm -rf dist",
     "fixDist": "shx cp -r dist/src/ui/Auth/. dist/ui/Auth && shx rm -rf dist/src/",
-    "postinstall": "node ./scripts/postinstall.js",
     "test": "echo 'no test specified' || true"
   },
   "peerDependencies": {
-    "react": ">=16.8.0"
+    "react": ">= 16.8.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.38",
-    "@types/react": "^16.9.27",
-    "@types/react-dom": "^16.9.7",
+    "@types/react": "17.0.1",
+    "@types/react-dom": "17.0.1",
+    "@types/react-native": "0.64.1",
     "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
@@ -41,9 +41,9 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
     "microbundle": "^0.13.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.1",
     "shx": "^0.3.3",
     "typedoc": "^0.20.36",
     "typescript": "^3.7.5"
@@ -53,7 +53,6 @@
     "scripts"
   ],
   "dependencies": {
-    "easybase-async-storage": "^1.14.0",
     "easybasejs": "4.2.13",
     "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",
