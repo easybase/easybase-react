@@ -15,7 +15,7 @@
     "react-scripts": "file:../node_modules/react-scripts",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
-    "typescript": "file:../node_modules/typescript"
+    "typescript": "^4.2.4"
   },
   "eslintConfig": {
     "extends": "react-app"
