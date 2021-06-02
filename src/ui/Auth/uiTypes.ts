@@ -80,3 +80,14 @@ export interface IDictionary {
     errorWrongVerificationCode?: string;
 
 }
+
+// TODO: finish possible types
+export interface SignUpField {
+    firstName?: boolean;
+    lastName?: boolean;
+    fullName?: boolean;
+    dateOfBirth?: boolean;
+    gender?: boolean;
+    tos?: boolean;
+    phoneNumber?: boolean;
+}
