@@ -56,9 +56,9 @@ export const Input = styled.TextInput((props: any) => ({
 
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
-    width: "100%",
     height: 0,
     overflow: "visible",
+    margin: 0,
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
 
@@ -66,18 +66,21 @@ const SecondaryButtonText = styled.Text((props: any) => ({
     fontWeight: 'bold',
     fontSize: 14,
     color: '#534eff',
-    justifyContent: "center",
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: -5,
     ...(props.theme.secondaryButton ? { ...props.theme.secondaryButton } : {})
 }))
 
 export const SecondaryButton = (props: any) => <SecondaryButtonRoot {...props}><SecondaryButtonText>{props.title}</SecondaryButtonText></SecondaryButtonRoot>
 
 const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
+    width: "100%",
     ...(props.theme.forgotPasswordRoot ? { ...props.theme.forgotPasswordRoot } : {})
 }))
 
 const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
-    justifyContent: "start",
+    textAlign: "start",
     ...(props.theme.forgotPassword ? { ...props.theme.forgotPassword } : {})
 }))
 
