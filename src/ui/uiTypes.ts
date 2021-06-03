@@ -77,22 +77,21 @@ export interface IStyles {
 }
 
 export interface INativeStyles {
-    container?: Record<string, any>;
-    textFieldRoot?: Record<string, any>;
-    textField?: Record<string, any>;
-    textFieldLabel?: Record<string, any>;
-    submitButton?: Record<string, any>;
-    genderSelect?: Record<string, any>;
-    toast?: Record<string, any>;
     form?: Record<string, any>;
     headerText?: Record<string, any>;
-    secondaryText?: Record<string, any>;
     secondaryButton?: Record<string, any>;
+    secondaryButtonRoot?: Record<string, any>;
+    secondaryText?: Record<string, any>;
+    submitButton?: Record<string, any>;
+    submitButtonRoot?: Record<string, any>;
+    textField?: Record<string, any>;
+    toast?: Record<string, any>;
     errorText?: Record<string, any>;
-    textButton?: Record<string, any>;
-    selectOption?: Record<string, any>;
-    textFieldBar?: Record<string, any>;
     forgotPassword?: Record<string, any>;
+    forgotPasswordRoot?: Record<string, any>;
+
+    genderSelect?: Record<string, any>;
+    selectOption?: Record<string, any>;
 }
 
 export interface IAuth {

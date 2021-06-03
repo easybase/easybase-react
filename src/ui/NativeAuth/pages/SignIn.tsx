@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
-import { Form, HeaderText, SpacerL, SpacerXL, Input, SubmitButton, SecondaryButton } from '../components';
+import { Form, HeaderText, SpacerL, SpacerXL, Input, SubmitButton, SecondaryButton, ForgotPassword } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
@@ -59,10 +59,10 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
                 name="password"
                 defaultValue=""
             />
-            <SecondaryButton onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
+            <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
             <SpacerL />
             <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
-            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} style={{ width: "100%", justifyContent: "center" }} />
+            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
         </Form>
     )
 }
