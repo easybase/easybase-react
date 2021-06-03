@@ -8,7 +8,6 @@ import SecondaryButton from '../components/SecondaryButton';
 import SubmitButton from '../components/SubmitButton';
 import Spacer from '../components/Spacer';
 import { useForm, Controller } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
 
@@ -20,10 +19,10 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
         const signInRes = await signIn(formData.email, formData.password);
         if (!signInRes.success) {
             if (signInRes.errorCode === "NoUserExists") {
-                toast.error(dictionary.errorUserDoesNotExist!)
+                // toast.error(dictionary.errorUserDoesNotExist!)
             } else if (signInRes.errorCode === "BadFormat") {
                 reset();
-                toast.error(dictionary.errorBadInputFormat!)
+                // toast.error(dictionary.errorBadInputFormat!)
             }
         }
         // Will automatically change views

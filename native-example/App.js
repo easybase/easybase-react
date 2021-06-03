@@ -59,9 +59,13 @@ export default function app() {
   return (
     <EasybaseProvider ebconfig={ebconfig}>
       {/* <Router /> */}
-      <View style={styles.container}>
-        <NativeAuth />
-      </View>
+      {/* <View style={styles.container}> */}
+        <NativeAuth>
+          <View style={styles.container}>
+            <Text>You're in</Text>
+          </View>
+        </NativeAuth>
+      {/* </View> */}
     </EasybaseProvider>
   )
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense, Fragment } from 'react';
 import Container from './components/Container';
 import { ThemeProvider } from 'styled-components/native';
-import { Toaster } from 'react-hot-toast';
 import { mergeDeep, defaultDictionary } from '../utils';
 import { IStyles, IAuth } from '../uiTypes';
 import useEasybase from '../../useEasybase';
@@ -17,29 +16,17 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
     const { isUserSignedIn } = useEasybase();
 
     useEffect(() => {
-        try {
-            document.body.style.margin = "0px";
-        } catch (_) { }
         async function mounted() {
             let loadedTheme: IStyles = {};
             if (theme === "minimal-dark") {
                 const _theme = (await import('../themes/minimal-dark')).default;
-                if (_theme.init) {
-                    _theme.init()
-                }
                 loadedTheme = _theme;
             } else if (theme === "material") {
                 const _theme = (await import('../themes/material')).default;
-                if (_theme.init) {
-                    _theme.init()
-                }
                 loadedTheme = _theme;
             } else {
                 // catch all
                 const _theme = (await import('../themes/minimal')).default;
-                if (_theme.init) {
-                    _theme.init()
-                }
                 loadedTheme = _theme;
             }
 
@@ -94,7 +81,6 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
     return (
         <ThemeProvider theme={themeVal}>
             <Container>
-                <Toaster toastOptions={{ style: { fontFamily: 'inherit', ...(themeVal.toast ? { ...themeVal.toast } : {}) } }} />
                 {/* {getCurrentPage()} */}
                 <Suspense fallback={<Fragment />}>
                     <DefaultSignIn
