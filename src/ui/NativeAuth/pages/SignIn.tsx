@@ -1,15 +1,8 @@
 import React from 'react';
-import Form from '../components/Form';
-import EmailInput from '../components/EmailInput';
-import PasswordInput from '../components/PasswordInput';
-import HeaderText from '../components/HeaderText';
-import ForgotPassword from '../components/ForgotPassword';
-import SecondaryButton from '../components/SecondaryButton';
-import SubmitButton from '../components/SubmitButton';
-import Spacer from '../components/Spacer';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
+import { Form, HeaderText, Spacer, SpacerXL, Input, ForgotPassword, SubmitButton, SecondaryButton } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
@@ -31,43 +24,46 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
     return (
         <Form>
             <HeaderText>{dictionary.signInHeader}</HeaderText>
-            <Spacer size="medium" />
+            <Spacer />
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <EmailInput
+                    <Input
                         onBlur={onBlur}
-                        onChangeText={(value: any) => onChange(value)}
+                        onChangeText={value => onChange(value)}
                         value={value}
-                        label={dictionary.emailLabel}
-                        disabled={isSubmitting}
+                        placeholder={dictionary.emailLabel}
+                        editable={!isSubmitting}
+                        keyboardType="email-address"
+                        returnKeyType="default"
                     />
                 )}
                 name="email"
                 defaultValue=""
             />
 
-            <Spacer size="xlarge" />
+            <SpacerXL />
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
-                    <PasswordInput
+                    <Input
                         onBlur={onBlur}
-                        onChangeText={(value: any) => onChange(value)}
+                        onChangeText={value => onChange(value)}
                         value={value}
-                        autoComplete="current-password"
-                        disabled={isSubmitting}
-                        label={dictionary.passwordLabel}
+                        placeholder={dictionary.passwordLabel}
+                        editable={!isSubmitting}
+                        returnKeyType="default"
+                        secureTextEntry={true}
                     />
                 )}
                 name="password"
                 defaultValue=""
             />
 
-            <Spacer size="xlarge" />
-            <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting}>{dictionary.forgotPasswordButton}</ForgotPassword>
-            <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting}>{dictionary.signInSubmitButton}</SubmitButton>
-            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting}>{dictionary.noAccountButton}</SecondaryButton>
+            <SpacerXL />
+            <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!}  />
+            <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
+            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
         </Form>
     )
 }

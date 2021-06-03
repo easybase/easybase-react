@@ -1,5 +1,4 @@
 import React, { useEffect, useState, lazy, Suspense, Fragment } from 'react';
-import Container from './components/Container';
 import { ThemeProvider } from 'styled-components/native';
 import { mergeDeep, defaultDictionary } from '../utils';
 import { IStyles, IAuth } from '../uiTypes';
@@ -80,15 +79,13 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
 
     return (
         <ThemeProvider theme={themeVal}>
-            <Container>
-                {/* {getCurrentPage()} */}
-                <Suspense fallback={<Fragment />}>
-                    <DefaultSignIn
-                        setCurrentPage={setCurrentPage}
-                        dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
-                    />
-                </Suspense>
-            </Container>
+            {/* {getCurrentPage()} */}
+            <Suspense fallback={<Fragment />}>
+                <DefaultSignIn
+                    setCurrentPage={setCurrentPage}
+                    dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+                />
+            </Suspense>
         </ThemeProvider>
     )
 }
