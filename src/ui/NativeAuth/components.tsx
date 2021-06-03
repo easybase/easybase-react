@@ -5,7 +5,11 @@ export const Form = styled.View(props => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    paddingTop: 55,
+    paddingBottom: 55,
+    paddingRight: 33,
+    paddingLeft: 33
 }))
 
 export const HeaderText = styled.Text(props => ({
@@ -48,9 +52,13 @@ export const Input = styled.TextInput(props => ({
 }))
 
 export const ForgotPassword = styled.Button(props => ({
-    color: '#635bff',
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
+    backgroundColor: 'transparent',
+    marginTop: -53,
+    marginBottom: 53,
+    width: "100%",
+    justifyContent: "start"
 }))
 
 const SubmitButtonRoot = styled.TouchableOpacity(props => ({
@@ -67,13 +75,14 @@ const SubmitButtonRoot = styled.TouchableOpacity(props => ({
 
 const SubmitButtonText = styled.Text(props => ({
     fontWeight: 500,
-    fontSize: 16
+    fontSize: 16,
+    color: "#FFFFFF"
 }))
 
 export const SubmitButton = (props: any) => <SubmitButtonRoot {...props}><SubmitButtonText>{props.title}</SubmitButtonText></SubmitButtonRoot>
 
 export const SecondaryButton = styled.Button(props => ({
-    color: '#635bff',
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 14,
+    background: 'transparent'
 }))

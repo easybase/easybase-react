@@ -1,5 +1,5 @@
 /* eslint-disable operator-linebreak */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { useEasybase, EasybaseProvider } from 'easybase-react';
 import { NativeAuth } from 'easybase-react/native';
@@ -58,14 +58,11 @@ function Router() {
 export default function app() {
   return (
     <EasybaseProvider ebconfig={ebconfig}>
-      {/* <Router /> */}
-      {/* <View style={styles.container}> */}
         <NativeAuth>
           <View style={styles.container}>
             <Text>You're in</Text>
           </View>
         </NativeAuth>
-      {/* </View> */}
     </EasybaseProvider>
   )
 }

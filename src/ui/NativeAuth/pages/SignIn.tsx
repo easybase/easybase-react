@@ -61,9 +61,9 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
             />
 
             <SpacerXL />
-            <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
+            <ForgotPassword color="#635bff" onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
             <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
-            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
+            <SecondaryButton color="#635bff" onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
         </Form>
     )
 }
