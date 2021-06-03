@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components/native';
 
 export const View = styled.View({
@@ -50,7 +50,6 @@ export const Input = styled.TextInput((props: any) => ({
     fontWeight: 400,
     fontSize: 16,
     background: 'transparent',
-    outline: 'none',
     borderRadius: 4,
     padding: 12,
     ...(props.theme.textField ? { ...props.theme.textField } : {})
@@ -108,3 +107,31 @@ const SubmitButtonText = styled.Text((props: any) => ({
 }))
 
 export const SubmitButton = (props: any) => <SubmitButtonRoot {...props}><SubmitButtonText>{props.title}</SubmitButtonText></SubmitButtonRoot>
+
+const StyledErrorText = styled.Text((props: any) => ({
+    marginTop: 5,
+    marginBottom: -5,
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#FF0000',
+    height: 0,
+    overflow: 'visible',
+    ...(props.theme.errorText ? { ...props.theme.errorText } : {})
+}))
+
+export const ErrorText = (props: any) => props.value ? <StyledErrorText>{props.value}</StyledErrorText> : <Fragment />
+
+export const Picker = styled.Picker((props: any) => ({
+    width: '100%',
+    maxWidth: '100%',
+    height: 46,
+    borderColor: '#dbdbdb',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    fontWeight: 400,
+    fontSize: 16,
+    background: 'transparent',
+    borderRadius: 4,
+    padding: 12,
+    ...(props.theme.picker ? { ...props.theme.picker } : {})
+}))

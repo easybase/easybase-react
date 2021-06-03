@@ -89,9 +89,7 @@ export interface INativeStyles {
     errorText?: Record<string, any>;
     forgotPassword?: Record<string, any>;
     forgotPasswordRoot?: Record<string, any>;
-
-    genderSelect?: Record<string, any>;
-    selectOption?: Record<string, any>;
+    picker?: Record<string, any>;
 }
 
 export interface IAuth {

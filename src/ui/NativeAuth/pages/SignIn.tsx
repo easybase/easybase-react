@@ -37,6 +37,8 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
                             editable={!isSubmitting}
                             keyboardType="email-address"
                             returnKeyType="default"
+                            autoCompleteType="email"
+                            autoCapitalize="none"
                         />
                     )}
                     name="email"
@@ -54,6 +56,8 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
                             editable={!isSubmitting}
                             returnKeyType="default"
                             secureTextEntry={true}
+                            autoCompleteType="password"
+                            autoCapitalize="none"
                         />
                     )}
                     name="password"
