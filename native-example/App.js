@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { useEasybase, EasybaseProvider } from 'easybase-react';
+import { NativeAuth } from 'easybase-react/native';
 import ebconfig from './ebconfig';
 
 function Account() {
@@ -57,7 +58,10 @@ function Router() {
 export default function app() {
   return (
     <EasybaseProvider ebconfig={ebconfig}>
-      <Router />
+      {/* <Router /> */}
+      <View style={styles.container}>
+        <NativeAuth />
+      </View>
     </EasybaseProvider>
   )
 }

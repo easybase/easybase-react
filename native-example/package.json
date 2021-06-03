@@ -5,6 +5,7 @@
     "ios": "npm run reinit && react-native run-ios",
     "web": "npm run reinit && expo start --web",
     "start": "npm run reinit && react-native start",
+    "resetCache": "react-native start --reset-cache",
     "reinit": "npm i github:easybase/easybase-react#dev"
   },
   "dependencies": {

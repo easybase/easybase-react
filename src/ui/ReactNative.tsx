@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Suspense, Fragment, lazy } from 'react';
 import { IAuth } from './uiTypes';
-import styled from 'styled-components/native';
 
-const Button = styled.Button({
-    color: "red",
-    fontSize: 20
-})
+const NativeAuthComp = lazy(() => import('./NativeAuth/NativeAuth'));
 
-export function NativeAuth (props: IAuth): JSX.Element {
+export function NativeAuth(props: IAuth): JSX.Element {
     return (
-        <Button title="Cloc" onPress={console.log} />
+        <Suspense fallback={<Fragment />}>
+            <NativeAuthComp {...props} />
+        </Suspense>
     )
 }
 
 export default NativeAuth;
+
+/**
+ * Note that this wrapper component exists to force code-splitting
+ */
