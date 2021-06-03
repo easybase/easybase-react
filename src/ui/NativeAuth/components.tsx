@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
+export const View = styled.View({});
+
 export const Form = styled.View((props: any) => ({
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
-    paddingTop: 55,
-    paddingBottom: 55,
+    paddingTop: '25%',
+    paddingBottom: '25%',
     paddingRight: 33,
     paddingLeft: 33,
     ...(props.theme.form ? { ...props.theme.form } : {})
@@ -45,7 +47,6 @@ export const Input = styled.TextInput((props: any) => ({
     fontWeight: 400,
     fontSize: 16,
     lineHeight: 28,
-    display: 'inline-flex',
     background: 'transparent',
     transition: 'color .24s,background-color .24s,box-shadow .24s',
     outline: 'none',
@@ -80,7 +81,7 @@ const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
 }))
 
 const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
-    textAlign: "start",
+    textAlign: "left",
     ...(props.theme.forgotPassword ? { ...props.theme.forgotPassword } : {})
 }))
 

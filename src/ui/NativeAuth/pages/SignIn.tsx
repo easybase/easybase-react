@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
-import { Form, HeaderText, SpacerL, SpacerXL, Input, SubmitButton, SecondaryButton, ForgotPassword } from '../components';
+import { Form, HeaderText, View, Input, SubmitButton, SecondaryButton, ForgotPassword } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
@@ -24,45 +24,47 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
     return (
         <Form>
             <HeaderText>{dictionary.signInHeader}</HeaderText>
-            <SpacerXL />
-            <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        placeholder={dictionary.emailLabel}
-                        editable={!isSubmitting}
-                        keyboardType="email-address"
-                        returnKeyType="default"
-                    />
-                )}
-                name="email"
-                defaultValue=""
-            />
 
-            <SpacerL />
-            <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <Input
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        placeholder={dictionary.passwordLabel}
-                        editable={!isSubmitting}
-                        returnKeyType="default"
-                        secureTextEntry={true}
-                    />
-                )}
-                name="password"
-                defaultValue=""
-            />
-            <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
-            <SpacerL />
-            <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
-            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
+            <View>
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Input
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            placeholder={dictionary.emailLabel}
+                            editable={!isSubmitting}
+                            keyboardType="email-address"
+                            returnKeyType="default"
+                        />
+                    )}
+                    name="email"
+                    defaultValue=""
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <Input
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            placeholder={dictionary.passwordLabel}
+                            editable={!isSubmitting}
+                            returnKeyType="default"
+                            secureTextEntry={true}
+                        />
+                    )}
+                    name="password"
+                    defaultValue=""
+                />
+                <ForgotPassword onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
+            </View>
+
+            <View>
+                <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
+                <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
+            </View>
         </Form>
     )
 }
