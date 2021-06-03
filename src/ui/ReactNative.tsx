@@ -1,9 +1,9 @@
 import React, { Suspense, Fragment, lazy } from 'react';
-import { IAuth } from './uiTypes';
+import { INativeAuth } from './uiTypes';
 
 const NativeAuthComp = lazy(() => import('./NativeAuth/NativeAuth'));
 
-export function NativeAuth(props: IAuth): JSX.Element {
+export function NativeAuth(props: INativeAuth): JSX.Element {
     return (
         <Suspense fallback={<Fragment />}>
             <NativeAuthComp {...props} />

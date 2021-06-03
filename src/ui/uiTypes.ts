@@ -76,12 +76,41 @@ export interface IStyles {
     forgotPassword?: Record<string, any>;
 }
 
+export interface INativeStyles {
+    container?: Record<string, any>;
+    textFieldRoot?: Record<string, any>;
+    textField?: Record<string, any>;
+    textFieldLabel?: Record<string, any>;
+    submitButton?: Record<string, any>;
+    genderSelect?: Record<string, any>;
+    toast?: Record<string, any>;
+    form?: Record<string, any>;
+    headerText?: Record<string, any>;
+    secondaryText?: Record<string, any>;
+    secondaryButton?: Record<string, any>;
+    errorText?: Record<string, any>;
+    textButton?: Record<string, any>;
+    selectOption?: Record<string, any>;
+    textFieldBar?: Record<string, any>;
+    forgotPassword?: Record<string, any>;
+}
+
 export interface IAuth {
     children: React.ReactNode;
     /** Theme for consistent styling, defaults to 'minimal' */
     theme?: "minimal" | "minimal-dark" | "material";
     /** Override specific styles for components of an Auth instance */
     customStyles?: IStyles;
+    /** Edit specific language across the Auth instance components  */
+    dictionary?: IDictionary;
+    /** Extra fields that will be shown in the SignUp view of <Auth />. These fields are shown in addition Email, Password, and Confirm Password. */
+    signUpFields?: ISignUpFields;
+}
+
+export interface INativeAuth {
+    children: React.ReactNode;
+    /** Override specific styles for components of an Auth instance */
+    customStyles?: INativeStyles;
     /** Edit specific language across the Auth instance components  */
     dictionary?: IDictionary;
     /** Extra fields that will be shown in the SignUp view of <Auth />. These fields are shown in addition Email, Password, and Confirm Password. */
