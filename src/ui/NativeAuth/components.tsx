@@ -18,11 +18,22 @@ export const Form = styled.View((props: any) => ({
 }))
 
 export const HeaderText = styled.Text((props: any) => ({
-    fontSize: 35,
+    fontSize: 37,
     fontWeight: "bold",
     marginTop: 25,
+    color: '#3c4257',
+    width: '100%',
     textAlign: "left",
     ...(props.theme.headerText ? { ...props.theme.headerText } : {})
+}))
+
+export const SecondaryText = styled.Text((props: any) => ({
+    fontSize: 15,
+    fontWeight: '300',
+    textAlign: "left",
+    color: '#3c4257',
+    width: '100%',
+    ...(props.theme.secondaryText ? { ...props.theme.secondaryText } : {})
 }))
 
 export const SpacerXL = styled.View((props: any) => ({
@@ -34,7 +45,7 @@ export const SpacerL = styled.View((props: any) => ({
 }))
 
 export const SpacerS = styled.View((props: any) => ({
-    height: 16
+    height: 24
 }))
 
 export const Spacer = styled.View((props: any) => ({
@@ -44,12 +55,12 @@ export const Spacer = styled.View((props: any) => ({
 export const Input = styled.TextInput((props: any) => ({
     width: '100%',
     maxWidth: '100%',
-    height: 46,
+    height: 60,
     borderColor: '#dbdbdb',
     borderStyle: 'solid',
     borderWidth: 1,
     fontWeight: 400,
-    fontSize: 16,
+    fontSize: 24,
     background: 'transparent',
     borderRadius: 4,
     padding: 12,
@@ -66,7 +77,7 @@ const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
 
 const SecondaryButtonText = styled.Text((props: any) => ({
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 20,
     color: '#534eff',
     textAlign: "center",
     ...(props.theme.secondaryButton ? { ...props.theme.secondaryButton } : {})
@@ -81,8 +92,9 @@ const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
 
 const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
     textAlign: "left",
-    marginTop: 8,
-    marginBottom: -8,
+    marginTop: 12,
+    marginBottom: -12,
+    fontSize: 14,
     ...(props.theme.forgotPassword ? { ...props.theme.forgotPassword } : {})
 }))
 
@@ -91,7 +103,7 @@ export const ForgotPassword = (props: any) => <ForgotButtonRoot {...props}><Forg
 const SubmitButtonRoot = styled.TouchableOpacity((props: any) => ({
     width: '100%',
     backgroundColor: 'rgb(99, 91, 255)',
-    height: 44,
+    height: 60,
     borderRadius: 4,
     borderColor: '#534eff',
     borderStyle: 'solid',
@@ -102,8 +114,8 @@ const SubmitButtonRoot = styled.TouchableOpacity((props: any) => ({
 }))
 
 const SubmitButtonText = styled.Text((props: any) => ({
-    fontWeight: 500,
-    fontSize: 16,
+    fontWeight: 'bold',
+    fontSize: 20,
     color: "#FFFFFF",
     ...(props.theme.submitButton ? { ...props.theme.submitButton } : {})
 }))
