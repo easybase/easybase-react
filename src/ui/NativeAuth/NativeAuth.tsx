@@ -5,8 +5,8 @@ import { IStyles, IAuth } from '../uiTypes';
 import useEasybase from '../../useEasybase';
 
 const DefaultSignIn = lazy(() => import('./pages/SignIn'));
-const DefaultSignUp = lazy(() => import('./pages/SignUp'));
-const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+// const DefaultSignUp = lazy(() => import('./pages/SignUp'));
+// const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 export default function ({ theme, customStyles, children, dictionary, signUpFields }: IAuth): JSX.Element {
     const [themeVal, setThemeVal] = useState<any>({});
@@ -42,40 +42,40 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
         return <Fragment>{children}</Fragment>
     }
 
-    const getCurrentPage = () => {
-        switch (currentPage) {
-            case "SignIn":
-                return (
-                    <Suspense fallback={<Fragment />}>
-                        <DefaultSignIn
-                            setCurrentPage={setCurrentPage}
-                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
-                        />
-                    </Suspense>
-                )
-            case "SignUp":
-                return (
-                    <Suspense fallback={<Fragment />}>
-                        <DefaultSignUp
-                            setCurrentPage={setCurrentPage}
-                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
-                            signUpFields={typeof signUpFields === "object" ? signUpFields : {}}
-                        />
-                    </Suspense>
-                )
-            case "ForgotPassword":
-                return (
-                    <Suspense fallback={<Fragment />}>
-                        <DefaultForgotPassword
-                            setCurrentPage={setCurrentPage}
-                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
-                        />
-                    </Suspense>
-                )
-            default:
-                return <React.Fragment />;
-        }
-    }
+    // const getCurrentPage = () => {
+    //     switch (currentPage) {
+    //         case "SignIn":
+    //             return (
+    //                 <Suspense fallback={<Fragment />}>
+    //                     <DefaultSignIn
+    //                         setCurrentPage={setCurrentPage}
+    //                         dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+    //                     />
+    //                 </Suspense>
+    //             )
+    //         case "SignUp":
+    //             return (
+    //                 <Suspense fallback={<Fragment />}>
+    //                     <DefaultSignUp
+    //                         setCurrentPage={setCurrentPage}
+    //                         dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+    //                         signUpFields={typeof signUpFields === "object" ? signUpFields : {}}
+    //                     />
+    //                 </Suspense>
+    //             )
+    //         case "ForgotPassword":
+    //             return (
+    //                 <Suspense fallback={<Fragment />}>
+    //                     <DefaultForgotPassword
+    //                         setCurrentPage={setCurrentPage}
+    //                         dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+    //                     />
+    //                 </Suspense>
+    //             )
+    //         default:
+    //             return <React.Fragment />;
+    //     }
+    // }
 
     return (
         <ThemeProvider theme={themeVal}>
