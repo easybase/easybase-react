@@ -33,7 +33,9 @@ export const Input = styled.TextInput(props => ({
     width: '100%',
     maxWidth: '100%',
     height: 46,
-    boxShadow: 'rgb(60 66 87 / 16%) 0px 0px 0px 1px',
+    borderColor: '#dbdbdb',
+    borderStyle: 'solid',
+    borderWidth: 1,
     fontWeight: 400,
     fontSize: 16,
     lineHeight: 28,
@@ -54,9 +56,11 @@ export const ForgotPassword = styled.Button(props => ({
 const SubmitButtonRoot = styled.TouchableOpacity(props => ({
     width: '100%',
     backgroundColor: 'rgb(99, 91, 255)',
-    boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(69 56 255 / 80%) 0px 0px 0px 1px, rgb(60 66 87 / 8%) 0px 2px 5px 0px',
     height: 44,
     borderRadius: 4,
+    borderColor: '#534eff',
+    borderStyle: 'solid',
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center'
 }))
