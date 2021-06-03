@@ -1,10 +1,11 @@
 {
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "web": "expo start --web",
-    "start": "react-native start"
+    "android": "npm run reinit && react-native run-android",
+    "ios": "npm run reinit && react-native run-ios",
+    "web": "npm run reinit && expo start --web",
+    "start": "npm run reinit && react-native start",
+    "reinit": "npm i github:easybase/easybase-react#dev"
   },
   "dependencies": {
     "easybase-react": "github:easybase/easybase-react#dev",
