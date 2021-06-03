@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useToaster } from 'react-hot-toast/src/core/use-toaster'
+import { useToaster } from 'react-hot-toast'
 import styled from 'styled-components/native';
 
 export const View = styled.View({

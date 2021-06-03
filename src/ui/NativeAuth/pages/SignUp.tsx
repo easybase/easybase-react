@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage, ISignUpFields } from '../../uiTypes';
-import { toast } from 'react-hot-toast/src/core/toast';
+import { toast } from 'react-hot-toast';
 import useEasybase from '../../../useEasybase';
 import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker } from '../components';
 
