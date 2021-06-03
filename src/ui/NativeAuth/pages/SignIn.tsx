@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
-import { Form, HeaderText, Spacer, SpacerXL, Input, ForgotPassword, SubmitButton, SecondaryButton } from '../components';
+import { Form, HeaderText, Spacer, SpacerXL, Input, SubmitButton, SecondaryButton } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
@@ -24,7 +24,7 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
     return (
         <Form>
             <HeaderText>{dictionary.signInHeader}</HeaderText>
-            <Spacer />
+            <SpacerXL />
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -42,7 +42,7 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
                 defaultValue=""
             />
 
-            <SpacerXL />
+            <Spacer />
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -59,11 +59,10 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
                 name="password"
                 defaultValue=""
             />
-
-            <SpacerXL />
-            <ForgotPassword color="#635bff" onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} />
+            <SecondaryButton onPress={(_: any) => setCurrentPage("ForgotPassword")} disabled={isSubmitting} title={dictionary.forgotPasswordButton!} style={{ overflow: "hidden", height: 0, width: "100%", justifyContent: "start" }} />
+            <Spacer />
             <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
-            <SecondaryButton color="#635bff" onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
+            <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
         </Form>
     )
 }

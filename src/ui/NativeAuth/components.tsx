@@ -51,15 +51,21 @@ export const Input = styled.TextInput(props => ({
     padding: 12
 }))
 
-export const ForgotPassword = styled.Button(props => ({
+const SecondaryButtonRoot = styled.TouchableOpacity(props => ({
+    backgroundColor: 'transparent',
+    width: "100%",
+    height: 0,
+    overflow: "visible"
+}))
+
+const SecondaryButtonText = styled.Text(props => ({
     fontWeight: 'bold',
     fontSize: 14,
-    backgroundColor: 'transparent',
-    marginTop: -53,
-    marginBottom: 53,
-    width: "100%",
-    justifyContent: "start"
+    justifyContent: "start",
+    color: '#534eff'
 }))
+
+export const SecondaryButton = (props: any) => <SecondaryButtonRoot {...props}><SecondaryButtonText>{props.title}</SecondaryButtonText></SecondaryButtonRoot>
 
 const SubmitButtonRoot = styled.TouchableOpacity(props => ({
     width: '100%',
@@ -80,9 +86,3 @@ const SubmitButtonText = styled.Text(props => ({
 }))
 
 export const SubmitButton = (props: any) => <SubmitButtonRoot {...props}><SubmitButtonText>{props.title}</SubmitButtonText></SubmitButtonRoot>
-
-export const SecondaryButton = styled.Button(props => ({
-    fontWeight: 'bold',
-    fontSize: 14,
-    background: 'transparent'
-}))
