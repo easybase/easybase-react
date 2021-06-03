@@ -2897,7 +2897,7 @@
   "version" "0.1.2"
 
 "easybase-react@github:easybase/easybase-react#dev":
-  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#77cfcc5f7de50c57a0f3ffadba0e85991a5d1e0e"
+  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#c7b439e353a3e1c8802ec748f417dee6f52e8432"
   "version" "2.1.15"
   dependencies:
     "easybasejs" "4.2.13"
