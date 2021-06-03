@@ -21,6 +21,7 @@ export const HeaderText = styled.Text((props: any) => ({
     fontSize: 35,
     fontWeight: "bold",
     marginTop: 25,
+    textAlign: "left",
     ...(props.theme.headerText ? { ...props.theme.headerText } : {})
 }))
 
@@ -57,7 +58,8 @@ export const Input = styled.TextInput((props: any) => ({
 
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
-    height: 0,
+    height: 20,
+    marginBottom: -20,
     overflow: "visible",
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
