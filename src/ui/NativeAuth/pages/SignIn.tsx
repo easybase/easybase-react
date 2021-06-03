@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
-import { Form, HeaderText, View, Input, SubmitButton, SecondaryButton, ForgotPassword, Spacer, SpacerXL } from '../components';
+import { Form, HeaderText, View, Input, SubmitButton, SecondaryButton, ForgotPassword, SpacerS, SpacerXL } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
@@ -64,7 +64,7 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
 
             <View>
                 <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signInSubmitButton} />
-                <Spacer />
+                <SpacerS />
                 <SecondaryButton onPress={(_: any) => setCurrentPage("SignUp")} disabled={isSubmitting} title={dictionary.noAccountButton!} />
             </View>
         </Form>

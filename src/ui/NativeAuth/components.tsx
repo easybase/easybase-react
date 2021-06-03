@@ -20,6 +20,7 @@ export const Form = styled.View((props: any) => ({
 export const HeaderText = styled.Text((props: any) => ({
     fontSize: 35,
     fontWeight: "bold",
+    marginTop: 25,
     ...(props.theme.headerText ? { ...props.theme.headerText } : {})
 }))
 
@@ -48,9 +49,7 @@ export const Input = styled.TextInput((props: any) => ({
     borderWidth: 1,
     fontWeight: 400,
     fontSize: 16,
-    lineHeight: 28,
     background: 'transparent',
-    transition: 'color .24s,background-color .24s,box-shadow .24s',
     outline: 'none',
     borderRadius: 4,
     padding: 12,
@@ -69,8 +68,6 @@ const SecondaryButtonText = styled.Text((props: any) => ({
     fontSize: 14,
     color: '#534eff',
     textAlign: "center",
-    marginTop: 5,
-    marginBottom: -5,
     ...(props.theme.secondaryButton ? { ...props.theme.secondaryButton } : {})
 }))
 
@@ -83,6 +80,8 @@ const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
 
 const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
     textAlign: "left",
+    marginTop: 8,
+    marginBottom: -8,
     ...(props.theme.forgotPassword ? { ...props.theme.forgotPassword } : {})
 }))
 
