@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useToaster } from 'react-hot-toast/dist/core/use-toaster';
 import styled from 'styled-components/native';
 
 export const View = styled.View({
@@ -60,7 +61,8 @@ export const Input = styled.TextInput((props: any) => ({
     borderStyle: 'solid',
     borderWidth: 1,
     fontWeight: 400,
-    fontSize: 24,
+    fontSize: 20,
+    color: '#3c4257',
     background: 'transparent',
     borderRadius: 4,
     padding: 12,
@@ -69,8 +71,8 @@ export const Input = styled.TextInput((props: any) => ({
 
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
-    height: 20,
-    marginBottom: -20,
+    height: 35,
+    marginBottom: -35,
     overflow: "visible",
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
@@ -92,9 +94,9 @@ const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
 
 const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
     textAlign: "left",
-    marginTop: 12,
-    marginBottom: -12,
-    fontSize: 14,
+    marginTop: 15,
+    marginBottom: -15,
+    fontSize: 16,
     ...(props.theme.forgotPassword ? { ...props.theme.forgotPassword } : {})
 }))
 
@@ -149,3 +151,52 @@ export const Picker = styled.Picker((props: any) => ({
     padding: 12,
     ...(props.theme.picker ? { ...props.theme.picker } : {})
 }))
+
+const Text = styled.Text({});
+const ToastRoot = styled.View(props => ({
+    margin: 20,
+    backgroundColor: '#000',
+    width: 150,
+    borderRadius: '30px',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12
+}));
+
+const Toast = ({ t, updateHeight, offset }: any) => {
+    return (
+        <ToastRoot
+            onLayout={(event) =>
+                updateHeight(t.id, event.nativeEvent.layout.height)
+            }
+            key={t.id}>
+            <Text>{t.icon}</Text>
+            <Text style={{ color: '#fff', padding: 4, flex: 1, textAlign: 'center' }}>{t.message}</Text>
+        </ToastRoot>
+    )
+};
+
+export const Notifications = () => {
+    const { toasts, handlers } = useToaster();
+    return (
+        <View
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0
+            }}>
+            {toasts.map((t: any) => (
+                <Toast
+                    key={t.id}
+                    t={t}
+                    updateHeight={handlers.updateHeight}
+                    offset={handlers.calculateOffset(t.id, {
+                        reverseOrder: false
+                    })}
+                />
+            ))}
+        </View>
+    );
+}

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage, ISignUpFields } from '../../uiTypes';
-// import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast/src/core/toast';
 import useEasybase from '../../../useEasybase';
 import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker } from '../components';
 
@@ -18,7 +18,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields }: ISignUpPa
             return;
         }
         if (formData.password !== formData.passwordConfirm) {
-            // toast.error(dictionary.errorPasswordsDoNotMatch!);
+            toast(dictionary.errorPasswordsDoNotMatch!);
             reset();
             return;
         }
@@ -29,7 +29,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields }: ISignUpPa
                 if (formData[currField]) {
                     signUpAttrs[currField] = "" + formData[currField];
                 } else {
-                    // toast.error("Missing sign up field value");
+                    toast("Missing sign up field value");
                     return;
                 }
             }
@@ -42,12 +42,12 @@ export default function ({ setCurrentPage, dictionary, signUpFields }: ISignUpPa
         } else {
             if (signUpRes.errorCode === "BadFormat") {
                 reset();
-                // toast.error(dictionary.errorBadInputFormat!);
+                toast(dictionary.errorBadInputFormat!);
             } else if (signUpRes.errorCode === "BadPasswordLength") {
-                // toast.error(dictionary.errorPasswordTooShort!);
+                toast(dictionary.errorPasswordTooShort!);
             } else if (signUpRes.errorCode === "UserExists") {
                 reset();
-                // toast.error(dictionary.errorUserAlreadyExists!);
+                toast(dictionary.errorUserAlreadyExists!);
             }
         }
     }

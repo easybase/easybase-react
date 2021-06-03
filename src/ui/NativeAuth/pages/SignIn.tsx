@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
+import { toast } from 'react-hot-toast/src/core/toast';
 import { Form, HeaderText, View, Input, SubmitButton, SecondaryButton, ForgotPassword, SpacerS, SpacerXL } from '../components';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
@@ -12,10 +13,10 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
         const signInRes = await signIn(formData.email, formData.password);
         if (!signInRes.success) {
             if (signInRes.errorCode === "NoUserExists") {
-                // toast.error(dictionary.errorUserDoesNotExist!)
+                toast(dictionary.errorUserDoesNotExist!)
             } else if (signInRes.errorCode === "BadFormat") {
                 reset();
-                // toast.error(dictionary.errorBadInputFormat!)
+                toast(dictionary.errorBadInputFormat!)
             }
         }
         // Will automatically change views

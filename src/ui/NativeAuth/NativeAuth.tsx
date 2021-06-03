@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components/native';
 import { defaultDictionary } from '../utils';
 import { INativeAuth } from '../uiTypes';
 import useEasybase from '../../useEasybase';
+import { Notifications } from './components';
 
 const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
@@ -55,6 +56,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
     return (
         <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
             {getCurrentPage()}
+            <Notifications />
         </ThemeProvider>
     )
 }
