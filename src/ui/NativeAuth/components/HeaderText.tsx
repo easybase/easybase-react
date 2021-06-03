@@ -6,10 +6,7 @@ const HeaderText = styled.Text((props: any) => ({
     fontSize: 24,
     fontWeight: 500,
     letterSpacing: -.2,
-    marginBlockStart: '0.67em',
-    marginBlockEnd: '0.67em',
-    marginInlineStart: 0,
-    marginInlineEnd: 0,
+    margin: 0,
     marginTop: '16px !important',
     ...(props.theme.headerText ? { ...props.theme.headerText } : {})
 }))

@@ -18,22 +18,22 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
     useEffect(() => {
         async function mounted() {
             let loadedTheme: IStyles = {};
-            if (theme === "minimal-dark") {
-                const _theme = (await import('../themes/minimal-dark')).default;
-                loadedTheme = _theme;
-            } else if (theme === "material") {
-                const _theme = (await import('../themes/material')).default;
-                loadedTheme = _theme;
-            } else {
-                // catch all
-                const _theme = (await import('../themes/minimal')).default;
-                loadedTheme = _theme;
-            }
+            // TODO: allow RN themes
+            // if (theme === "minimal-dark") {
+            //     const _theme = (await import('../themes/minimal-dark')).default;
+            //     loadedTheme = _theme;
+            // } else if (theme === "material") {
+            //     const _theme = (await import('../themes/material')).default;
+            //     loadedTheme = _theme;
+            // } else {
+            //     // catch all
+            //     const _theme = (await import('../themes/minimal')).default;
+            //     loadedTheme = _theme;
+            // }
 
             if (customStyles) {
                 loadedTheme = mergeDeep(loadedTheme, customStyles)
             }
-
             setThemeVal(loadedTheme)
         }
         mounted();

@@ -8,7 +8,6 @@ const TextFieldRoot = styled.View((props: any) => ({
     maxWidth: '100%',
     padding: 0,
     height: 46,
-    fontFamily: "inherit",
     ...(props.theme.textFieldRoot ? { ...props.theme.textFieldRoot } : {})
 }))
 
