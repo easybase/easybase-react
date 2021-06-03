@@ -1,5 +1,5 @@
 import React, { Suspense, Fragment, lazy } from 'react';
-import { IAuth } from './uiTypes';
+import { IAuth } from '../uiTypes';
 
 const Auth = lazy(() => import('./Auth'));
 

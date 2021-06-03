@@ -4,16 +4,17 @@ export default {
     init: () => {},
     container: {
         fontFamily: '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif',
-        backgroundColor: '#fbfbfb'
+        backgroundColor: '#101010'
     },
     textFieldRoot: {
-        backgroundColor: "#FFF",
+        backgroundColor: "#212121",
         height: 46,
         borderRadius: 4,
         cursor: "text",
         display: 'inline-flex',
         outline: 0,
-        position: 'relative'
+        position: 'relative',
+        color: '#FFF'
     },
     textField: {
         whiteSpace: 'nowrap',
@@ -22,12 +23,13 @@ export default {
         lineHeight: 28,
         height: 34,
         display: 'inline-flex',
-        background: 'transparent',
+        backgroundColor: 'rgba(255, 255, 255, 0.09)',
         transition: 'color .24s,background-color .24s,box-shadow .24s',
         boxShadow: 'rgb(60 66 87 / 16%) 0px 0px 0px 1px',
         outline: 'none',
         borderRadius: 4,
         padding: '6px 12px',
+        color: '#FFF',
         '&:active, &:focus': {
             boxShadow: 'rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(60 66 87 / 16%) 0px 0px 0px 1px'
         }
@@ -38,7 +40,7 @@ export default {
         top: -27,
         left: 0,
         fontSize: 14,
-        color: "#3c4257"
+        color: "rgba(255, 255, 255, 0.7)"
     },
     submitButton: {
         width: '100%',
@@ -49,7 +51,7 @@ export default {
         fontWeight: 500,
         fontSize: 16,
         borderRadius: 4,
-        color: '#fff',
+        color: 'rgba(0, 0, 0, 0.87)',
         '&:focus, &:active': {
             boxShadow: 'rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(69 56 255 / 80%) 0px 0px 0px 1px, rgb(60 66 87 / 8%) 0px 2px 5px 0px'
         }
@@ -62,21 +64,27 @@ export default {
         boxShadow: 'rgb(60 66 87 / 16%) 0px 0px 0px 1px',
         padding: '6px 12px',
         borderRadius: 4,
-        marginBottom: 64,
+        backgroundColor: 'rgba(255, 255, 255, 0.09)',
+        color: "#fff",
         '&:active, &:focus': {
             boxShadow: 'rgb(58 151 212 / 36%) 0px 0px 0px 4px, rgb(60 66 87 / 16%) 0px 0px 0px 1px'
         }
     },
+    selectOption: {
+        background: '#000000'
+    },
     toast: {
-        borderRadius: '10px'
+        borderRadius: '10px',
+        color: '#FFF',
+        backgroundColor: '#242424'
     },
     form: {
-        backgroundColor: "#FFF"
+        backgroundColor: '#242424'
     },
     headerText: {
-        color: '#3c4257'
+        color: '#FFF'
     },
     secondaryText: {
-        color: '#3c4257'
+        color: '#FFF'
     }
 } as IStyles

@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import Label from './internal/Label';
 import Select from './internal/Select';
 
-const GenderSelect = styled(Select)(props => props.theme.genderSelect ? { ...props.theme.genderSelect } : {})
+const GenderSelect = styled(Select)(props => ({
+    boxSizing: "border-box",
+    ...(props.theme.genderSelect ? { ...props.theme.genderSelect } : {})
+}))
 
 const Root = styled.div({
     position: "relative"

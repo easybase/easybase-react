@@ -37,7 +37,12 @@ export const defaultDictionary: IDictionary = {
     signUpSubmitButton: "Continue",
     backToSignIn: "Back to Sign In",
     signUpHeader: "Create your account",
-
+    newFirstNameLabel: "First Name *",
+    newLastNameLabel: "Last Name *",
+    newFullNameLabel: "Full Name *",
+    newDateOfBirthLabel: "Date of Birth *",
+    newPhoneNumberLabel: "Phone Number *",
+    
     /**
      * SignIn
      */

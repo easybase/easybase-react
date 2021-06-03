@@ -51,7 +51,16 @@ const AuthExample = () => {
   React.useEffect(() => console.log("MOUNTING AUTH EXAMPLE"), []);
   const { signOut } = useEasybase();
   return (
-    <Auth theme="minimal-dark">
+    <Auth 
+      theme="minimal-dark"
+      signUpFields={{ 
+          lastName: { minLength: { message: "Must be 14 characters", value: 14 }},
+          phoneNumber: true,
+          gender: true,
+          dateOfBirth: { required: true }
+      }}
+      dictionary={{ signInHeader: "PLEASE SG IN" }}
+    > 
       <h2>You're in!</h2>
       <button onClick={signOut}>Sign Out</button>
     </Auth>

@@ -9,7 +9,7 @@ import SubmitButton from '../components/SubmitButton';
 import Spacer from '../components/Spacer';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { IPage } from '../uiTypes';
+import { IPage } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
 
 export default function ({ setCurrentPage, dictionary }: IPage) {
