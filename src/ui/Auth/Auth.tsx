@@ -53,7 +53,7 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
     }, [theme])
 
     if (isUserSignedIn()) {
-        return <React.Fragment>{children}</React.Fragment>
+        return <Fragment>{children}</Fragment>
     }
 
     const getCurrentPage = () => {

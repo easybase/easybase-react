@@ -1,0 +1,7 @@
+{
+  "name": "easybase-react/native",
+  "private": true,
+  "main": "../dist/NativeAuth.js",
+  "module": "../dist/NativeAuth.modern.js",
+  "types": "../dist/ui/NativeAuth.d.ts"
+}
