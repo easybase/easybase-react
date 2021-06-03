@@ -50,7 +50,7 @@ export const Input = styled.TextInput((props: any) => ({
     transition: 'color .24s,background-color .24s,box-shadow .24s',
     outline: 'none',
     borderRadius: 4,
-    padding: 12
+    padding: 12,
     ...(props.theme.textField ? { ...props.theme.textField } : {})
 }))
 
@@ -82,7 +82,6 @@ const ForgotButtonText = styled(SecondaryButtonText)((props: any) => ({
 }))
 
 export const ForgotPassword = (props: any) => <ForgotButtonRoot {...props}><ForgotButtonText>{props.title}</ForgotButtonText></ForgotButtonRoot>
-
 
 const SubmitButtonRoot = styled.TouchableOpacity((props: any) => ({
     width: '100%',
