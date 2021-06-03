@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-export const View = styled.View({});
+export const View = styled.View({
+    width: "100%"
+});
 
 export const Form = styled.View((props: any) => ({
     flex: 1,
@@ -59,7 +61,6 @@ const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 0,
     overflow: "visible",
-    margin: 0,
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
 

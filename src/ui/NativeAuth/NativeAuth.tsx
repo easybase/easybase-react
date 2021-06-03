@@ -9,8 +9,6 @@ const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 // const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 export default function ({ customStyles, children, dictionary, signUpFields }: INativeAuth): JSX.Element {
-    const [themeVal, setThemeVal] = useState<any>({});
-
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
     const { isUserSignedIn } = useEasybase();
 
