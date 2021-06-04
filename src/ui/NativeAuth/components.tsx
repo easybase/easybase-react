@@ -12,33 +12,30 @@ export const MainView = styled(View)({
 });
 
 export const FormRoot = styled.ScrollView((props: any) => ({
-    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: '20%',
+    paddingBottom: '10%',
+    paddingRight: 33,
+    paddingLeft: 33,
+    flexGrow: 1,
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
 
-export const Form = (props: any) => <FormRoot
-    keyboardShouldPersistTaps="handled"
-    keyboardDismissMode="on-drag"
-    contentContainerStyle={{ flexGrow: 1 }}
-    bounces={false}
-    alwaysBounceVertical={false}
->
-    <View style={{
-        flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingTop: '20%',
-        paddingBottom: '10%',
-        paddingRight: 33,
-        paddingLeft: 33
-    }}>
-        {props.children}
-    </View>
-</FormRoot>
+export const Form = (props: any) => <FormRoot 
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
+        alwaysBounceVertical={false}
+    >
+        <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+            {props.children}
+        </View>
+    </FormRoot>
 
 export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
     ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
