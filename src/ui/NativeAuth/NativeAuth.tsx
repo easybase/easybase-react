@@ -72,9 +72,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
         return (
             <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
                 <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
-                <Container behavior="padding">
-                    {getCurrentPage()}
-                </Container>
+                {getCurrentPage()}
             </ThemeProvider>
         )
     }
