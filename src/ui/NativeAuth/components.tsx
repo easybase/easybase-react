@@ -39,7 +39,7 @@ export const Form = (props: any) => <FormContainer
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <KBView behavior="padding">
+    <KBView behavior="height">
         {props.children}
     </KBView>
 </FormContainer>
