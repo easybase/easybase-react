@@ -10,14 +10,20 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
 
     const onSubmit = async (formData: Record<string, string>) => {
         console.log("Clicked SIGNIN, formData:", formData);
-        const signInRes = await signIn(formData.email, formData.password);
-        if (!signInRes.success) {
-            if (signInRes.errorCode === "NoUserExists") {
-                toast(dictionary.errorUserDoesNotExist!)
-            } else if (signInRes.errorCode === "BadFormat") {
-                reset();
-                toast(dictionary.errorBadInputFormat!)
+        console.log(signIn);
+        try {
+            const signInRes = await signIn(formData.email, formData.password);
+            console.log(signInRes);
+            if (!signInRes.success) {
+                if (signInRes.errorCode === "NoUserExists") {
+                    toast(dictionary.errorUserDoesNotExist!)
+                } else if (signInRes.errorCode === "BadFormat") {
+                    reset();
+                    toast(dictionary.errorBadInputFormat!)
+                }
             }
+        } catch (error) {
+            console.log("ERROR:", error);
         }
         // Will automatically change views
     }
