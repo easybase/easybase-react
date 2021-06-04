@@ -28,7 +28,7 @@ export const HeaderText = styled.Text((props: any) => ({
 }))
 
 export const SecondaryText = styled.Text((props: any) => ({
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: '300',
     textAlign: "left",
     color: '#3c4257',

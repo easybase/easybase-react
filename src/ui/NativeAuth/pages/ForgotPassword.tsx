@@ -89,29 +89,30 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     if (!onConfirm) {
         return (
             <Form>
-                <View>
-                    <HeaderText>{dictionary.forgotPasswordHeader}</HeaderText>
-                    <SecondaryText>{dictionary.forgotPasswordSecondaryHeader}</SecondaryText>
-                </View>
+                <HeaderText>{dictionary.forgotPasswordHeader}</HeaderText>
 
-                <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <Input
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            placeholder={dictionary.newEmailLabel}
-                            editable={!isSubmitting}
-                            keyboardType="email-address"
-                            returnKeyType="default"
-                            autoCompleteType="email"
-                            autoCapitalize="none"
-                        />
-                    )}
-                    name="email"
-                    defaultValue=""
-                />
+                <View>
+                    <SecondaryText>{dictionary.forgotPasswordSecondaryHeader}</SecondaryText>
+                    <SpacerXL />
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                placeholder={dictionary.newEmailLabel}
+                                editable={!isSubmitting}
+                                keyboardType="email-address"
+                                returnKeyType="default"
+                                autoCompleteType="email"
+                                autoCapitalize="none"
+                            />
+                        )}
+                        name="email"
+                        defaultValue=""
+                    />
+                </View>
 
                 <View>
                     <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.forgotPasswordSubmitButton} />
