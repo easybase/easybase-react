@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { INativePage } from '../../uiTypes';
 import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, SecondaryText } from '../components';
 
-const useEasybase = require('easybase-react');
+const { useEasybase } = require('easybase-react');
 
 export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     const [onConfirm, setOnConfirm] = useState<boolean>(false);

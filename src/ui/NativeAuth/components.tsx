@@ -166,7 +166,7 @@ const ToastRoot = styled.View((props: any) => ({
 
 const ToastContainer = styled.TouchableOpacity((props: any) => ({
     backgroundColor: '#333',
-    elevation: 10,
+    elevation: 9,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 26,
@@ -200,7 +200,7 @@ export const Toast = ({ toastMessage, toastOpen, setToastOpen }: { toastMessage:
 
     return (
         <ToastRoot>
-            <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.34, shadowRadius: 6.27 }}>
+            <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.32, shadowRadius: 5.46 }}>
                 <ToastText>{toastMessage}</ToastText>
                 <CloseToastText>&#x2715;</CloseToastText>
             </ToastContainer>
