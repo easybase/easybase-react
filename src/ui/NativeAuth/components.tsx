@@ -5,6 +5,12 @@ export const View = styled.View({
     width: "100%"
 });
 
+export const MainView = styled(View)({
+    width: "100%",
+    marginTop: 60,
+    marginBottom: 60
+});
+
 export const FormRoot = styled.ScrollView((props: any) => ({
     backgroundColor: '#fff',
     paddingTop: '20%',

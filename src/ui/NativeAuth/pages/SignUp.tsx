@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { INativePage, ISignUpFields } from '../../uiTypes';
-import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker } from '../components';
+import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker, MainView } from '../components';
 
 const { useEasybase } = require('easybase-react');
 
@@ -71,7 +71,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields, toast }: IS
         <Form>
             <HeaderText>{dictionary.signUpHeader}</HeaderText>
 
-            <View>
+            <MainView>
                 <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -254,7 +254,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields, toast }: IS
                     rules={passwordReqs}
                 />
                 <ErrorText value={errors.passwordConfirm?.message} />
-            </View>
+            </MainView>
 
             <View>
                 <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.signUpSubmitButton} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { INativePage } from '../../uiTypes';
-import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, SecondaryText } from '../components';
+import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, SecondaryText, MainView } from '../components';
 
 const { useEasybase } = require('easybase-react');
 
@@ -91,7 +91,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
             <Form>
                 <HeaderText>{dictionary.forgotPasswordHeader}</HeaderText>
 
-                <View>
+                <MainView>
                     <SecondaryText>{dictionary.forgotPasswordSecondaryHeader}</SecondaryText>
                     <SpacerXL />
                     <Controller
@@ -112,7 +112,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
                         name="email"
                         defaultValue=""
                     />
-                </View>
+                </MainView>
 
                 <View>
                     <SubmitButton onPress={handleSubmit(onSubmit)} disabled={isSubmitting} title={dictionary.forgotPasswordSubmitButton} />
