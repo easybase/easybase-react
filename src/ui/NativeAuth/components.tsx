@@ -201,7 +201,7 @@ export const Toast = ({ toastMessage, toastOpen, setToastOpen }: { toastMessage:
     return (
         <ToastRoot>
             <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.32, shadowRadius: 5.46 }}>
-                <ToastText>{toastMessage}</ToastText>
+                <ToastText numberOfLines={1}>{toastMessage}</ToastText>
                 <CloseToastText>&#x2715;</CloseToastText>
             </ToastContainer>
         </ToastRoot>

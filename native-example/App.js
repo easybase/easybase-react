@@ -45,6 +45,8 @@ function Account() {
   )
 }
 
+const SignOutButton = () => <Button onPress={useEasybase().signOut} title="Sign Out" />
+
 function Router() {
   const { isUserSignedIn } = useEasybase();
 
@@ -62,6 +64,7 @@ export default function app() {
       <NativeAuth>
         <View style={styles.container}>
           <Text>You're in</Text>
+          <SignOutButton />
         </View>
       </NativeAuth>
     </EasybaseProvider>
