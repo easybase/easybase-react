@@ -17,10 +17,6 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
 
     const { isUserSignedIn } = useEasybase();
 
-    if (isUserSignedIn()) {
-        return <Fragment>{children}</Fragment>
-    }
-
     const toast = (message: string) => {
         setToastMessage(message);
         setToastOpen(true);
@@ -70,10 +66,14 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
         }
     }
 
-    return (
-        <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
-            <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
-            {getCurrentPage()}
-        </ThemeProvider>
-    )
+    if (isUserSignedIn()) {
+        return <Fragment>{children}</Fragment>
+    } else {
+        return (
+            <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
+                <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
+                {getCurrentPage()}
+            </ThemeProvider>
+        )
+    }
 }

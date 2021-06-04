@@ -166,7 +166,7 @@ const ToastRoot = styled.View((props: any) => ({
 
 const ToastContainer = styled.TouchableOpacity((props: any) => ({
     backgroundColor: '#333',
-    elevation: 9,
+    elevation: '9',
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 26,

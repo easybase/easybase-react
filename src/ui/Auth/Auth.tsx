@@ -52,10 +52,6 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
         mounted();
     }, [theme])
 
-    if (isUserSignedIn()) {
-        return <Fragment>{children}</Fragment>
-    }
-
     const getCurrentPage = () => {
         switch (currentPage) {
             case "SignIn":
@@ -91,12 +87,16 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
         }
     }
 
-    return (
-        <ThemeProvider theme={themeVal}>
-            <Container>
-                <Toaster toastOptions={{ style: { fontFamily: 'inherit', ...(themeVal.toast ? { ...themeVal.toast } : {}) } }} />
-                {getCurrentPage()}
-            </Container>
-        </ThemeProvider>
-    )
+    if (isUserSignedIn()) {
+        return <Fragment>{children}</Fragment>
+    } else {
+        return (
+            <ThemeProvider theme={themeVal}>
+                <Container>
+                    <Toaster toastOptions={{ style: { fontFamily: 'inherit', ...(themeVal.toast ? { ...themeVal.toast } : {}) } }} />
+                    {getCurrentPage()}
+                </Container>
+            </ThemeProvider>
+        )
+    }
 }
