@@ -153,7 +153,7 @@ export const Picker = styled.Picker((props: any) => ({
 
 const ToastRoot = styled.View((props: any) => ({
     position: "absolute",
-    top: "5%",
+    top: "6%",
     left: 0,
     right: 0,
     height: 50,
@@ -165,7 +165,7 @@ const ToastRoot = styled.View((props: any) => ({
 }))
 
 const ToastContainer = styled.TouchableOpacity((props: any) => ({
-    backgroundColor: '#eee',
+    backgroundColor: '#333',
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -176,27 +176,29 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
     elevation: 14,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 26,
     flexDirection: "row",
+    overflow: "visible",
     ...(props.theme.toast ? { ...props.theme.toast } : {})
 }))
 
 const ToastText = styled.Text((props: any) => ({
     position: "relative",
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 15,
-    marginBottom: 15,
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 10,
+    marginBottom: 10,
     fontSize: 17,
-    color: "#151515",
+    color: "#fff",
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))
 
 const CloseToastText = styled.Text((props: any) => ({
-    color: "#555",
+    color: "#AAA",
     position: 'relative',
-    marginRight: 15,
+    marginRight: 20,
     fontWeight: '600',
+    fontSize: 15,
     ...(props.theme.closeToastText ? { ...props.theme.closeToastText } : {})
 }))
 
