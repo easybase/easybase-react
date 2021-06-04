@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { INativePage, ISignUpFields } from '../../uiTypes';
-import useEasybase from '../../../useEasybase';
 import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker } from '../components';
+
+const { useEasybase } = require('easybase-react');
 
 interface ISignUpPage extends INativePage {
     signUpFields: ISignUpFields

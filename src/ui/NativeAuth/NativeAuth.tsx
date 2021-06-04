@@ -2,8 +2,9 @@ import React, { useState, lazy, Suspense, Fragment, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { defaultDictionary } from '../utils';
 import { INativeAuth } from '../uiTypes';
-import useEasybase from '../../useEasybase';
 import { Toast } from './components';
+
+const { useEasybase } = require('easybase-react');
 
 const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
