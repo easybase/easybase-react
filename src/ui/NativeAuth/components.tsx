@@ -5,9 +5,7 @@ export const View = styled.View({
     width: "100%"
 });
 
-export const Form = styled.ScrollView((props: any) => ({
-    justifyContent: 'space-between',
-    alignItems: 'center',
+export const FormRoot = styled.ScrollView((props: any) => ({
     backgroundColor: '#fff',
     paddingTop: '25%',
     paddingBottom: '25%',
@@ -15,6 +13,8 @@ export const Form = styled.ScrollView((props: any) => ({
     paddingLeft: 33,
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
+
+export const Form = (props: any) => <FormRoot keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center' }} {...props} />
 
 export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
