@@ -17,13 +17,14 @@ export const FormRoot = styled.ScrollView((props: any) => ({
     paddingBottom: '10%',
     paddingRight: 33,
     paddingLeft: 33,
+    minHeight: '100%',
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
 
 export const Form = (props: any) => <FormRoot 
     keyboardShouldPersistTaps="handled"
     keyboardDismissMode="on-drag"
-    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', height: '100%' }}
+    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', minHeight: '100%' }}
     bounces={false}
     alwaysBounceVertical={false}
     {...props}
