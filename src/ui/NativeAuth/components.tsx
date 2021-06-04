@@ -14,7 +14,7 @@ export const FormRoot = styled.ScrollView((props: any) => ({
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
 
-export const Form = (props: any) => <FormRoot keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center' }} {...props} />
+export const Form = (props: any) => <FormRoot keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', height: '100%' }} bounces={false} alwaysBounceVertical={false} {...props} />
 
 export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
@@ -76,7 +76,6 @@ export const Input = styled.TextInput((props: any) => ({
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 35,
-    marginBottom: 35,
     overflow: "visible",
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
