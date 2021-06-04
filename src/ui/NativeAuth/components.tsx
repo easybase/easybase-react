@@ -38,7 +38,7 @@ export const Form = (props: any) => <FormRoot
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <KBView>
+    <KBView keyboardVerticalOffset={100} behavior="position">
         {props.children}
     </KBView>
 </FormRoot>
