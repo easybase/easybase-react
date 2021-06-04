@@ -23,7 +23,7 @@ export const FormRoot = styled.ScrollView((props: any) => ({
 export const Form = (props: any) => <FormRoot 
     keyboardShouldPersistTaps="handled"
     keyboardDismissMode="on-drag"
-    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center' }}
+    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', height: '100%' }}
     bounces={false}
     alwaysBounceVertical={false}
     {...props}

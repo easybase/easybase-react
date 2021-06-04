@@ -72,7 +72,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
         return (
             <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
                 <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
-                <Container behavior="position" enabled keyboardVerticalOffset={10}>
+                <Container behavior="position" enabled>
                     {getCurrentPage()}
                 </Container>
             </ThemeProvider>
