@@ -68,7 +68,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields, toast }: IS
     }
 
     return (
-        <Form behavior="padding">
+        <Form keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
             <HeaderText>{dictionary.signUpHeader}</HeaderText>
 
             <View>

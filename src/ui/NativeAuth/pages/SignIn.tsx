@@ -27,7 +27,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     }
 
     return (
-        <Form behavior="padding">
+        <Form keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
             <HeaderText>{dictionary.signInHeader}</HeaderText>
 
             <View>

@@ -5,8 +5,7 @@ export const View = styled.View({
     width: "100%"
 });
 
-export const Form = styled.KeyboardAvoidingView((props: any) => ({
-    flex: 1,
+export const Form = styled.ScrollView((props: any) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -15,6 +14,12 @@ export const Form = styled.KeyboardAvoidingView((props: any) => ({
     paddingRight: 33,
     paddingLeft: 33,
     ...(props.theme.form ? { ...props.theme.form } : {})
+}))
+
+export const Container = styled.KeyboardAvoidingView((props: any) => ({
+    flex: 1,
+    backgroundColor: '#fff',
+    ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
 export const HeaderText = styled.Text((props: any) => ({
@@ -71,6 +76,7 @@ export const Input = styled.TextInput((props: any) => ({
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 35,
+    marginBottom: 35,
     overflow: "visible",
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))

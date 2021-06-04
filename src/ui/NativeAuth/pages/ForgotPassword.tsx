@@ -88,7 +88,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
 
     if (!onConfirm) {
         return (
-            <Form behavior="padding">
+            <Form keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
                 <HeaderText>{dictionary.forgotPasswordHeader}</HeaderText>
 
                 <View>
