@@ -5,7 +5,7 @@ export const View = styled.View({
     width: "100%"
 });
 
-export const Form = styled.View((props: any) => ({
+export const Form = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',

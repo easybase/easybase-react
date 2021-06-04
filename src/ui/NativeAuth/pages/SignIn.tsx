@@ -27,7 +27,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     }
 
     return (
-        <Form>
+        <Form behavior="padding">
             <HeaderText>{dictionary.signInHeader}</HeaderText>
 
             <View>
