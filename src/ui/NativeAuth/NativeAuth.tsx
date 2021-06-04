@@ -8,7 +8,7 @@ const { useEasybase } = require('easybase-react');
 
 const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
-// const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
+const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
 export default function ({ customStyles, children, dictionary, signUpFields }: INativeAuth): JSX.Element {
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
@@ -56,15 +56,15 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                     </Suspense>
                 )
             case "ForgotPassword":
-                // return (
-                //     <Suspense fallback={<Fragment />}>
-                //         <DefaultForgotPassword
-                //             setCurrentPage={setCurrentPage}
-                //             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
-                //         />
-                //     </Suspense>
-                // )
-                return <React.Fragment />;
+                return (
+                    <Suspense fallback={<Fragment />}>
+                        <DefaultForgotPassword
+                            setCurrentPage={setCurrentPage}
+                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+                            toast={toast}
+                        />
+                    </Suspense>
+                )
             default:
                 return <React.Fragment />;
         }
