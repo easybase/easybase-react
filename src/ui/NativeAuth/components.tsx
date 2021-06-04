@@ -124,13 +124,13 @@ const SubmitButtonText = styled.Text((props: any) => ({
 export const SubmitButton = (props: any) => <SubmitButtonRoot {...props}><SubmitButtonText>{props.title}</SubmitButtonText></SubmitButtonRoot>
 
 const StyledErrorText = styled.Text((props: any) => ({
+    height: 20,
+    marginBottom: -25,
+    overflow: "visible",
     marginTop: 5,
-    marginBottom: -5,
     fontSize: 12,
     fontWeight: '500',
     color: '#FF0000',
-    height: 0,
-    overflow: 'visible',
     ...(props.theme.errorText ? { ...props.theme.errorText } : {})
 }))
 
