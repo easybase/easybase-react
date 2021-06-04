@@ -160,6 +160,7 @@ const ToastRoot = styled.View((props: any) => ({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1000,
     ...(props.theme.toast ? { ...props.theme.toast } : {})
 }))
 
@@ -182,7 +183,10 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
 
 const ToastText = styled.Text((props: any) => ({
     position: "relative",
-    margin: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+    marginBottom: 10,
     fontWeight: 'bold',
     fontSize: 15,
     color: "#010101",
@@ -192,7 +196,7 @@ const ToastText = styled.Text((props: any) => ({
 const CloseToastText = styled.Text((props: any) => ({
     color: "#555",
     position: 'relative',
-    margin: 10,
+    marginRight: 15,
     fontWeight: '600',
     ...(props.theme.closeToastText ? { ...props.theme.closeToastText } : {})
 }))
