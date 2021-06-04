@@ -10,6 +10,10 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     const { signIn } = useEasybase();
 
     const onSubmit = async (formData: Record<string, string>) => {
+        if (!formData.email || !formData.password) {
+            return;
+        }
+        
         const signInRes = await signIn(formData.email, formData.password);
         if (!signInRes.success) {
             if (signInRes.errorCode === "NoUserExists") {

@@ -21,7 +21,7 @@ export const HeaderText = styled.Text((props: any) => ({
     fontSize: 37,
     fontWeight: "bold",
     marginTop: 25,
-    color: '#3c4257',
+    color: '#13151b',
     width: '100%',
     textAlign: "left",
     ...(props.theme.headerText ? { ...props.theme.headerText } : {})
@@ -124,11 +124,11 @@ const SubmitButtonText = styled.Text((props: any) => ({
 export const SubmitButton = (props: any) => <SubmitButtonRoot {...props}><SubmitButtonText>{props.title}</SubmitButtonText></SubmitButtonRoot>
 
 const StyledErrorText = styled.Text((props: any) => ({
-    height: 20,
-    marginBottom: -25,
+    height: 50,
+    marginBottom: -55,
     overflow: "visible",
     marginTop: 5,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
     color: '#FF0000',
     ...(props.theme.errorText ? { ...props.theme.errorText } : {})
@@ -169,7 +169,7 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
-        height: 7
+        height: 0
     },
     shadowOpacity: 0.41,
     shadowRadius: 9.11,
