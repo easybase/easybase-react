@@ -7,8 +7,9 @@ import { Form, HeaderText, View, Input, SubmitButton, SecondaryButton, ForgotPas
 export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
     const { control, handleSubmit, reset, formState: { isSubmitting } } = useForm();
     const { signIn } = useEasybase();
+
     const onSubmit = async (formData: Record<string, string>) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log("Clicked SIGNIN, formData:", formData);
         const signInRes = await signIn(formData.email, formData.password);
         if (!signInRes.success) {
             if (signInRes.errorCode === "NoUserExists") {

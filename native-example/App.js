@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable operator-linebreak */
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
@@ -58,11 +59,11 @@ function Router() {
 export default function app() {
   return (
     <EasybaseProvider ebconfig={ebconfig}>
-        <NativeAuth>
-          <View style={styles.container}>
-            <Text>You're in</Text>
-          </View>
-        </NativeAuth>
+      <NativeAuth>
+        <View style={styles.container}>
+          <Text>You're in</Text>
+        </View>
+      </NativeAuth>
     </EasybaseProvider>
   )
 }

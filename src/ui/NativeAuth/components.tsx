@@ -184,7 +184,7 @@ const ToastText = styled.Text((props: any) => ({
     position: "relative",
     margin: 10,
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: 15,
     color: "#010101",
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))
