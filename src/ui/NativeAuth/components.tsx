@@ -5,7 +5,7 @@ export const View = styled.View({
     width: "100%"
 });
 
-export const Form = styled.ScrollView((props: any) => ({
+export const Form = styled.View((props: any) => ({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
