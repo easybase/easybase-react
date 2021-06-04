@@ -12,7 +12,6 @@ export const MainView = styled(View)({
 });
 
 export const FormRoot = styled.ScrollView((props: any) => ({
-    backgroundColor: '#fff',
     flex: 1,
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
@@ -40,7 +39,6 @@ export const Form = (props: any) => <FormRoot
 export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
     ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
