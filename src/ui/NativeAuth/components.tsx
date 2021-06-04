@@ -7,8 +7,8 @@ export const View = styled.View({
 
 export const FormRoot = styled.ScrollView((props: any) => ({
     backgroundColor: '#fff',
-    paddingTop: '25%',
-    paddingBottom: '25%',
+    paddingTop: '20%',
+    paddingBottom: '10%',
     paddingRight: 33,
     paddingLeft: 33,
     ...(props.theme.form ? { ...props.theme.form } : {})

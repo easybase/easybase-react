@@ -11,12 +11,12 @@ const SignOutButton = () => <Button onPress={useEasybase().signOut} title="Sign 
 export default function app() {
   return (
     <EasybaseProvider ebconfig={ebconfig}>
-      <NativeAuth>
-        <View style={styles.container}>
-          <Text>You're in</Text>
-          <SignOutButton />
-        </View>
-      </NativeAuth>
+        <NativeAuth signUpFields={{ fullName: true, lastName: true }}>
+          <View style={styles.container}>
+            <Text>You're in</Text>
+            <SignOutButton />
+          </View>
+        </NativeAuth>
     </EasybaseProvider>
   )
 }
