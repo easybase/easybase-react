@@ -83,6 +83,7 @@ export interface IStyles {
 }
 
 export interface INativeStyles {
+    container?: Record<string, any>;
     form?: Record<string, any>;
     headerText?: Record<string, any>;
     secondaryButton?: Record<string, any>;

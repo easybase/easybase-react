@@ -5,15 +5,22 @@ export const View = styled.View({
     width: "100%"
 });
 
-export const Form = styled.View((props: any) => ({
+export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: 'column',
+    justifyContent: 'center',
     paddingTop: '25%',
     paddingBottom: '25%',
     paddingRight: 33,
     paddingLeft: 33,
+    ...(props.theme.container ? { ...props.theme.container } : {})
+}))
+
+export const Form = styled.ScrollView((props: any) => ({
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
 
