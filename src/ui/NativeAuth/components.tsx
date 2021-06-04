@@ -71,7 +71,6 @@ export const Input = styled.TextInput((props: any) => ({
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 35,
-    marginBottom: -35,
     overflow: "visible",
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
@@ -88,6 +87,7 @@ export const SecondaryButton = (props: any) => <SecondaryButtonRoot {...props}><
 
 const ForgotButtonRoot = styled(SecondaryButtonRoot)((props: any) => ({
     width: "100%",
+    marginBottom: -35,
     ...(props.theme.forgotPasswordRoot ? { ...props.theme.forgotPasswordRoot } : {})
 }))
 
