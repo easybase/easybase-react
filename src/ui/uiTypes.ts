@@ -56,6 +56,12 @@ export interface IPage {
     dictionary: IDictionary;
 }
 
+export interface INativePage {
+    setCurrentPage: React.Dispatch<React.SetStateAction<any>>;
+    dictionary: IDictionary;
+    toast: (message: string) => void;
+}
+
 export interface IStyles {
     init?: () => any;
     container?: Record<string, any>;
@@ -85,11 +91,13 @@ export interface INativeStyles {
     submitButton?: Record<string, any>;
     submitButtonRoot?: Record<string, any>;
     textField?: Record<string, any>;
-    toast?: Record<string, any>;
     errorText?: Record<string, any>;
     forgotPassword?: Record<string, any>;
     forgotPasswordRoot?: Record<string, any>;
     picker?: Record<string, any>;
+    toast?: Record<string, any>;
+    toastText?: Record<string, any>;
+    closeToastText?: Record<string, any>;
 }
 
 export interface IAuth {

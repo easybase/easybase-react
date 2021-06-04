@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { IPage, ISignUpFields } from '../../uiTypes';
-import { toast } from 'react-hot-toast';
+import { INativePage, ISignUpFields } from '../../uiTypes';
 import useEasybase from '../../../useEasybase';
 import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, SecondaryButton, ErrorText, Picker } from '../components';
 
-interface ISignUpPage extends IPage {
+interface ISignUpPage extends INativePage {
     signUpFields: ISignUpFields
 }
 
-export default function ({ setCurrentPage, dictionary, signUpFields }: ISignUpPage) {
+export default function ({ setCurrentPage, dictionary, signUpFields, toast }: ISignUpPage) {
     const { control, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm();
     const { signUp, signIn } = useEasybase();
 

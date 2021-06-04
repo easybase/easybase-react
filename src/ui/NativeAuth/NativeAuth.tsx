@@ -1,9 +1,9 @@
-import React, { useState, lazy, Suspense, Fragment } from 'react';
+import React, { useState, lazy, Suspense, Fragment, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { defaultDictionary } from '../utils';
 import { INativeAuth } from '../uiTypes';
 import useEasybase from '../../useEasybase';
-import { Notifications } from './components';
+import { Toast } from './components';
 
 const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
@@ -11,11 +11,25 @@ const DefaultSignUp = lazy(() => import('./pages/SignUp'));
 
 export default function ({ customStyles, children, dictionary, signUpFields }: INativeAuth): JSX.Element {
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
+    const [toastOpen, setToastOpen] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string>("");
+
     const { isUserSignedIn } = useEasybase();
 
     if (isUserSignedIn()) {
         return <Fragment>{children}</Fragment>
     }
+
+    const toast = (message: string) => {
+        setToastMessage(message);
+        setToastOpen(true);
+    }
+
+    useEffect(() => {
+        if (toastOpen) {
+            setToastOpen(false)
+        }
+    }, [currentPage])
 
     const getCurrentPage = () => {
         switch (currentPage) {
@@ -25,6 +39,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                         <DefaultSignIn
                             setCurrentPage={setCurrentPage}
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+                            toast={toast}
                         />
                     </Suspense>
                 )
@@ -35,6 +50,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                             setCurrentPage={setCurrentPage}
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
                             signUpFields={typeof signUpFields === "object" ? signUpFields : {}}
+                            toast={toast}
                         />
                     </Suspense>
                 )
@@ -55,8 +71,8 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
 
     return (
         <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
+            <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
             {getCurrentPage()}
-            <Notifications />
         </ThemeProvider>
     )
 }

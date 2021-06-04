@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { useToaster } from 'react-hot-toast'
 import styled from 'styled-components/native';
 
 export const View = styled.View({
@@ -152,51 +151,61 @@ export const Picker = styled.Picker((props: any) => ({
     ...(props.theme.picker ? { ...props.theme.picker } : {})
 }))
 
-const Text = styled.Text({});
-const ToastRoot = styled.View(props => ({
-    margin: 20,
-    backgroundColor: '#000',
-    width: 150,
-    borderRadius: '30px',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 12
-}));
+const ToastRoot = styled.View((props: any) => ({
+    position: "absolute",
+    top: "5%",
+    left: 0,
+    right: 0,
+    height: 50,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    ...(props.theme.toast ? { ...props.theme.toast } : {})
+}))
 
-const Toast = ({ t, updateHeight, offset }: any) => {
+const ToastContainer = styled.TouchableOpacity((props: any) => ({
+    backgroundColor: '#fefefe',
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 3
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    flexDirection: "row",
+    ...(props.theme.toast ? { ...props.theme.toast } : {})
+}))
+
+const ToastText = styled.Text((props: any) => ({
+    position: "relative",
+    margin: 10,
+    fontWeight: 'bold',
+    fontSize: 12,
+    color: "#010101",
+    ...(props.theme.toastText ? { ...props.theme.toastText } : {})
+}))
+
+const CloseToastText = styled.Text((props: any) => ({
+    color: "#555",
+    position: 'relative',
+    margin: 10,
+    fontWeight: '600',
+    ...(props.theme.closeToastText ? { ...props.theme.closeToastText } : {})
+}))
+
+export const Toast = ({ toastMessage, toastOpen, setToastOpen }: { toastMessage: string, toastOpen: boolean, setToastOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+    if (!toastOpen) return <Fragment />
+
     return (
-        <ToastRoot
-            onLayout={(event) =>
-                updateHeight(t.id, event.nativeEvent.layout.height)
-            }
-            key={t.id}>
-            <Text>{t.icon}</Text>
-            <Text style={{ color: '#fff', padding: 4, flex: 1, textAlign: 'center' }}>{t.message}</Text>
+        <ToastRoot>
+            <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)}>
+                <ToastText>{toastMessage}</ToastText>
+                <CloseToastText>&#x2715;</CloseToastText>
+            </ToastContainer>
         </ToastRoot>
     )
-};
-
-export const Notifications = () => {
-    const { toasts, handlers } = useToaster();
-    return (
-        <View
-            style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0
-            }}>
-            {toasts.map((t: any) => (
-                <Toast
-                    key={t.id}
-                    t={t}
-                    updateHeight={handlers.updateHeight}
-                    offset={handlers.calculateOffset(t.id, {
-                        reverseOrder: false
-                    })}
-                />
-            ))}
-        </View>
-    );
 }
