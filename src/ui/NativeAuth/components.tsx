@@ -21,10 +21,9 @@ export const FormRoot = styled.ScrollView((props: any) => ({
 }))
 
 export const Form = (props: any) => <FormRoot 
-    contentInsetAdjustmentBehavior="automatic"
     keyboardShouldPersistTaps="handled"
     keyboardDismissMode="on-drag"
-    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', height: '100%' }}
+    contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center' }}
     bounces={false}
     alwaysBounceVertical={false}
     {...props}
@@ -33,6 +32,7 @@ export const Form = (props: any) => <FormRoot
 export const Container = styled.KeyboardAvoidingView((props: any) => ({
     flex: 1,
     backgroundColor: '#fff',
+    justifyContent: 'center',
     ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
