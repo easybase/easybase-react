@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components/native';
 
+export const StatusBar = styled.StatusBar((props: any) => ({
+    backgroundColor: '#fff',
+    ...(props.theme.statusBar ? { ...props.theme.statusBar } : {})
+}))
+
 export const View = styled.View({
     width: "100%"
 });
