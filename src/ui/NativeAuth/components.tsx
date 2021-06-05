@@ -40,7 +40,7 @@ export const Form = (props: any) => <ScrollRoot
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         {props.children}
     </View>
 </ScrollRoot>
