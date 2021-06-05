@@ -73,7 +73,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
             <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
                 <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
                 <StatusBar barStyle="dark-content" />
-                <Container behavior="padding" enabled>
+                <Container behavior="height" enabled>
                     {getCurrentPage()}
                 </Container>
             </ThemeProvider>
