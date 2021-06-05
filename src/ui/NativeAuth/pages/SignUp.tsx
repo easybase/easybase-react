@@ -176,6 +176,7 @@ export default function ({ setCurrentPage, dictionary, signUpFields, toast }: IS
                                     onValueChange={value => onChange(value)}
                                     selectedValue={value}
                                     enabled={!isSubmitting}
+                                    mode="dialog"
                                 >
                                     {["Male", "Female", "Prefer not to say"].map(e => <Picker.Item label={e} value={e} />)}
                                 </Picker>
