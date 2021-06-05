@@ -33,7 +33,7 @@ export const Form = (props: any) => <ScrollRoot
     contentContainerStyle={{
         flexGrow: 1,
         paddingTop: '24%',
-        paddingBottom: '10%',
+        marginBottom: '10%',
         paddingRight: 33,
         paddingLeft: 33
     }}
