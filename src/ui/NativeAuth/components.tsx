@@ -32,16 +32,15 @@ export const Form = (props: any) => <ScrollRoot
     keyboardDismissMode="on-drag"
     contentContainerStyle={{
         flexGrow: 1,
-        paddingTop: '24%',
-        paddingBottom: '10%',
-        paddingRight: 33,
-        paddingLeft: 33
+        marginTop: '24%',
+        marginBottom: '10%',
+        marginRight: 33,
+        marginLeft: 33
     }}
-    bounces={false}
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <View style={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         {props.children}
     </View>
 </ScrollRoot>
@@ -182,7 +181,7 @@ export const Picker = styled.Picker((props: any) => ({
 
 const ToastRoot = styled.View((props: any) => ({
     position: "absolute",
-    top: 70,
+    top: 55,
     left: 0,
     right: 0,
     height: 50,
