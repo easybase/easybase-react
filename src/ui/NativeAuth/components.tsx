@@ -17,17 +17,17 @@ export const Container = styled.KeyboardAvoidingView((props: any) => ({
     ...(props.theme.container ? { ...props.theme.container } : {})
 }))
 
-export const FormRoot = styled.ScrollView((props: any) => ({
+export const ScrollRoot = styled.ScrollView((props: any) => ({
     flex: 1,
     ...(props.theme.form ? { ...props.theme.form } : {})
 }))
 
-export const Form = (props: any) => <FormRoot
+export const Form = (props: any) => <ScrollRoot
     keyboardShouldPersistTaps="handled"
     keyboardDismissMode="on-drag"
     contentContainerStyle={{
         flexGrow: 1,
-        paddingTop: '20%',
+        paddingTop: '24%',
         paddingBottom: '10%',
         paddingRight: 33,
         paddingLeft: 33
@@ -36,10 +36,10 @@ export const Form = (props: any) => <FormRoot
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+    <View style={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         {props.children}
     </View>
-</FormRoot>
+</ScrollRoot>
 
 export const HeaderText = styled.Text((props: any) => ({
     fontSize: 37,
@@ -190,7 +190,7 @@ const ToastRoot = styled.View((props: any) => ({
 
 const ToastContainer = styled.TouchableOpacity((props: any) => ({
     backgroundColor: '#333',
-    elevation: '9',
+    elevation: '6',
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 26,
@@ -224,7 +224,7 @@ export const Toast = ({ toastMessage, toastOpen, setToastOpen }: { toastMessage:
 
     return (
         <ToastRoot>
-            <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.32, shadowRadius: 5.46 }}>
+            <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.27, shadowRadius: 4.65 }}>
                 <ToastText numberOfLines={1}>{toastMessage}</ToastText>
                 <CloseToastText>&#x2715;</CloseToastText>
             </ToastContainer>
