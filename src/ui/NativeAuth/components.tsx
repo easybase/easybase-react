@@ -99,6 +99,7 @@ const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 35,
     overflow: "visible",
+    marginBottom: '10%',
     ...(props.theme.secondaryButtonRoot ? { ...props.theme.secondaryButtonRoot } : {})
 }))
 
@@ -107,7 +108,6 @@ const SecondaryButtonText = styled.Text((props: any) => ({
     fontSize: 20,
     color: '#534eff',
     textAlign: "center",
-    marginBottom: '10%',
     ...(props.theme.secondaryButton ? { ...props.theme.secondaryButton } : {})
 }))
 
