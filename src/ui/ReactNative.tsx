@@ -11,8 +11,6 @@ export function NativeAuth(props: INativeAuth): JSX.Element {
     )
 }
 
-export default NativeAuth;
-
 /**
  * Note that this wrapper component exists to force code-splitting
  */
