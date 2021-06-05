@@ -1,6 +1,6 @@
 {
   "name": "easybase-react",
-  "version": "2.1.15",
+  "version": "2.2.0",
   "description": "Serverless functionality for React and React Native with Easybase",
   "author": "easybase",
   "license": "MIT",
