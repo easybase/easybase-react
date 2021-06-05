@@ -1,4 +1,5 @@
 import React from "react";
+import { EmailTemplate } from "../types/types";
 
 export interface IDictionary {
     /**
@@ -54,12 +55,14 @@ export interface IDictionary {
 export interface IPage {
     setCurrentPage: React.Dispatch<React.SetStateAction<any>>;
     dictionary: IDictionary;
+    emailTemplate?: EmailTemplate;
 }
 
 export interface INativePage {
     setCurrentPage: React.Dispatch<React.SetStateAction<any>>;
     dictionary: IDictionary;
     toast: (message: string) => void;
+    emailTemplate?: EmailTemplate;
 }
 
 export interface IStyles {
@@ -111,6 +114,8 @@ export interface IAuth {
     dictionary?: IDictionary;
     /** Extra fields that will be shown in the SignUp view of <Auth />. These fields are shown in addition Email, Password, and Confirm Password. */
     signUpFields?: ISignUpFields;
+    /** Optional settings for the formatting & content of the verification emails */
+    emailTemplate?: EmailTemplate;
 }
 
 export interface INativeAuth {
@@ -121,6 +126,8 @@ export interface INativeAuth {
     dictionary?: IDictionary;
     /** Extra fields that will be shown in the SignUp view of <Auth />. These fields are shown in addition Email, Password, and Confirm Password. */
     signUpFields?: ISignUpFields;
+    /** Optional settings for the formatting & content of the verification emails */
+    emailTemplate?: EmailTemplate;
 }
 
 type ValidationValueMessage<

@@ -14,7 +14,7 @@ import Input from '../components/internal/Input';
 import PasswordInput from '../components/PasswordInput';
 import useEasybase from '../../../useEasybase';
 
-export default function ({ setCurrentPage, dictionary }: IPage) {
+export default function ({ setCurrentPage, dictionary, emailTemplate }: IPage) {
     const [onConfirm, setOnConfirm] = useState<boolean>(false);
     const [forgottenUsername, setForgottenUsername] = useState<string | undefined>();
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -25,7 +25,7 @@ export default function ({ setCurrentPage, dictionary }: IPage) {
             return;
         }
 
-        const forgotRes = await forgotPassword(formData.email, { greeting: "Hello user," });
+        const forgotRes = await forgotPassword(formData.email, emailTemplate);
         if (forgotRes.success) {
             setForgottenUsername(formData.email);
             setOnConfirm(true);

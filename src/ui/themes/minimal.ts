@@ -19,7 +19,6 @@ export default {
         whiteSpace: 'nowrap',
         fontWeight: 400,
         fontSize: 16,
-        lineHeight: 28,
         height: 34,
         display: 'inline-flex',
         background: 'transparent',

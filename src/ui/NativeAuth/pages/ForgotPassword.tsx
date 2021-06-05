@@ -5,7 +5,7 @@ import { Form, HeaderText, View, Input, SpacerXL, SubmitButton, SpacerS, Seconda
 
 const { useEasybase } = require('easybase-react');
 
-export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
+export default function ({ setCurrentPage, dictionary, toast, emailTemplate }: INativePage) {
     const [onConfirm, setOnConfirm] = useState<boolean>(false);
     const [forgottenUsername, setForgottenUsername] = useState<string | undefined>();
     const { control, handleSubmit, reset, formState: { isSubmitting, errors } } = useForm();
@@ -16,7 +16,7 @@ export default function ({ setCurrentPage, dictionary, toast }: INativePage) {
             return;
         }
 
-        const forgotRes = await forgotPassword(formData.email, { greeting: "Hello user," });
+        const forgotRes = await forgotPassword(formData.email, emailTemplate);
         if (forgotRes.success) {
             setForgottenUsername(formData.email);
             setOnConfirm(true);

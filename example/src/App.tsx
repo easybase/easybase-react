@@ -59,7 +59,6 @@ const AuthExample = () => {
           gender: true,
           dateOfBirth: { required: true }
       }}
-      dictionary={{ signInHeader: "PLEASE SG IN" }}
     > 
       <h2>You're in!</h2>
       <button onClick={signOut}>Sign Out</button>

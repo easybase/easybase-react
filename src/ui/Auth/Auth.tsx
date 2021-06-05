@@ -10,7 +10,7 @@ const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
 const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
-export default function ({ theme, customStyles, children, dictionary, signUpFields }: IAuth): JSX.Element {
+export default function ({ theme, customStyles, children, dictionary, signUpFields, emailTemplate }: IAuth): JSX.Element {
     const [themeVal, setThemeVal] = useState<any>({});
 
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
@@ -59,7 +59,8 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
                     <Suspense fallback={<Fragment />}>
                         <DefaultSignIn 
                             setCurrentPage={setCurrentPage} 
-                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary} 
+                            dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )
@@ -70,6 +71,7 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
                             setCurrentPage={setCurrentPage} 
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary} 
                             signUpFields={typeof signUpFields === "object" ? signUpFields : {}}
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )
@@ -79,6 +81,7 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
                         <DefaultForgotPassword 
                             setCurrentPage={setCurrentPage} 
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary} 
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )

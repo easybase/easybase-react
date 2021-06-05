@@ -10,7 +10,7 @@ const DefaultSignIn = lazy(() => import('./pages/SignIn'));
 const DefaultSignUp = lazy(() => import('./pages/SignUp'));
 const DefaultForgotPassword = lazy(() => import('./pages/ForgotPassword'));
 
-export default function ({ customStyles, children, dictionary, signUpFields }: INativeAuth): JSX.Element {
+export default function ({ customStyles, children, dictionary, signUpFields, emailTemplate }: INativeAuth): JSX.Element {
     const [currentPage, setCurrentPage] = useState<"SignIn" | "SignUp" | "ForgotPassword" | "ForgotPasswordConfirm">("SignIn");
     const [toastOpen, setToastOpen] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
@@ -37,6 +37,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                             setCurrentPage={setCurrentPage}
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
                             toast={toast}
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )
@@ -48,6 +49,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
                             signUpFields={typeof signUpFields === "object" ? signUpFields : {}}
                             toast={toast}
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )
@@ -58,6 +60,7 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
                             setCurrentPage={setCurrentPage}
                             dictionary={typeof dictionary === "object" ? { ...defaultDictionary, ...dictionary } : defaultDictionary}
                             toast={toast}
+                            emailTemplate={emailTemplate}
                         />
                     </Suspense>
                 )
