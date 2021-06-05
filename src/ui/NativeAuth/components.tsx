@@ -32,15 +32,15 @@ export const Form = (props: any) => <ScrollRoot
     keyboardDismissMode="on-drag"
     contentContainerStyle={{
         flexGrow: 1,
-        marginTop: '24%',
-        marginBottom: '10%',
-        marginRight: 33,
-        marginLeft: 33
+        paddingTop: '24%',
+        paddingBottom: '10%',
+        paddingRight: 33,
+        paddingLeft: 33
     }}
     alwaysBounceVertical={false}
     showsVerticalScrollIndicator={false}
 >
-    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+    <View style={{ flexGrow: 1, justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
         {props.children}
     </View>
 </ScrollRoot>
