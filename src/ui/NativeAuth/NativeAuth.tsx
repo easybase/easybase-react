@@ -2,7 +2,7 @@ import React, { useState, lazy, Suspense, Fragment, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { defaultDictionary } from '../utils';
 import { INativeAuth } from '../uiTypes';
-import { Toast } from './components';
+import { Toast, Container } from './components';
 
 const { useEasybase } = require('easybase-react');
 
@@ -72,7 +72,9 @@ export default function ({ customStyles, children, dictionary, signUpFields }: I
         return (
             <ThemeProvider theme={typeof customStyles === "object" ? customStyles : {}}>
                 <Toast toastMessage={toastMessage} toastOpen={toastOpen} setToastOpen={setToastOpen} />
-                {getCurrentPage()}
+                <Container behavior="padding" enabled>
+                    {getCurrentPage()}
+                </Container>
             </ThemeProvider>
         )
     }
