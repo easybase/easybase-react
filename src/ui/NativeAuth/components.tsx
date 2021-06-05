@@ -182,7 +182,7 @@ export const Picker = styled.Picker((props: any) => ({
 
 const ToastRoot = styled.View((props: any) => ({
     position: "absolute",
-    top: "5%",
+    top: 70,
     left: 0,
     right: 0,
     height: 50,
