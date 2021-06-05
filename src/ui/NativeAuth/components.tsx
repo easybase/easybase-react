@@ -33,7 +33,6 @@ export const Form = (props: any) => <ScrollRoot
     contentContainerStyle={{
         flexGrow: 1,
         paddingTop: '24%',
-        marginBottom: '10%',
         paddingRight: 33,
         paddingLeft: 33
     }}
@@ -108,6 +107,7 @@ const SecondaryButtonText = styled.Text((props: any) => ({
     fontSize: 20,
     color: '#534eff',
     textAlign: "center",
+    marginBottom: '10%',
     ...(props.theme.secondaryButton ? { ...props.theme.secondaryButton } : {})
 }))
 
