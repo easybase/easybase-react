@@ -73,6 +73,7 @@ export interface IStyles {
     textFieldLabel?: Record<string, any>;
     submitButton?: Record<string, any>;
     genderSelect?: Record<string, any>;
+    genderSelectLabel?: Record<string, any>;
     toast?: Record<string, any>;
     form?: Record<string, any>;
     headerText?: Record<string, any>;

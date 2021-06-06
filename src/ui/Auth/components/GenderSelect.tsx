@@ -17,10 +17,14 @@ interface ISelect extends React.SelectHTMLAttributes<HTMLSelectElement> {
     register(): UseFormRegisterReturn;
 }
 
+const GenderLabel = styled(Label)(props => ({
+    ...(props.theme.genderSelectLabel ? { ...props.theme.genderSelectLabel } : {})
+}))
+
 export default function (props: ISelect) {
     return (
         <Root>
-            <Label htmlFor="select-gender">Gender *</Label>
+            <GenderLabel htmlFor="select-gender">Gender *</GenderLabel>
             <GenderSelect id="select-gender" {...props} options={["Male", "Female", "Prefer not to say"]} />
         </Root>
     )

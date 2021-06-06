@@ -148,5 +148,14 @@ export default {
     },
     errorText: {
         color: '#ff0000'
+    },
+    genderSelect: {
+        borderBottom: '2px solid #adadad'
+    },
+    genderSelectLabel: {
+        color: '#2196F3',
+        display: 'block',
+        top: -14,
+        fontSize: 12
     }
 } as IStyles
