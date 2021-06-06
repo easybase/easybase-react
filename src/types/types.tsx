@@ -68,10 +68,11 @@ export interface ContextValue {
     /**
      * Reset the currently signed-in user's password to a new string.
      * @async
-     * @param {string} newPassword New user password
+     * @param {string} currentPassword Signed-in user's current password
+     * @param {string} newPassword New password for user's account
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
-    resetUserPassword(newPassword: string): Promise<StatusResponse>;
+    resetUserPassword(currentPassword: string, newPassword: string): Promise<StatusResponse>;
     /**
      * Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that 
      * they will be automatically authenticated when they return to the application. These authentication tokens will become invalid

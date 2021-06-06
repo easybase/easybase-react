@@ -62,9 +62,10 @@ export default function ProjectUser() {
     }
 
     const resetPassword = async () => {
+        const current_pass = prompt("Enter your current password", "");
         const new_pass = prompt("Enter new password", "");
-        if (!new_pass) return;
-        console.log(await resetUserPassword(new_pass));
+        if (!new_pass || !current_pass) return;
+        console.log(await resetUserPassword(current_pass, new_pass));
         signOut();
     }
 

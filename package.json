@@ -54,7 +54,7 @@
     "native"
   ],
   "dependencies": {
-    "easybasejs": "4.2.13",
+    "easybasejs": "^4.2.15",
     "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",
     "object-observer": "^4.0.3",

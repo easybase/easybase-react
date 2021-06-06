@@ -11,11 +11,14 @@
         "./src/types/typings.d.ts",
         "./src/types/react-app-env.d.ts",
         "./src/types/decs.d.ts",
-        "./src/ui/Auth/themes",
+        "./src/ui/themes",
         "./src/ui/Auth/components",
         "./src/ui/Auth/pages",
-        "./src/ui/Auth/utils.tsx",
-        "./src/ui/Auth/Auth.tsx"
+        "./src/ui/utils.tsx",
+        "./src/ui/Auth/Auth.tsx",
+        "./src/ui/NativeAuth/pages",
+        "./src/ui/NativeAuth/components.tsx",
+        "./src/ui/NativeAuth/NativeAuth.tsx"
     ],
     "externalPattern": [
         "./src/types/*.ts",

@@ -92,7 +92,7 @@ export default {
         }
     },
     textField: {
-        fontSize: 14,
+        fontSize: 16,
         color: '#555',
         lineHeight: 1.2,
         height: 45,

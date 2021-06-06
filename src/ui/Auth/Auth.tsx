@@ -21,6 +21,7 @@ export default function ({ theme, customStyles, children, dictionary, signUpFiel
             document.body.style.margin = "0px";
         } catch (_) { }
         async function mounted() {
+            // TODO: load themes from url
             let loadedTheme: IStyles = {};
             if (theme === "minimal-dark") {
                 const _theme = (await import('../themes/minimal-dark')).default;
