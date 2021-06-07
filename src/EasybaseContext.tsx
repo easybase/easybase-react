@@ -46,7 +46,8 @@ const c: ContextValue = {
     useReturn: (_: () => SQW) => ({}) as UseReturnValue,
     e: ({}) as NewExpression,
     forgotPassword: async (_: string, _2?: EmailTemplate) => ({}) as StatusResponse,
-    forgotPasswordConfirm: async (_: string, _2: string, _3: string) => ({}) as StatusResponse
+    forgotPasswordConfirm: async (_: string, _2: string, _3: string) => ({}) as StatusResponse,
+    userID: () => undefined
 }
 
 export default createContext(c);
