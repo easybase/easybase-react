@@ -40,7 +40,8 @@ const {
     signIn,
     signOut,
     forgotPassword,
-    forgotPasswordConfirm
+    forgotPasswordConfirm,
+    userID
 } = authFactory(g);
 
 const { log } = utilsFactory(g);
@@ -144,12 +145,14 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
                     const refreshTokenRes = await tokenPost(POST_TYPES.REQUEST_TOKEN, {
                         refreshToken: g.refreshToken,
-                        token: g.token
+                        token: g.token,
+                        getUserID: true
                     });
 
                     if (refreshTokenRes.success) {
                         clearTimeout(fallbackMount);
                         g.token = refreshTokenRes.data.token;
+                        g.userID = refreshTokenRes.data.userID;
                         await cache.setCacheTokens(g, cookieName);
                         setUserSignedIn(true);
                     } else {
@@ -569,7 +572,8 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         e,
         useReturn,
         forgotPassword,
-        forgotPasswordConfirm
+        forgotPasswordConfirm,
+        userID
     }
 
     return (

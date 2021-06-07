@@ -44,6 +44,7 @@ export interface ContextValue {
     onSignIn(callback: () => void): void;
     /**
      * Check if a user is currently signed in.
+     * @return {boolean} Is a user signed in.
      */
     isUserSignedIn(): boolean;
     /**
@@ -283,6 +284,11 @@ export interface ContextValue {
      * @return {Promise<StatusResponse>} A StatusResponse corresponding to the successful setting of a new password
      */
     forgotPasswordConfirm(code: string, username: string, newPassword: string): Promise<StatusResponse>
+    /**
+     * Retrieve the currently signed-in user's ID.
+     * @return {string | undefined} The currently signed-in user's ID (username), otherwise undefined.
+     */
+    userID(): string | undefined;
 }
 
 /**
@@ -447,4 +453,5 @@ export interface Globals {
     instance: string;
     mounted: boolean;
     newTokenCallback(): void;
+    userID: string | undefined;
 }

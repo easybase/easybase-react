@@ -25,7 +25,8 @@ export default function ProjectUser() {
         onSignIn,
         db,
         forgotPassword,
-        forgotPasswordConfirm
+        forgotPasswordConfirm,
+        userID
     } = useEasybase();
 
     const onSignUpClick = async () => {
@@ -101,6 +102,7 @@ export default function ProjectUser() {
         return (
             <div style={{ display: "flex", width: '100vw', height: '90vh', justifyContent: 'center', alignItems: 'center', flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column", backgroundColor: "#BBB", padding: 40, borderRadius: 5 }}>
+                    <h5>User ID: {userID()}</h5>
                     <button className="btn green m-4" onClick={onUserAttrsClick}><span>Get user attrs</span></button>
                     <button className="btn orange m-4" onClick={signOut}><span>Sign Out</span></button>
                     <button className="btn orange m-4" onClick={addUserRecord}><span>Add User Record</span></button>
