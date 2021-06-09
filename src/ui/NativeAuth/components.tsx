@@ -95,6 +95,13 @@ export const Input = styled.TextInput((props: any) => ({
     ...(props.theme.textField ? { ...props.theme.textField } : {})
 }))
 
+export const NoSecondaryButton = styled.View(() => ({
+    backgroundColor: 'transparent',
+    height: 35,
+    overflow: "visible",
+    marginBottom: '10%'  
+}))
+
 const SecondaryButtonRoot = styled.TouchableOpacity((props: any) => ({
     backgroundColor: 'transparent',
     height: 35,
