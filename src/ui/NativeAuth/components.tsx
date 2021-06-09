@@ -207,6 +207,7 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
     borderRadius: 26,
     flexDirection: "row",
     overflow: "visible",
+    maxWidth: "94%",
     ...(props.theme.toast ? { ...props.theme.toast } : {})
 }))
 
@@ -236,7 +237,7 @@ export const Toast = ({ toastMessage, toastOpen, setToastOpen }: { toastMessage:
     return (
         <ToastRoot>
             <ToastContainer activeOpacity={0.6} onPress={_ => setToastOpen(false)} style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.27, shadowRadius: 4.65 }}>
-                <ToastText numberOfLines={1}>{toastMessage}</ToastText>
+                <ToastText>{toastMessage}</ToastText>
                 <CloseToastText>&#x2715;</CloseToastText>
             </ToastContainer>
         </ToastRoot>
