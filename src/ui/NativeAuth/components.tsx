@@ -219,6 +219,7 @@ const ToastText = styled.Text((props: any) => ({
     marginBottom: 10,
     fontSize: 17,
     color: "#fff",
+    textAlign: "center",
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))
 
