@@ -220,7 +220,7 @@ const ToastText = styled.Text((props: any) => ({
     fontSize: 17,
     color: "#fff",
     textAlign: "center",
-    flexShrink: 1,
+    flex: 1,
     flexWrap: 'wrap',
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))

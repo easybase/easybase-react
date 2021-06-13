@@ -2904,7 +2904,7 @@
   "version" "0.1.2"
 
 "easybase-react@github:easybase/easybase-react#analytics":
-  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#122cd56fd5695a505bc0c5f67c3730e8bd0ae57d"
+  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#738846ff3d880c1f72b1181d8e1c83f367d5a8f3"
   "version" "2.2.5"
   dependencies:
     "cross-fetch" "^3.1.4"
