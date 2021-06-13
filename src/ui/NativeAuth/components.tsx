@@ -213,18 +213,19 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
 const ToastText = styled.Text((props: any) => ({
     position: "relative",
     marginLeft: 25,
-    marginRight: 40,
+    marginRight: 44,
     marginTop: 10,
     marginBottom: 10,
     fontSize: 17,
     color: "#fff",
+    textAlign: 'center',
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))
 
 const CloseToastText = styled.Text((props: any) => ({
     color: "#AAA",
-    position: 'relative',
-    marginRight: 20,
+    position: 'absolute',
+    right: 20,
     fontWeight: '600',
     fontSize: 15,
     ...(props.theme.closeToastText ? { ...props.theme.closeToastText } : {})
