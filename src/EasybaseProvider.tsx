@@ -26,6 +26,7 @@ import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
 import * as cache from "./cache";
 import { SQW } from "easyqb/types/sq";
+import fetch from 'cross-fetch';
 
 let _isFrameInitialized: boolean = true;
 
@@ -114,26 +115,64 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             g.instance = (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') ? "React Native" : "React";
 
             if (options?.googleAnalyticsId) {
-                if (g.instance === "React") {
-                    if (options.googleAnalyticsId.startsWith("G-")) {
+                if (options.googleAnalyticsId.startsWith("G-")) {
+                    if (g.instance === "React") {
                         const { GA4React } = await import('ga-4-react');
                         const ga4ReactLoader = new GA4React(options.googleAnalyticsId);
                         try {
                             const ga4React = await ga4ReactLoader.initialize();
                             g.analyticsEvent = (eventTitle: string, params?: Record<string, any>) => ga4React.gtag('event', eventTitle, params);
-                            g.analyticsIdentify = (hashedUserId: string) => ga4React.gtag('config', 'GA_MEASUREMENT_ID', { user_id: hashedUserId });
+                            g.analyticsIdentify = (hashedUserId: string) => ga4React.gtag('config', options.googleAnalyticsId, { user_id: hashedUserId });
                             g.analyticsEnabled = true;
                         } catch (error) {
                             log("Analytics initialization error: ", error)
                         }
-                    } else if (options.googleAnalyticsId.startsWith("UA-")) {
-                        console.error("EASYBASE — Detected Universal Analytics tag in googleAnalyticsId parameter. This version is not supported – please update to Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
-                    } else {
-                        console.error("EASYBASE — Unknown googleAnalyticsId version parameter. Please use Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
+                    } else if (g.instance === "React Native") {
+                        if (options.googleAnalyticsSecret) {
+                            const genUUID = () => {
+                                // https://www.w3resource.com/javascript-exercises/javascript-math-exercise-23.php
+                                let dt = new Date().getTime();
+                                const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                                    const r = (dt + Math.random() * 16) % 16 | 0;
+                                    dt = Math.floor(dt / 16);
+                                    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+                                });
+                                return uuid;
+                            }
+
+                            let _userIdHash: string;
+                            const _mockDeviceId = genUUID();
+
+                            // Mocking a 'pageview'
+                            fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${options.googleAnalyticsId}&api_secret=${options.googleAnalyticsSecret}`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    client_id: _mockDeviceId,
+                                    events: [{ name: 'select_content' }]
+                                })
+                            });
+
+                            g.analyticsEvent = (eventTitle: string, params?: Record<string, any>) => fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${options.googleAnalyticsId}&api_secret=${options.googleAnalyticsSecret}`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    client_id: _mockDeviceId,
+                                    user_id: _userIdHash,
+                                    events: [{
+                                        name: eventTitle,
+                                        params
+                                    }]
+                                })
+                            });
+                            g.analyticsIdentify = (hashedUserId: string) => { _userIdHash = hashedUserId };
+                            g.analyticsEnabled = true;
+                        } else {
+                            console.error("EASYBASE — React Native analytics requires the presence of 'googleAnalyticsSecret'. To create a new secret, navigate in the Google Analytics UI to: Admin > Data Streams > choose your stream > Measurement Protocol > Create");
+                        }
                     }
-                } else if (g.instance === "React Native") {
-                    // TODO: handle RN
-                    console.log("");
+                } else if (options.googleAnalyticsId.startsWith("UA-")) {
+                    console.error("EASYBASE — Detected Universal Analytics tag in googleAnalyticsId parameter. This version is not supported – please update to Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
+                } else {
+                    console.error("EASYBASE — Unknown googleAnalyticsId version parameter. Please use Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
                 }
             }
 
@@ -180,7 +219,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                         g.token = refreshTokenRes.data.token;
                         g.userID = refreshTokenRes.data.userID;
                         if (g.analyticsEnabled) {
-                            const hashOut = hash(fromUtf8(g.GA_AUTH_SALT + refreshTokenRes.data.userID));
+                            const hashOut = hash(fromUtf8(g.GA_USER_ID_SALT + refreshTokenRes.data.userID));
                             const hexHash = Array.prototype.map.call(hashOut, x => ('00' + x.toString(16)).slice(-2)).join('');
                             g.analyticsIdentify(hexHash);
                             g.analyticsEvent('login', { method: "Easybase" });

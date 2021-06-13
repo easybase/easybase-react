@@ -85,7 +85,7 @@ const App = () => {
           <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
             <UseReturnStressTest />
           </EasybaseProvider>
-          <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true, googleAnalyticsId: "UA-199345684-1" }}>
+          <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true, googleAnalyticsId: "G-VT3GJWQW7T" }}>
             <ProjectUser />
           </EasybaseProvider>
         </Route>
