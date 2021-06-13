@@ -206,6 +206,8 @@ const ToastContainer = styled.TouchableOpacity((props: any) => ({
     borderRadius: 26,
     overflow: "visible",
     maxWidth: "94%",
+    flexDirection: 'row',
+    alignItems: 'center',
     ...(props.theme.toast ? { ...props.theme.toast } : {})
 }))
 
@@ -219,6 +221,7 @@ const ToastText = styled.Text((props: any) => ({
     color: "#fff",
     textAlign: 'center',
     flex: 1,
+    flexWrap: 'wrap',
     ...(props.theme.toastText ? { ...props.theme.toastText } : {})
 }))
 
