@@ -437,9 +437,12 @@ export interface Globals {
     refreshToken: string;
     session: number;
     options: EasybaseProviderPropsOptions;
-    instance: string;
+    instance: "Node" | "React" | "React Native";
     mounted: boolean;
     newTokenCallback(): void;
     userID: string | undefined;
-    // GA_AUTH_SALT: string | undefined; // https://support.google.com/analytics/answer/6366371?hl=en#hashed
+    GA_AUTH_SALT: string | undefined; // https://support.google.com/analytics/answer/6366371?hl=en#hashed
+    analyticsEnabled: boolean;
+    analyticsEvent(eventTitle: string, params?: Record<string, any>): void;
+    analyticsIdentify(hashedUserId: string): void;
 }

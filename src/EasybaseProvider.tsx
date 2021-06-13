@@ -113,6 +113,30 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
             g.instance = (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') ? "React Native" : "React";
 
+            if (options?.googleAnalyticsId) {
+                if (g.instance === "React") {
+                    if (options.googleAnalyticsId.startsWith("G-")) {
+                        const { GA4React } = await import('ga-4-react');
+                        const ga4ReactLoader = new GA4React(options.googleAnalyticsId);
+                        try {
+                            const ga4React = await ga4ReactLoader.initialize();
+                            g.analyticsEvent = (eventTitle: string, params?: Record<string, any>) => ga4React.gtag('event', eventTitle, params);
+                            g.analyticsIdentify = (hashedUserId: string) => ga4React.gtag('config', 'GA_MEASUREMENT_ID', { user_id: hashedUserId });
+                            g.analyticsEnabled = true;
+                        } catch (error) {
+                            log("Analytics initialization error: ", error)
+                        }
+                    } else if (options.googleAnalyticsId.startsWith("UA-")) {
+                        console.error("EASYBASE — Detected Universal Analytics tag in googleAnalyticsId parameter. This version is not supported – please update to Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
+                    } else {
+                        console.error("EASYBASE — Unknown googleAnalyticsId version parameter. Please use Google Analytics 4.\nhttps://support.google.com/analytics/answer/9744165?hl=en");
+                    }
+                } else if (g.instance === "React Native") {
+                    // TODO: handle RN
+                    console.log("");
+                }
+            }
+
             if (g.ebconfig.tt && g.ebconfig.integration.split("-")[0].toUpperCase() !== "PROJECT") {
                 const t1 = Date.now();
                 log("mounting...");
@@ -141,24 +165,26 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
                     const fallbackMount = setTimeout(() => { setMounted(true) }, 2500);
 
-                    const refreshTokenRes = await tokenPost(POST_TYPES.REQUEST_TOKEN, {
-                        refreshToken: g.refreshToken,
-                        token: g.token,
-                        getUserID: true
-                    });
+                    const [refreshTokenRes, { hash }, { fromUtf8 }] = await Promise.all([
+                        tokenPost(POST_TYPES.REQUEST_TOKEN, {
+                            refreshToken: g.refreshToken,
+                            token: g.token,
+                            getUserID: true
+                        }),
+                        import('fast-sha256'),
+                        import('@aws-sdk/util-utf8-browser')
+                    ])
 
                     if (refreshTokenRes.success) {
                         clearTimeout(fallbackMount);
                         g.token = refreshTokenRes.data.token;
                         g.userID = refreshTokenRes.data.userID;
-                        // import('fast-sha256').then(({ hash }) => {
-                        //     import('@aws-sdk/util-utf8-browser').then(({ fromUtf8 }) => {
-                        //         const hashOut = hash(fromUtf8(g.GA_AUTH_SALT + resData.userID));
-                        //         const hexHash = Array.prototype.map.call(hashOut, x => ('00' + x.toString(16)).slice(-2)).join('');
-                        //         g.analytics?.identify(hexHash);
-                        //         g.analytics?.track('signIn');
-                        //     })
-                        // })
+                        if (g.analyticsEnabled) {
+                            const hashOut = hash(fromUtf8(g.GA_AUTH_SALT + refreshTokenRes.data.userID));
+                            const hexHash = Array.prototype.map.call(hashOut, x => ('00' + x.toString(16)).slice(-2)).join('');
+                            g.analyticsIdentify(hexHash);
+                            g.analyticsEvent('login', { method: "Easybase" });
+                        }
                         await cache.setCacheTokens(g, cookieName);
                         setUserSignedIn(true);
                     } else {
