@@ -10,7 +10,7 @@ const SignOutButton = () => <Button onPress={useEasybase().signOut} title="Sign 
 
 export default function app() {
   return (
-    <EasybaseProvider ebconfig={ebconfig}>
+    <EasybaseProvider ebconfig={ebconfig} options={{ googleAnalyticsId: "G-VT3GJWQW7T", googleAnalyticsSecret: "M_Xzh8ebTBa_zoJvCj1ucw" }}>
         <NativeAuth signUpFields={{ fullName: true, lastName: true }}>
           <View style={styles.container}>
             <Text>You're in</Text>
