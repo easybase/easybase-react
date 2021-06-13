@@ -37,29 +37,19 @@ const IntegrationExample = () => {
   )
 }
 
-const ProjectExample = () => {
-  React.useEffect(() => console.log("MOUNTING PROJECT EXAMPLE"), []);
-  return (
-    <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>
-      <ProjectUser />
-    </EasybaseProvider>
-  )
-}
-
-
 const AuthExample = () => {
   React.useEffect(() => console.log("MOUNTING AUTH EXAMPLE"), []);
   const { signOut } = useEasybase();
   return (
-    <Auth 
+    <Auth
       theme="material"
-      signUpFields={{ 
-          lastName: { minLength: { message: "Must be 14 characters", value: 14 }},
-          phoneNumber: true,
-          gender: true,
-          dateOfBirth: { required: true }
+      signUpFields={{
+        lastName: { minLength: { message: "Must be 14 characters", value: 14 } },
+        phoneNumber: true,
+        gender: true,
+        dateOfBirth: { required: true }
       }}
-    > 
+    >
       <h2>You're in!</h2>
       <button onClick={signOut}>Sign Out</button>
     </Auth>
@@ -75,10 +65,7 @@ const App = () => {
           <Link to="/">Integration Example</Link>
         </li>
         <li>
-          <Link to="/project">Project Example</Link>
-        </li>
-        <li>
-          <Link to="/usereturnstresstest">useReturn Stress Test</Link>
+          <Link to="/usereturnstresstest">useReturn Stress Test and Project User</Link>
         </li>
         <li>
           <Link to="/auth">Auth UI</Link>
@@ -89,9 +76,6 @@ const App = () => {
         <Route path="/" exact>
           <IntegrationExample />
         </Route>
-        <Route path="/project" exact >
-          <ProjectExample />
-        </Route>
         <Route path="/auth" exact >
           <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>
             <AuthExample />
@@ -100,6 +84,9 @@ const App = () => {
         <Route path="/usereturnstresstest" exact >
           <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
             <UseReturnStressTest />
+          </EasybaseProvider>
+          <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true, googleAnalyticsId: "UA-199345684-1" }}>
+            <ProjectUser />
           </EasybaseProvider>
         </Route>
       </Switch>

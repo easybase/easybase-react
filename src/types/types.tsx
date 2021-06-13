@@ -7,6 +7,8 @@ export interface EasybaseProviderPropsOptions {
     authentication?: string;
     /** Log Easybase react status and events to console. */
     logging?: boolean;
+    /** Google Analytics 4 Tracking/Measurement ID for user activity reporting */
+    googleAnalyticsId?: string;
 }
 
 export interface EasybaseProviderProps {
@@ -304,20 +306,6 @@ export interface ConfigureFrameOptions {
     tableName?: string;
 }
 
-export interface EasybaseProviderPropsOptions {
-    /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
-    authentication?: string;
-    /** Log Easybase react status and events to console. */
-    logging?: boolean;
-}
-
-export interface EasybaseProviderProps {
-    /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
-    ebconfig: Ebconfig;
-    /** Optional configuration parameters. */
-    options?: EasybaseProviderPropsOptions
-}
-
 export interface FrameConfiguration {
     /** Edit starting index from which records will be retrieved from. Useful for paging. */
     offset: number;
@@ -447,11 +435,11 @@ export interface Globals {
     ebconfig: Ebconfig;
     token: string;
     refreshToken: string;
-    integrationID: string;
     session: number;
     options: EasybaseProviderPropsOptions;
     instance: string;
     mounted: boolean;
     newTokenCallback(): void;
     userID: string | undefined;
+    // GA_AUTH_SALT: string | undefined; // https://support.google.com/analytics/answer/6366371?hl=en#hashed
 }
