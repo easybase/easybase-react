@@ -82,7 +82,7 @@ const App = () => {
           </EasybaseProvider>
         </Route>
         <Route path="/usereturnstresstest" exact >
-          <EasybaseProvider ebconfig={ebconfig} options={{ logging: true, googleAnalyticsId: "G-VT3GJWQW7T", googleAnalyticsEventTracking: { get_user_attributes: true, db_one: true, db_all: true} }}>
+          <EasybaseProvider ebconfig={ebconfig} options={{ logging: true, googleAnalyticsId: "G-VT3GJWQW7T", googleAnalyticsEventTracking: { get_user_attributes: true, db_one: true, db_all: true } }}>
             <UseReturnStressTest />
           </EasybaseProvider>
           <EasybaseProvider ebconfig={ebconfig2} options={{ logging: true }}>

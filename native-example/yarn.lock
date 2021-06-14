@@ -2904,11 +2904,11 @@
   "version" "0.1.2"
 
 "easybase-react@github:easybase/easybase-react#analytics":
-  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#61396cd9fb0a2e23f5057c9a2cb581dcb9f48c85"
+  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#821ff811289864d077f4965b1d339d4ad6b65b02"
   "version" "2.2.5"
   dependencies:
     "cross-fetch" "^3.1.4"
-    "easybasejs" "github:easybase/easybasejs#analytics2"
+    "easybasejs" "github:easybase/easybasejs#master"
     "easyqb" "^1.0.20"
     "fast-deep-equal" "^3.1.3"
     "ga-4-react" "^0.1.281"
@@ -2918,7 +2918,7 @@
     "react-native-storage" "^1.0.1"
     "styled-components" "^5.3.0"
 
-"easybasejs@github:easybase/easybasejs#analytics2":
+"easybasejs@github:easybase/easybasejs#master":
   "resolved" "git+ssh://git@github.com/easybase/easybasejs.git#c9a981e9882e2a2ab5f07d7fc043aec28b2f5461"
   "version" "4.2.17"
   dependencies:
