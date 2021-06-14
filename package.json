@@ -55,7 +55,7 @@
   ],
   "dependencies": {
     "cross-fetch": "^3.1.4",
-    "easybasejs": "github:easybase/easybasejs#analytics2",
+    "easybasejs": "github:easybase/easybasejs#master",
     "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",
     "ga-4-react": "^0.1.281",

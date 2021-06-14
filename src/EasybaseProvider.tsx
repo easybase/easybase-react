@@ -218,7 +218,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                         clearTimeout(fallbackMount);
                         g.token = refreshTokenRes.data.token;
                         g.userID = refreshTokenRes.data.userID;
-                        if (g.analyticsEnabled) {
+                        if (g.analyticsEnabled && g.analyticsEventsToTrack.login) {
                             const hashOut = hash(fromUtf8(g.GA_USER_ID_SALT + refreshTokenRes.data.userID));
                             const hexHash = Array.prototype.map.call(hashOut, x => ('00' + x.toString(16)).slice(-2)).join('');
                             g.analyticsIdentify(hexHash);
