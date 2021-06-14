@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@aws-sdk/util-utf8-browser@^3.18.0":
+  "integrity" "sha512-JwcdTb6AAMtnlt2Sg0I18DBK1sWlsfDR/23CkDQ52niXvCSRdHeNkh5b7SdEPVUKI76hyce9nEshzI1OasTv7w=="
+  "resolved" "https://registry.npmjs.org/@aws-sdk/util-utf8-browser/-/util-utf8-browser-3.18.0.tgz"
+  "version" "3.18.0"
+  dependencies:
+    "tslib" "^2.0.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.8.3":
   "integrity" "sha512-HV1Cm0Q3ZrpCR93tkWOYiuYIgLxZXZFVG2VgK+MBWjUqZTundupbfx2aXarXuw5Ko5aMcjtJgbSs4vUGBS5v6g=="
   "resolved" "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.12.13.tgz"
@@ -2705,7 +2712,7 @@
     "loose-envify" "^1.3.1"
     "object-assign" "^4.1.1"
 
-"cross-fetch@^3.0.4", "cross-fetch@^3.0.6":
+"cross-fetch@^3.0.4", "cross-fetch@^3.1.4":
   "integrity" "sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ=="
   "resolved" "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.4.tgz"
   "version" "3.1.4"
@@ -2896,28 +2903,31 @@
   "resolved" "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"
   "version" "0.1.2"
 
-"easybase-react@github:easybase/easybase-react#dev":
-  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#9a3bd1cbc1940e1bd1ef59dfd6b8be36c2ccde25"
-  "version" "2.1.15"
+"easybase-react@github:easybase/easybase-react#analytics":
+  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#821ff811289864d077f4965b1d339d4ad6b65b02"
+  "version" "2.2.5"
   dependencies:
-    "easybasejs" "4.2.13"
+    "cross-fetch" "^3.1.4"
+    "easybasejs" "github:easybase/easybasejs#master"
     "easyqb" "^1.0.20"
     "fast-deep-equal" "^3.1.3"
+    "ga-4-react" "^0.1.281"
     "object-observer" "^4.0.3"
     "react-hook-form" "^7.7.1"
     "react-hot-toast" "^2.0.0"
     "react-native-storage" "^1.0.1"
     "styled-components" "^5.3.0"
 
-"easybasejs@4.2.13":
-  "integrity" "sha512-1dtN235J8ITJL1bue2Cc5lNERbcb2y3HVe/g/H4n7onhKEWkJ/FQRW8HesRmp0VALiVYzwGjb2bv/AllNPRc1g=="
-  "resolved" "https://registry.npmjs.org/easybasejs/-/easybasejs-4.2.13.tgz"
-  "version" "4.2.13"
+"easybasejs@github:easybase/easybasejs#master":
+  "resolved" "git+ssh://git@github.com/easybase/easybasejs.git#c9a981e9882e2a2ab5f07d7fc043aec28b2f5461"
+  "version" "4.2.17"
   dependencies:
+    "@aws-sdk/util-utf8-browser" "^3.18.0"
     "@glidejs/glide" "^3.4.1"
-    "cross-fetch" "^3.0.6"
+    "cross-fetch" "^3.1.4"
     "easyqb" "^1.0.20"
     "fast-deep-equal" "^3.1.3"
+    "fast-sha256" "^1.3.0"
 
 "easyqb@^1.0.20":
   "integrity" "sha512-320RXE0nocyb9yCqrfDRkXeWyZ/p2TQ4HchHYWkAM7lc+BSMnnv2srGk0kHubnxl5klquBPUqIwcC0JNtZPWRw=="
@@ -3291,6 +3301,11 @@
   "resolved" "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
   "version" "3.1.3"
 
+"fast-sha256@^1.3.0":
+  "integrity" "sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ=="
+  "resolved" "https://registry.npmjs.org/fast-sha256/-/fast-sha256-1.3.0.tgz"
+  "version" "1.3.0"
+
 "fb-watchman@^2.0.0":
   "integrity" "sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg=="
   "resolved" "https://registry.npmjs.org/fb-watchman/-/fb-watchman-2.0.1.tgz"
@@ -3525,6 +3540,11 @@
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
   "version" "1.1.1"
+
+"ga-4-react@^0.1.281":
+  "integrity" "sha512-LBvn8digT3gS8Iw8/XN3Z60c/JlFjMreLrZEneeQr+N/3+Ymv8yOsuK6qFAX2VPS6TscLbSlgtb/mriJ2P17Ow=="
+  "resolved" "https://registry.npmjs.org/ga-4-react/-/ga-4-react-0.1.281.tgz"
+  "version" "0.1.281"
 
 "gensync@^1.0.0-beta.1", "gensync@^1.0.0-beta.2":
   "integrity" "sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg=="
@@ -6442,6 +6462,11 @@
   "integrity" "sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw=="
   "resolved" "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.0.tgz"
   "version" "1.0.0"
+
+"tslib@^2.0.0":
+  "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
+  "version" "2.3.0"
 
 "type-fest@^0.3.1":
   "integrity" "sha512-cUGJnCdr4STbePCgqNFbpVNCepa+kAVohJs1sLhxzdH+gnEoOd8VhbYa7pD3zZYGiURWM2xzEII3fQcRizDkYQ=="

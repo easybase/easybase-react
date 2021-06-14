@@ -1,12 +1,45 @@
+/* eslint-disable camelcase */
 import React from "react";
 import { SQW } from "easyqb/types/sq";
 import { NewExpression } from "easyqb/types/expression";
+
+export interface GoogleAnalyticsEvents {
+    login?: boolean;
+    sign_up?: boolean;
+    forgot_password?: boolean;
+    forgot_password_confirm?: boolean;
+    reset_user_password?: boolean;
+    get_user_attributes?: boolean;
+    set_user_attribute?: boolean;
+    query?: boolean;
+    full_table_size?: boolean;
+    table_types?: boolean;
+    db_one?: boolean;
+    db_all?: boolean;
+}
 
 export interface EasybaseProviderPropsOptions {
     /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
     authentication?: string;
     /** Log Easybase react status and events to console. */
     logging?: boolean;
+    /** Google Analytics 4 Measurement ID for activity reporting */
+    googleAnalyticsId?: string;
+    /** **Only Required for React Native** – Google Analytics 4 Measurement Protocol Secret ID for activity reporting. To create a new secret, navigate in the Google Analytics UI to: Admin > Data Streams > choose your stream > Measurement Protocol > Create */
+    googleAnalyticsSecret?: string;
+    /**
+     * Specify which extra events are tracked in Google Analytics
+     * 
+     * **default**:
+     *  * Page Mount
+     *  * login
+     *  * sign_up
+     *  * forgot_password
+     *  * forgot_password_confirm
+     *  * reset_user_password
+     *  
+    */
+    googleAnalyticsEventTracking?: GoogleAnalyticsEvents;
 }
 
 export interface EasybaseProviderProps {
@@ -304,20 +337,6 @@ export interface ConfigureFrameOptions {
     tableName?: string;
 }
 
-export interface EasybaseProviderPropsOptions {
-    /** Custom authentication string. Can be set in integration menu. If it is set, it is required to access integration. This acts as an extra layer of security and extensibility. */
-    authentication?: string;
-    /** Log Easybase react status and events to console. */
-    logging?: boolean;
-}
-
-export interface EasybaseProviderProps {
-    /** EasyBase ebconfig object. Can be downloaded in the integration drawer next to 'React Token'. This is automatically generated.  */
-    ebconfig: Ebconfig;
-    /** Optional configuration parameters. */
-    options?: EasybaseProviderPropsOptions
-}
-
 export interface FrameConfiguration {
     /** Edit starting index from which records will be retrieved from. Useful for paging. */
     offset: number;
@@ -447,11 +466,15 @@ export interface Globals {
     ebconfig: Ebconfig;
     token: string;
     refreshToken: string;
-    integrationID: string;
     session: number;
     options: EasybaseProviderPropsOptions;
-    instance: string;
+    instance: "Node" | "React" | "React Native";
     mounted: boolean;
     newTokenCallback(): void;
     userID: string | undefined;
+    analyticsEnabled: boolean;
+    analyticsEventsToTrack: GoogleAnalyticsEvents;
+    analyticsEvent(eventTitle: string, params?: Record<string, any>): void;
+    analyticsIdentify(hashedUserId: string): void;
+    GA_USER_ID_SALT: string; // https://support.google.com/analytics/answer/6366371?hl=en#hashed
 }
