@@ -1,6 +1,7 @@
 // @ts-nocheck
+/* eslint-disable */
 import { Globals } from "./types/types";
-import Storage from 'react-native-storage';
+import Storage from './storage';
 
 let storage: Storage;
 

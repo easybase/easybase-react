@@ -62,7 +62,6 @@
     "object-observer": "^4.0.3",
     "react-hook-form": "^7.7.1",
     "react-hot-toast": "^2.0.0",
-    "react-native-storage": "^1.0.1",
     "styled-components": "^5.3.0"
   }
 }
