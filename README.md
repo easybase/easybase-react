@@ -17,13 +17,13 @@
 </p>
 
 
-<h2 align="center">
+<h3 align="center">
   <b>
     <a href="https://easybase.io/react/">
       Head here for the full React & React Native walkthrough 📗📘
     </a>
   </b>
-</h2>
+</h3>
 
 <br />
 
