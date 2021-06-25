@@ -42,7 +42,6 @@ const AuthExample = () => {
   const { signOut } = useEasybase();
   return (
     <Auth
-      theme="material"
       signUpFields={{
         lastName: { minLength: { message: "Must be 14 characters", value: 14 } },
         phoneNumber: true,

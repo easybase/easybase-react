@@ -124,6 +124,12 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                             g.analyticsEvent = (eventTitle: string, params?: Record<string, any>) => ga4React.gtag('event', eventTitle, params);
                             g.analyticsIdentify = (hashedUserId: string) => ga4React.gtag('config', options.googleAnalyticsId, { user_id: hashedUserId });
                             g.analyticsEnabled = true;
+                            if (window.location.hash) {
+                                // Using hash router - https://github.com/unrealmanu/ga-4-react/issues/15
+                                window.onhashchange = () => {
+                                    ga4React.pageview(window.location.hash);
+                                };
+                            }
                         } catch (error) {
                             log("Analytics initialization error: ", error)
                         }
