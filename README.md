@@ -36,7 +36,7 @@ Information on **database querying** [can be found in the EasyQB docs](https://e
 
 ## Getting Started
 
-[Get your project up-and-running in just a couple minutes](https://easybase.io/react/#setup):
+[Get your project up and running in just a couple of minutes](https://easybase.io/react/#setup):
 
 1. Download your `ebconfig` token and place it at the root of your project
 
