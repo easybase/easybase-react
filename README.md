@@ -27,9 +27,6 @@
 
 <br />
 
-React and React Native compatible library for use with Easybase, a visual database for serverless applications. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. [Get your project up-and-running in just a couple minutes](https://easybase.io/react/#setup).
-
-
 <!-- DOCUMENTATION -->
 ## Documentation
 
@@ -39,7 +36,9 @@ Information on **database querying** [can be found in the EasyQB docs](https://e
 
 ## Getting Started
 
-Download your `ebconfig` token and place it at the root of your project
+[Get your project up-and-running in just a couple minutes](https://easybase.io/react/#setup):
+
+1. Download your `ebconfig` token and place it at the root of your project
 
 ```
 ├── src/
@@ -51,7 +50,7 @@ Download your `ebconfig` token and place it at the root of your project
 └── ...
 ```
 
-Then, wrap your root component in *EasybaseProvider* with your credentials.
+2. Then, wrap your root component in *EasybaseProvider* with your credentials.
 ```
 npm install easybase-react
 ```
