@@ -1,4 +1,5 @@
 <br />
+<br />
 
 <p align="center">
   <a href="https://easybase.io">
@@ -15,12 +16,18 @@
   <img alt="npm" src="https://img.shields.io/npm/v/easybase-react">
 </p>
 
+
+<h4 align="center">
+  <b>
+    <a href="https://easybase.io/react/">
+      Head here for the full React & React Native walkthrough 📗📘
+    </a>
+  </b>
+</h4>
+
 <br />
 
-
-**[Head to this page for the full React & React Native walkthrough](https://easybase.io/react/)**
-
-React and React Native compatible library for use with Easybase, a visual database for serverless applications. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. [Setting this library up for your project is simple](https://easybase.io/react/#setup).
+React and React Native compatible library for use with Easybase, a visual database for serverless applications. `easybase-react` can be used with a table's REACT integration or with a Project. In the latter case, this package provides functions for managing user authentication. [Get your project up-and-running in just a couple minutes](https://easybase.io/react/#setup).
 
 
 <!-- DOCUMENTATION -->
@@ -30,10 +37,25 @@ Formal documentation for this library [is available here](https://easybase.io/do
 
 Information on **database querying** [can be found in the EasyQB docs](https://easybase.github.io/EasyQB/).
 
-<!-- EXAMPLES -->
-## Examples
+## Getting Started
 
-First, wrap your root component in *EasybaseProvider* with your credentials.
+Download your `ebconfig` token and place it at the root of your project
+
+```
+├── src/
+│   ├── App.js
+│   ├── index.js
+│   └── ebconfig.js  <–––
+├── assets/
+├── package.json
+└── ...
+```
+
+Then, wrap your root component in *EasybaseProvider* with your credentials.
+```
+npm install easybase-react
+```
+
 ```jsx
 import React, { useEffect } from "react";
 import { EasybaseProvider, useEasybase } from 'easybase-react';
@@ -48,6 +70,8 @@ function App() {
 }
 ```
 
+## Examples
+
 * [Single Component User Authentication](https://easybase.io/react-and-react-native-user-authentication/)
 
 * [Stateful Database](https://easybase.io/react-database-app-tutorial/)
@@ -57,4 +81,4 @@ function App() {
 <!-- CONTACT -->
 ## Contact
 
-[@easybase_io](https://twitter.com/easybase_io) - hello@easybase.io
+[@easybase_io](https://twitter.com/easybase_io) – hello@easybase.io
