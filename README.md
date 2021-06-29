@@ -20,7 +20,7 @@
 <h3 align="center">
   <b>
     <a href="https://easybase.io/react/">
-      Head here for the full React & React Native walkthrough 📗📘
+      Check out the full React & React Native walkthrough 📗📘
     </a>
   </b>
 </h3>
