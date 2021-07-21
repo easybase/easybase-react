@@ -2855,11 +2855,17 @@
   "resolved" "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"
   "version" "0.1.2"
 
+"easybase-cache@^1.0.1":
+  "integrity" "sha512-7OOtCPZTl4WV86f44BZ3NL6EFUuoJtX4bN5niXimcVH8mxx5ropjUhbszj03ikEaPrnBccHH9ZH1YUSo+QsxXA=="
+  "resolved" "https://registry.npmjs.org/easybase-cache/-/easybase-cache-1.0.1.tgz"
+  "version" "1.0.1"
+
 "easybase-react@github:easybase/easybase-react#dev":
-  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#6ae7103025802de7ed5aeadde8ebc996c2b2779c"
+  "resolved" "git+ssh://git@github.com/easybase/easybase-react.git#a8bbd62edb315c5fa6f555e5d5b49facfe191fee"
   "version" "2.2.7"
   dependencies:
     "cross-fetch" "^3.1.4"
+    "easybase-cache" "^1.0.1"
     "easybasejs" "^4.2.19"
     "easyqb" "^1.0.20"
     "fast-deep-equal" "^3.1.3"
