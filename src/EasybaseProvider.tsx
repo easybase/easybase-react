@@ -24,9 +24,9 @@ import authFactory from "../node_modules/easybasejs/src/EasybaseProvider/auth";
 import dbFactory from "../node_modules/easybasejs/src/EasybaseProvider/db";
 import { gFactory } from "../node_modules/easybasejs/src/EasybaseProvider/g";
 import { Observable } from "object-observer";
-import * as cache from "./cache";
 import { SQW } from "easyqb/types/sq";
 import fetch from 'cross-fetch';
+const cache = require("./cache");
 
 let _isFrameInitialized: boolean = true;
 
@@ -548,13 +548,13 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
 
         if (!g.token) {
             // User signed out
-            cache.clearCacheTokens(cookieName).then(_ => {
+            cache.clearCacheTokens(cookieName).then((_: any) => {
                 setUserSignedIn(false);
                 _ranSignInCallback.current = false;
             });
         } else {
             // User signed in or refreshed token
-            cache.setCacheTokens(g, cookieName).then(_ => {
+            cache.setCacheTokens(g, cookieName).then((_: any) => {
                 setUserSignedIn(true);
             });
         }

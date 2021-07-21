@@ -14,7 +14,7 @@
   "scripts": {
     "build": "npm run clean && npm run microbundle && npm run fixDist",
     "prepare": "npm run clean && npm run microbundle && npm run fixDist",
-    "microbundle": "microbundle build --entry src/index.tsx --entry src/ui/ReactNative.tsx --jsx React.createElement --external react,react-native --no-compress --format modern,cjs",
+    "microbundle": "microbundle build --entry src/index.tsx --entry src/ui/ReactNative.tsx --entry src/cache.native.ts --entry src/cache.ts --jsx React.createElement --external react,react-native --no-compress --format modern,cjs",
     "genDocs": "typedoc",
     "clean": "shx rm -rf dist",
     "fixDist": "shx cp -r dist/src/ui/utils.d.ts dist/ui/utils.d.ts && shx cp -r dist/src/ui/uiTypes.d.ts dist/ui/uiTypes.d.ts && shx cp -r dist/src/ui/Auth/. dist/ui/Auth && shx rm -rf dist/src/ && shx rm -rf dist/src/ ",
@@ -55,6 +55,7 @@
   ],
   "dependencies": {
     "cross-fetch": "^3.1.4",
+    "easybase-cache": "^1.0.1",
     "easybasejs": "^4.2.19",
     "easyqb": "^1.0.20",
     "fast-deep-equal": "^3.1.3",
