@@ -1,22 +1,7 @@
-// @ts-nocheck
-/* eslint-disable */
-import { Globals } from "./types/types";
 import Storage from './storage';
+const RN = require('react-native');
 
-let storage: Storage;
-
-if ((typeof navigator !== 'undefined' && navigator.product === 'ReactNative')) {
-    const _importName = 'react-native';
-    try {
-        import(_importName).then(RN => {
-            storage = new Storage({ storageBackend: RN.AsyncStorage });
-        })
-    } catch (error) {
-        console.error('No AsyncStorage detected')
-    }
-} else {
-    storage = new Storage({ storageBackend: window.localStorage });
-}
+const storage = new Storage({ storageBackend: RN.AsyncStorage });
 
 // https://github.com/sunnylqm/react-native-storage
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
@@ -49,7 +34,7 @@ export async function clearCacheTokens(cookieName: string) {
     await storage.remove({ key: cookieName + "session" });
 }
 
-export async function setCacheTokens(g: Globals, cookieName: string) {
+export async function setCacheTokens(g: any, cookieName: string) {
     await storage.save({
         key: cookieName + "token",
         data: g.token,
