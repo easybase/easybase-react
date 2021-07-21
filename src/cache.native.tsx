@@ -1,8 +1,10 @@
 // @ts-nocheck
 import { Globals } from "./types/types";
 import Storage from './storage';
+const RN = require('react-native');
 
-const storage = new Storage({ storageBackend: window.localStorage });
+const storage = new Storage({ storageBackend: RN.AsyncStorage });
+console.log("Successfully loaded React Native");
 
 // https://github.com/sunnylqm/react-native-storage
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
