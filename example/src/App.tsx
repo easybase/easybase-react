@@ -21,7 +21,7 @@ import 'semantic-ui-css/semantic.min.css'
 const IntegrationExample = () => {
   React.useEffect(() => console.log("MOUNTING INTEGRATION EXAMPLE"), []);
   return (
-    <EasybaseProvider ebconfig={ebconfig} options={{ logging: false }}>
+    <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
       <h2>Visual Query</h2>
       <QueryExample />
       <hr className="m-4" />
