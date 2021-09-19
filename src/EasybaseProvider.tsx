@@ -100,7 +100,10 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
     const {
         db,
         dbEventListener,
-        e
+        e,
+        setFile,
+        setImage,
+        setVideo
     } = useRef(dbFactory(g)).current;
 
     useEffect(() => {
@@ -339,7 +342,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                 message: res.data,
                 success: res.success
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error("Easybase Error: addRecord failed ", err);
             return {
                 message: "Easybase Error: addRecord failed " + err,
@@ -371,7 +374,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     success: res.success,
                     message: res.data
                 }
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Easybase Error: deleteRecord failed ", error);
                 return {
                     success: false,
@@ -457,7 +460,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
                     success: true
                 }
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Easybase Error: get failed ", error);
             setIsSyncing(false);
             return {
@@ -560,10 +563,10 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         }
     }
 
-    const useReturn = (dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue => {
+    const useReturn = <T, >(dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue<T> => {
         // eslint-disable-next-line no-extra-parens
         const [unsubscribe, setUnsubscribe] = useState<() => void>(() => () => { });
-        const [frame, setFrame] = useState<Record<string, any>[]>([]);
+        const [frame, setFrame] = useState<T[]>([]);
         const [error, setError] = useState<any>(null);
         const [loading, setLoading] = useState<boolean>(false);
         const [dead, setDead] = useState<boolean>(false);
@@ -573,7 +576,7 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
             try {
                 const res = await dbInstance().all();
                 if (Array.isArray(res)) {
-                    setFrame(res as Record<string, any>[]);
+                    setFrame(res as T[]);
                 }
             } catch (error) {
                 setError(error);
@@ -647,6 +650,9 @@ const EasybaseProvider = ({ children, ebconfig, options }: EasybaseProviderProps
         db,
         dbEventListener,
         e,
+        setFile,
+        setImage,
+        setVideo,
         useReturn,
         forgotPassword,
         forgotPasswordConfirm,

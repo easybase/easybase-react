@@ -8,7 +8,8 @@ import {
     UpdateRecordAttachmentOptions,
     FrameConfiguration,
     QueryOptions,
-    EmailTemplate
+    EmailTemplate,
+    FileFromURI
 } from "./types/types";
 import { SQW } from "easyqb/types/sq";
 import { NewExpression } from "easyqb/types/expression";
@@ -43,8 +44,11 @@ const c: ContextValue = {
     onSignIn: (_: () => void) => {},
     db: (_?: string) => ({}) as SQW,
     dbEventListener: (_: () => void) => () => {},
-    useReturn: (_: () => SQW) => ({}) as UseReturnValue,
+    useReturn: <T, >(_: () => SQW) => ({}) as UseReturnValue<T>,
     e: ({}) as NewExpression,
+    setFile: async (_: string, _2: string, _3: File | FileFromURI, _4?: string) => ({}) as StatusResponse,
+    setImage: async (_: string, _2: string, _3: File | FileFromURI, _4?: string) => ({}) as StatusResponse,
+    setVideo: async (_: string, _2: string, _3: File | FileFromURI, _4?: string) => ({}) as StatusResponse,
     forgotPassword: async (_: string, _2?: EmailTemplate) => ({}) as StatusResponse,
     forgotPasswordConfirm: async (_: string, _2: string, _3: string) => ({}) as StatusResponse,
     userID: () => undefined

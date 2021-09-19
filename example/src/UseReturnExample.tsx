@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useEasybase } from 'easybase-react';
 import CardElement from "./DbCardElement";
 
+interface IE {
+    time: Date;
+    success: boolean;
+}
+
 const UseReturnExample = () => {
 
     const [tableLength, setTableLength] = useState(0);
@@ -16,7 +21,7 @@ const UseReturnExample = () => {
         e
     } = useEasybase();
 
-    const { frame, manualFetch, unsubscribe, loading } = useReturn(() => db().return().where(e.lt('rating', ratingState)).limit(frameLength).offset(frameOffset), [ frameLength, frameOffset, ratingState ]);
+    const { frame, manualFetch, unsubscribe, loading } = useReturn<IE>(() => db().return().where(e.lt('rating', ratingState)).limit(frameLength).offset(frameOffset), [ frameLength, frameOffset, ratingState ]);
 
     useEffect(() => {
         async function mounted() {

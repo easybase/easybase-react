@@ -51,9 +51,9 @@ export interface EasybaseProviderProps {
     options?: EasybaseProviderPropsOptions
 }
 
-export interface UseReturnValue {
+export interface UseReturnValue<T> {
     /** Stateful frame that responds to local calls to `.update`, `.delete`, and `.set` */
-    frame: Record<string, any>[];
+    frame: T[];
     /** Call this function to unsubscribe to future events */
     unsubscribe(): void;
     /** Errors that occur in the useReturn workflow */
@@ -93,7 +93,6 @@ export interface ContextValue {
     /**
      * Set a single attribute of the currently signed in user. Can also be updated visually in the Easybase 'Users' tab.
      * @async
-     * @abstract
      * @param key Object key. Can be a new key or existing key.
      * @param value attribute value.
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
@@ -111,7 +110,6 @@ export interface ContextValue {
      * Sign in a user that already exists for a project. This will save authentication tokens to a user's browser so that 
      * they will be automatically authenticated when they return to the application. These authentication tokens will become invalid
      * when a user signs out or after 24 hours.
-     * @abstract
      * @async
      * @param userID unique identifier for new user. Usually an email or phone number.
      * @param password user password.
@@ -120,7 +118,6 @@ export interface ContextValue {
     signIn(userID: string, password: string): Promise<StatusResponse>;
     /**
      * Create a new user for your project. You must still call signIn() after signing up.
-     * @abstract
      * @async
      * @param newUserID unique identifier for new user. Usually an email or phone number.
      * @param password user password. Must be at least 8 characters long.
@@ -129,97 +126,109 @@ export interface ContextValue {
      */
     signUp(newUserID: string, password: string, userAttributes?: Record<string, string>): Promise<StatusResponse>;
     /**
-     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
+     * **DEPRECATED**: Use `db` instead - https://easybase.github.io/EasyQB/
      * 
      * This hook runs when the Frame changes. This can be triggered by calling sync().
-     * @abstract
      * @param {React.EffectCallback} effect Callback function that executes when Frame changes.
      */
     useFrameEffect(effect: React.EffectCallback): void;
     /**
-      * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
-      * 
-      * Configure the current frame size. Set the offset and amount of records to retrieve assume you don't want to receive
-      * your entire collection. This is useful for paging.
-      * @abstract
-      * @param {ConfigureFrameOptions} options ConfigureFrameOptions
-      * @return {StatusResponse} StatusResponse
-      */
+     * **DEPRECATED**: Use `db` instead - https://easybase.github.io/EasyQB/
+     * @deprecated Use `db` instead - https://easybase.github.io/EasyQB/
+     * @param {ConfigureFrameOptions} options ConfigureFrameOptions
+     * @return {StatusResponse} StatusResponse
+     */
     configureFrame(options: ConfigureFrameOptions): StatusResponse;
     /**
-     * Manually add a record to your collection regardless of your current frame. You must call sync() after this to see updated response.
-     * @abstract
+     * **DEPRECATED**: Use `db().insert()` instead - https://easybase.github.io/EasyQB/docs/insert_queries.html
+     * @deprecated Use `db().insert()` instead - https://easybase.github.io/EasyQB/docs/insert_queries.html
      * @async
      * @param {AddRecordOptions} options AddRecordOptions
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     addRecord(options: AddRecordOptions): Promise<StatusResponse>;
     /**
-     * Manually delete a record from your collection regardless of your current frame. You must call sync() after this to see updated response.
-     * @abstract
+     * **DEPRECATED**: Use `db().delete()` instead - https://easybase.github.io/EasyQB/docs/delete_queries.html
+     * @deprecated Use `db().delete()` instead - https://easybase.github.io/EasyQB/docs/delete_queries.html
      * @async
      * @param {Record<string, any>} record 
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     deleteRecord(options: DeleteRecordOptions): Promise<StatusResponse>;
     /**
-     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
-     * 
-     * Call this method to synchronize your current changes with your database. Deletions, additions, and changes will all be reflected by your 
-     * backend after calling this method. Call Frame() after this to get a normalized array of the freshest data.
-     * @abstract
+     * **DEPRECATED**: Use `db` instead - https://easybase.github.io/EasyQB/
+     * @deprecated Use `db` instead - https://easybase.github.io/EasyQB/
      * @async
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     sync(): Promise<StatusResponse>;
     /**
-     * Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'.
-     * The file must have an extension of an image. 
-     * Call sync() for fresh data with proper attachment links to cloud hosting.
-     * @abstract
+     * **DEPRECATED**: Use the `setImage` function instead.
+     * @deprecated Use the `setImage` function instead.
      * @async
      * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     updateRecordImage(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
     /**
-     * Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'. 
-     * The file must have an extension of a video.
-     * Call sync() for fresh data with proper attachment links to cloud hosting.
-     * @abstract
+     * **DEPRECATED**: Use the `setVideo` function instead.
+     * @deprecated Use the `setVideo` function instead.
      * @async
      * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     updateRecordVideo(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
     /**
-     * Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'. 
-     * Call sync() for fresh data with proper attachment links to cloud hosting.
-     * @abstract
+     * **DEPRECATED**: Use the `setFile` function instead.
+     * @deprecated Use the `setFile` function instead.
      * @async
      * @param {UpdateRecordAttachmentOptions} options UpdateRecordAttachmentOptions
      * @return {Promise<StatusResponse>} Promise<StatusResponse>
      */
     updateRecordFile(options: UpdateRecordAttachmentOptions): Promise<StatusResponse>;
     /**
-     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
-     * 
-     * This function is how you access your current frame. This function does not get new data or push changes to Easybase. If you 
-     * want to synchronize your frame and Easybase, call sync() then Frame().
-     * @abstract
+     * Upload an image to your backend and attach it to a specific record. columnName must reference a column of type 'image'.
+     * The file must have a valid image extension (png, jpg, heic, etc). 
+     * @async
+     * @param {string} recordKey The '_key' of the record to attach this image to. Can be retrieved like: `db().return("_key").where({ title: "The Lion King" }).one()`
+     * @param {string} columnName The name of the column that is of type image to attach.
+     * @param {File | FileFromURI} image Either an HTML File element or a FileFromURI object for React Native instances. For React Native, use libraries such as react-native-image-picker and react-native-document-picker. The file name must have a valid image file extension.
+     * @param {string} [tableName] Table to post attachment to. (Projects only)
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    setImage(recordKey: string, columnName: string, image: File | FileFromURI, tableName?: string): Promise<StatusResponse>;
+    /**
+     * Upload a video to your backend and attach it to a specific record. columnName must reference a column of type 'video'.
+     * The file must have a valid video extension (webm, mp4, mov, etc). 
+     * @async
+     * @param {string} recordKey The '_key' of the record to attach this image to. Can be retrieved like: `db().return("_key").where({ title: "The Lion King" }).one()`
+     * @param {string} columnName The name of the column that is of type video to attach.
+     * @param {File | FileFromURI} video Either an HTML File element or a FileFromURI object for React Native instances. For React Native, use libraries such as react-native-image-picker and react-native-document-picker. The file name must have a valid video file extension.
+     * @param {string} [tableName] Table to post attachment to. (Projects only)
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    setVideo(recordKey: string, columnName: string, video: File | FileFromURI, tableName?: string): Promise<StatusResponse>;
+    /**
+     * Upload a file to your backend and attach it to a specific record. columnName must reference a column of type 'file'.
+     * @async
+     * @param {string} recordKey The '_key' of the record to attach this image to. Can be retrieved like: `db().return("_key").where({ title: "The Lion King" }).one()`
+     * @param {string} columnName The name of the column that is of type file to attach.
+     * @param {File | FileFromURI} file Either an HTML File element or a FileFromURI object for React Native instances. For React Native, use libraries such as react-native-image-picker and react-native-document-picker.
+     * @param {string} [tableName] Table to post attachment to. (Projects only)
+     * @return {Promise<StatusResponse>} Promise<StatusResponse>
+     */
+    setFile(recordKey: string, columnName: string, file: File | FileFromURI, tableName?: string): Promise<StatusResponse>;
+    /**
+     * **DEPRECATED**: Use `db` instead - https://easybase.github.io/EasyQB/
+     * @deprecated Use `db` instead - https://easybase.github.io/EasyQB/
      * @return {Record<string, any>[]} Array of records corresponding to the current frame. Call sync() to push changes that you have made to this array.
-     * 
      */
     Frame(): Record<string, any>[];
     /**
-     * **DEPRECATED**: Use `.db` instead - https://easybase.github.io/EasyQB/
-     * 
-     * This function is how you access a single object your current frame. This function does not get new data or push changes to Easybase. If you 
-     * want to synchronize your frame and Easybase, call sync() then Frame().
-     * @abstract
+     * **DEPRECATED**: Use `db` instead - https://easybase.github.io/EasyQB/
+     * @deprecated Use `db` instead - https://easybase.github.io/EasyQB/
      * @param {number} [index] Passing an index will only return the object at that index in your Frame, rather than the entire array. This is useful for editing single objects based on an index.
      * @return {Record<string, any>} Single record corresponding to that object within the current frame. Call sync() to push changes that you have made to this object.
-     * 
      */
     Frame(index: number): Record<string, any>;
     /**
@@ -283,7 +292,7 @@ export interface ContextValue {
      * Custom stateful hook to an instance of `db().return`. Other local changes will automatically re-fetch the query 
      * as detailed in the passed-in db.
      * ```jsx
-     * const { frame } = useReturn(db('MYTABLE').return().where(e.gt('rating', 15)).limit(10))
+     * const { frame } = useReturn(() => db('MYTABLE').return().where(e.gt('rating', ratingState)).limit(10), [ratingState])
      * 
      * const onButtonClick = (_key) => {
      *   db('MYTABLE').delete().where({ _key }).all();
@@ -296,7 +305,7 @@ export interface ContextValue {
      * @param {React.DependencyList} deps If present, instance will be reloaded if the values in the list change.
      * @return {UseReturnValue} Object with the required values to statefully access an array that is subscribed to local executions to the corresponding db instance.
      */
-    useReturn(dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue;
+    useReturn<T = Record<string, any>>(dbInstance: () => SQW, deps?: React.DependencyList): UseReturnValue<T>;
     /**
      * @async
      * Trigger an email to the given username with a verification code to reset the user's password. This verification 

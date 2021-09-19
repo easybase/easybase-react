@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useEasybase } from 'easybase-react';
-import CardElement from "./CardElement";
+import DbCardElement from "./DbCardElement";
 
 const DbExample = () => {
 
@@ -66,7 +66,7 @@ const DbExample = () => {
                 <div className="m-4">
                     <button className="btn green" onClick={onAddPage}><span>Add<br />Card</span></button>
                 </div>
-                {Array.isArray(currentData) && currentData.map((ele, index) => <CardElement {...ele} index={index} key={index} />)}
+                {Array.isArray(currentData) && currentData.map((ele, index) => <DbCardElement {...ele} key={index} />)}
             </div>
             <div className="button-row">
                 <div className="d-flex align-items-center">
