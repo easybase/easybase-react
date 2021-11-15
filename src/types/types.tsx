@@ -291,7 +291,9 @@ export interface ContextValue {
     /**
      * Custom stateful hook to an instance of `db().return`. Other local changes will automatically re-fetch the query 
      * as detailed in the passed-in db.
-     * ```jsx
+     * 
+     * ```
+     * 
      * const { frame } = useReturn(() => db('MYTABLE').return().where(e.gt('rating', ratingState)).limit(10), [ratingState])
      * 
      * const onButtonClick = (_key) => {
@@ -300,7 +302,9 @@ export interface ContextValue {
      * 
      * // Stays fresh after call to `.delete()`
      * return (<div>{ frame.map(ele => <Card {...ele} />) }</div>)
+     * 
      * ```
+     * 
      * @param {function():SQW} dbInstance Function returning an instance of `db().return` without having called `.all` or `.one`
      * @param {React.DependencyList} deps If present, instance will be reloaded if the values in the list change.
      * @return {UseReturnValue} Object with the required values to statefully access an array that is subscribed to local executions to the corresponding db instance.
