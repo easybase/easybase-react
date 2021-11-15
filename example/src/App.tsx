@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import ebconfig from "./ebconfig.json";
+import ebconfig from "./ebconfig";
 import ebconfig2 from "./ebconfig2";
 import { EasybaseProvider, Auth, useEasybase } from 'easybase-react';
 import QueryExample from "./QueryExample";
