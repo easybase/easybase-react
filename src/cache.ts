@@ -1,6 +1,6 @@
 import Storage from './storage';
 
-const storage = window !== undefined ? new Storage({ storageBackend: window.localStorage }) : undefined;
+const storage = typeof window !== 'undefined' ? new Storage({ storageBackend: window.localStorage }) : undefined;
 
 // https://github.com/sunnylqm/react-native-storage
 export async function getCacheTokens(cookieName: string): Promise<Record<string, any>> {
