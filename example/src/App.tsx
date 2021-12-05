@@ -4,7 +4,6 @@ import ebconfig from "./ebconfig";
 import ebconfig2 from "./ebconfig2";
 import { EasybaseProvider, Auth, useEasybase } from 'easybase-react';
 import QueryExample from "./QueryExample";
-import FunctionExample from "./CloudFunctionExample";
 import DbExample from "./DbExample";
 import "./styles.css";
 import {
@@ -24,9 +23,6 @@ const IntegrationExample = () => {
     <EasybaseProvider ebconfig={ebconfig} options={{ logging: true }}>
       <h2>Visual Query</h2>
       <QueryExample />
-      <hr className="m-4" />
-      <h2>Function</h2>
-      <FunctionExample />
       <hr className="m-4" />
       <h2>Db</h2>
       <DbExample />

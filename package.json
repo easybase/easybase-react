@@ -46,6 +46,7 @@
     "react-scripts": "^4.0.3",
     "shx": "^0.3.3",
     "typedoc": "^0.20.36",
+    "typedoc-plugin-markdown": "^3.6.0",
     "typescript": "^4.2.4"
   },
   "files": [
