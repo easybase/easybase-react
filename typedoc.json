@@ -2,7 +2,7 @@
     "entryPoints": [
         "./src/"
     ],
-    "out": "easybase-react",
+    "out": "docs-api",
     "excludeProtected": true,
     "exclude": [
         "./src/EasybaseProvider.tsx",
@@ -28,5 +28,5 @@
     "excludePrivate": true,
     "excludeExternals": false,
     "categorizeByGroup": true,
-    "gaID": "UA-180320774-1"
+    "readme": "none"
 }
